@@ -119,10 +119,10 @@ class Book extends Model
             case "popular":
                 return $query->sortByPopular();
                 break;
-            case "price_asc":
+            case "price-ascending":
                 return $query->getFinalPrice()->getDiscountPrice()->orderBy('final_price');
                 break;
-            case "price_desc":
+            case "price-descending":
                 return $query->getFinalPrice()->getDiscountPrice()->orderByDesc('final_price');
                 break;
             default:

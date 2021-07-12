@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Filter from "./Filter";
 import BookList from "./BookList";
+import queryString from 'query-string'
 import {
     BrowserRouter as Router,
+    Link,
     useLocation
 } from "react-router-dom";
 
-function Shop(props) {
 
+
+function Shop(props) {
     let query = new URLSearchParams(useLocation().search);
-    // let filter = query.get("filter");
-    // let sort = query.get("sort");
-    // let page = query.get("page");
+
+
     return (
+
 
         <Router>
             <div className="container-fluid">
@@ -22,7 +25,7 @@ function Shop(props) {
                             <h5>Books</h5>
                         </div>
                         <div className="d-inline">
-                            <span>(Filtered by Category #1 {query.get("page")})</span>
+                            <span>(Filtered by Category #1)</span>
                         </div>
                     </div>
                     <div className="row">
@@ -40,7 +43,7 @@ function Shop(props) {
                         </aside>
 
                         <section className="col-lg-10" >
-                            <BookList filter={query.get("filter")} sort={query.get("sort")} page={query.get("page")} />
+                            <BookList filter={query.get("filter")} sort={query.get("sort")} />
                         </section>
                     </div>
                 </div>
