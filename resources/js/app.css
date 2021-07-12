@@ -1,0 +1,95 @@
+/* accordion filter */
+
+a {
+    -webkit-transition: 0.3s all ease;
+    -o-transition: 0.3s all ease;
+    transition: 0.3s all ease;
+}
+a,
+a:hover {
+    text-decoration: none !important;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+/*Accordion style*/
+.custom-accordion .custom-menu,
+.custom-accordion .custom-menu li {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-accordion .custom-menu li a {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: #343a40;
+    padding: 10px 20px;
+    font-size: 13px;
+    position: relative;
+    -webkit-transition: 0.3s all ease;
+    -o-transition: 0.3s all ease;
+    transition: 0.3s all ease;
+}
+.custom-accordion .custom-menu li a:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    bottom: 0;
+    width: 0px;
+    background: #f75454;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: 0.3s all ease;
+    -o-transition: 0.3s all ease;
+    transition: 0.3s all ease;
+}
+.custom-accordion .custom-menu li a:hover {
+    padding-left: 30px;
+    color: #fff;
+}
+.custom-accordion .custom-menu li a:hover:before {
+    width: 8px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-accordion .accordion-item {
+    position: relative;
+    /* background: #4b4142; */
+}
+.custom-accordion .accordion-item .btn-link {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    text-decoration: none;
+    text-align: left;
+    border-radius: 0;
+    position: relative;
+    background: #f75454;
+    color: #fff;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+.custom-accordion .accordion-item.active .btn-link {
+    background: #f75454;
+    color: #fff;
+}
+.custom-accordion .accordion-item .accordion-body {
+    color: #888;
+}
+
+/* Pagination */
+
+.pagination > li > a {
+    color: #f75454;
+}
+.pagination > .active > a {
+    background-color: #f75454 !important;
+    border: solid 1px #f75454 !important;
+    color: #fff;
+}
