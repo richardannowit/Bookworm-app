@@ -1,6 +1,55 @@
 import React, { Component } from 'react'
 
 export default class Filter extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { categories: [], authors: [] };
+    }
+
+    async componentDidMount() {
+        await this.getDataForFilter();
+    }
+
+    async getDataForFilter() {
+        const url = '/api/filter';
+        const response = await axios.get(url);
+        this.setState({ categories: response.data.categories, authors: response.data.authors });
+    }
+
+
+    showCategories() {
+        let categories = this.state.categories;
+        if (categories.length == 0) {
+            return <li>There no category</li>
+        }
+
+        if (categories instanceof Array) {
+            return categories.map((category, i) => {
+                //href={`/#/shop/category-${category.id}`}
+                return <li key={i}><button onClick={() => this.updateParams('category-' + category.id)}>{category.category_name}</button></li>
+            });
+        }
+    }
+
+    showAuthors() {
+        let authors = this.state.authors;
+        if (authors.length == 0) {
+            return <li>There no author</li>
+        }
+
+        if (authors instanceof Array) {
+            return authors.map((author, i) => {
+                //href={`/#/shop/author-${author.id}`}
+                return <li key={i}><button>{author.author_name}</button></li>
+            });
+        }
+    }
+
+    updateParams(param) {
+        this.props.getFilter(param);
+    }
+
     render() {
         return (
             <div className="container">
@@ -21,11 +70,9 @@ export default class Filter extends Component {
                             <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion_1" style={{}}>
                                 <div className="accordion-body">
                                     <ul className="custom-menu">
-                                        <li><a href="#">towne</a></li>
-                                        <li><a href="#">block</a></li>
-                                        <li><a href="#">kozey</a></li>
-                                        <li><a href="#">price</a></li>
-                                        <li><a href="#">yundt</a></li>
+
+                                        {this.showCategories()}
+
                                     </ul>
                                 </div>
                             </div>
@@ -42,12 +89,7 @@ export default class Filter extends Component {
                             <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion_1" style={{}}>
                                 <div className="accordion-body">
                                     <ul className="custom-menu">
-                                        <li><a href="#">Prof. Roselyn Weber DVM</a></li>
-                                        <li><a href="#">Kennedi Gusikowski</a></li>
-                                        <li><a href="#">Mrs. Cassie Weber MD</a></li>
-                                        <li><a href="#">Esther Greenholt</a></li>
-                                        <li><a href="#">Prof. Dale Gulgowski</a></li>
-                                        <li><a href="#">Mr. Ricardo Dibbert</a></li>
+                                        {this.showAuthors()}
                                     </ul>
                                 </div>
                             </div>
