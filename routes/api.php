@@ -27,3 +27,4 @@ Route::get('/home/popular', [HomeController::class, 'getPopularBooks'])->name('h
 
 
 Route::get('/shop/{filter?}/{sort?}', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/filter', [ShopController::class, 'getFilter'])->name('shop.filter');
