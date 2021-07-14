@@ -1,12 +1,12 @@
 /* accordion filter */
 
-a {
+button {
     -webkit-transition: 0.3s all ease;
     -o-transition: 0.3s all ease;
     transition: 0.3s all ease;
 }
-a,
-a:hover {
+button,
+button:hover {
     text-decoration: none !important;
 }
 
@@ -22,7 +22,12 @@ h2 {
     margin: 0;
 }
 
-.custom-accordion .custom-menu li a {
+.custom-accordion .custom-menu li button {
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    text-align: left !important;
     display: block;
     color: rgba(255, 255, 255, 0.5);
     background-color: #343a40;
@@ -33,7 +38,7 @@ h2 {
     -o-transition: 0.3s all ease;
     transition: 0.3s all ease;
 }
-.custom-accordion .custom-menu li a:before {
+.custom-accordion .custom-menu li button:before {
     content: "";
     position: absolute;
     left: 0;
@@ -48,11 +53,11 @@ h2 {
     -o-transition: 0.3s all ease;
     transition: 0.3s all ease;
 }
-.custom-accordion .custom-menu li a:hover {
+.custom-accordion .custom-menu li button:hover {
     padding-left: 30px;
     color: #fff;
 }
-.custom-accordion .custom-menu li a:hover:before {
+.custom-accordion .custom-menu li button:hover:before {
     width: 8px;
     opacity: 1;
     visibility: visible;
