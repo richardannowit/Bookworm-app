@@ -100,6 +100,23 @@ class Shop extends Component {
         this.getBookData(1, this.state.filter, this.state.sort, value);
     }
 
+    showLabelSortDropdown() {
+        switch (this.state.sort) {
+            case 'on-sale':
+                return 'Sort by on sale';
+            case 'popular':
+                return 'Sort by popularity';
+            case 'price-ascending':
+                return 'Sort by price: low to high';
+            case 'price-descending':
+                return 'Sort by price: high to low';
+        }
+    }
+
+    showLabelPaginateDropdown() {
+        return 'Show ' + this.state.paginate;
+    }
+
     render() {
         return (
             <Router>
@@ -133,7 +150,7 @@ class Shop extends Component {
                                         <span className="mr-auto">Showing 1-12 of 126 books</span>
                                         <div className="dropdown mr-3">
                                             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Sort by on sale
+                                                {this.showLabelSortDropdown()}
                                             </button>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <Link className="dropdown-item" onClick={() => this.updateSortType('on-sale')} to={`/#/shop/?filter=${this.state.filter}&sort=on-sale&paginate=${this.state.paginate}`}>Sort by on sale</Link>
@@ -144,7 +161,7 @@ class Shop extends Component {
                                         </div>
                                         <div className="dropdown">
                                             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Show 15
+                                                {this.showLabelPaginateDropdown()}
                                             </button>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <Link className="dropdown-item" onClick={() => this.updatePaginate('5')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=5`}>Show 5</Link>

@@ -3318,6 +3318,28 @@ var Shop = /*#__PURE__*/function (_Component) {
       this.getBookData(1, this.state.filter, this.state.sort, value);
     }
   }, {
+    key: "showLabelSortDropdown",
+    value: function showLabelSortDropdown() {
+      switch (this.state.sort) {
+        case 'on-sale':
+          return 'Sort by on sale';
+
+        case 'popular':
+          return 'Sort by popularity';
+
+        case 'price-ascending':
+          return 'Sort by price: low to high';
+
+        case 'price-descending':
+          return 'Sort by price: high to low';
+      }
+    }
+  }, {
+    key: "showLabelPaginateDropdown",
+    value: function showLabelPaginateDropdown() {
+      return 'Show ' + this.state.paginate;
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
@@ -3382,7 +3404,7 @@ var Shop = /*#__PURE__*/function (_Component) {
                         "data-toggle": "dropdown",
                         "aria-haspopup": "true",
                         "aria-expanded": "false",
-                        children: "Sort by on sale"
+                        children: this.showLabelSortDropdown()
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                         className: "dropdown-menu",
                         "aria-labelledby": "dropdownMenuButton",
@@ -3425,7 +3447,7 @@ var Shop = /*#__PURE__*/function (_Component) {
                         "data-toggle": "dropdown",
                         "aria-haspopup": "true",
                         "aria-expanded": "false",
-                        children: "Show 15"
+                        children: this.showLabelPaginateDropdown()
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                         className: "dropdown-menu",
                         "aria-labelledby": "dropdownMenuButton",
