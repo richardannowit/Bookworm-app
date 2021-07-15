@@ -154,9 +154,12 @@ class Book extends Model
                 });
                 break;
             case "rating":
+
                 $query = $query->getAverageStar();
                 return $query->where(
-                    \DB::raw('(select SUM(cast(reviews.rating_start AS DOUBLE PRECISION))/COUNT(reviews.id) from "reviews" where "book_id" = "books"."id")>=' . $value . '--')
+                    \DB::raw('(select SUM(cast(reviews.rating_start AS DOUBLE PRECISION))/COUNT(reviews.id) from "reviews" where "book_id" = "books"."id")'),
+                    '>=',
+                    $value
                 );
                 break;
             default:

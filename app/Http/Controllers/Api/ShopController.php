@@ -14,10 +14,11 @@ class ShopController extends Controller
     public function index($filter = 'none-5', $sort = 'onsale')
     {
         // return Book::getFinalPrice()
-        // ->getDateDiscount()
-        // ->getDiscountPrice()
-        // ->get();
-        // ->toSql();   
+        //     ->getDateDiscount()
+        //     ->getDiscountPrice()
+        //     // ->get();
+        //     ->toSql();
+
         return Book::filterBy($filter)
             ->sortBy($sort)
             ->paginate(15)
