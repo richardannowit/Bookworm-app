@@ -115,11 +115,31 @@ export default class Filter extends Component {
                             <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordion_1">
                                 <div className="accordion-body">
                                     <ul className="custom-menu">
-                                        <li><a href="#">1 Star</a></li>
-                                        <li><a href="#">2 Star</a></li>
-                                        <li><a href="#">3 Star</a></li>
-                                        <li><a href="#">4 Star</a></li>
-                                        <li><a href="#">5 Star</a></li>
+                                        <li>
+                                            <Link to={`/#/shop/?filter=rating-1&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-1')}>
+                                                1 Star
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={`/#/shop/?filter=rating-2&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-2')}>
+                                                2 Star
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={`/#/shop/?filter=rating-3&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-3')}>
+                                                3 Star
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={`/#/shop/?filter=rating-4&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-4')}>
+                                                4 Star
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={`/#/shop/?filter=rating-5&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-5')}>
+                                                5 Star
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
