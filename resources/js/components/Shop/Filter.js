@@ -12,6 +12,7 @@ export default class Filter extends Component {
 
     async componentDidMount() {
         await this.getDataForFilter();
+        this.props.getFilterName(this.state.categories, this.state.authors);
     }
 
     async getDataForFilter() {
@@ -20,6 +21,30 @@ export default class Filter extends Component {
         this.setState({ categories: response.data.categories, authors: response.data.authors });
     }
 
+    getFilterNameByParam(param) {
+        let result = '';
+        let paramArray = param.split('-');
+        let filter_type = paramArray[0];
+        let id = paramArray[1];
+        if (filter_type === 'category') {
+            this.state.categories.map((category, i) => {
+                if (category.id == id) {
+                    result = 'Category ' + category.category_name;
+                    return;
+                }
+            });
+        } else if (filter_type === 'author') {
+            this.state.authors.map((author, i) => {
+                if (author.id == id) {
+                    result = 'Author  ' + author.author_name;
+                    return;
+                }
+            });
+        } else {
+            result = 'Rating ' + id + ' star';
+        }
+        return result;
+    }
 
     showCategories() {
         let categories = this.state.categories;
@@ -31,7 +56,9 @@ export default class Filter extends Component {
             return categories.map((category, i) => {
                 //href={`/#/shop/category-${category.id}`}
                 return <li key={i}>
-                    <Link to={`/#/shop/?filter=category-${category.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`} onClick={() => this.updateParams('category-' + category.id, category.category_name)}>
+                    <Link
+                        to={`/#/shop/?filter=category-${category.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`}
+                        onClick={() => this.updateParams('category-' + category.id, this.getFilterNameByParam(this.props.currentFilter))}>
                         {category.category_name}
                     </Link></li>
             });
@@ -48,7 +75,9 @@ export default class Filter extends Component {
             return authors.map((author, i) => {
                 //href={`/#/shop/author-${author.id}`}
                 return <li key={i}>
-                    <Link to={`/#/shop/?filter=author-${author.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`} onClick={() => this.updateParams('author-' + author.id, author.author_name)}>
+                    <Link
+                        to={`/#/shop/?filter=author-${author.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`}
+                        onClick={() => this.updateParams('author-' + author.id, this.getFilterNameByParam(this.props.currentFilter))}>
                         {author.author_name}
                     </Link></li>
             });
@@ -116,27 +145,27 @@ export default class Filter extends Component {
                                 <div className="accordion-body">
                                     <ul className="custom-menu">
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-1&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-1')}>
+                                            <Link to={`/#/shop/?filter=rating-1&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-1', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 1 Star
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-2&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-2')}>
+                                            <Link to={`/#/shop/?filter=rating-2&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-2', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 2 Star
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-3&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-3')}>
+                                            <Link to={`/#/shop/?filter=rating-3&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-3', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 3 Star
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-4&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-4')}>
+                                            <Link to={`/#/shop/?filter=rating-4&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-4', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 4 Star
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-5&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-5')}>
+                                            <Link to={`/#/shop/?filter=rating-5&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-5', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 5 Star
                                             </Link>
                                         </li>

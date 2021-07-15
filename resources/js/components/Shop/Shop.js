@@ -17,6 +17,7 @@ class Shop extends Component {
         this.updateFilter = this.updateFilter.bind(this);
         this.updateSortType = this.updateSortType.bind(this);
         this.updatePaginate = this.updatePaginate.bind(this);
+        this.getFilterName = this.getFilterName.bind(this);
     }
 
 
@@ -84,6 +85,40 @@ class Shop extends Component {
 
     }
 
+    getFilterName(categories, authors) {
+
+        function getFilterNameByParam(param) {
+            let result = '';
+            let paramArray = param.split('-');
+            console.log(authors);
+            let filter_type = paramArray[0];
+            let id = paramArray[1];
+            if (filter_type === 'category') {
+                categories.map((category, i) => {
+                    if (category.id == id) {
+                        result = 'Category ' + category.category_name;
+                        return;
+                    }
+                });
+            } else if (filter_type === 'author') {
+                authors.map((author, i) => {
+                    if (author.id == id) {
+                        result = 'Author  ' + author.author_name;
+                        return;
+                    }
+                });
+            } else {
+                result = 'Rating ' + id + ' star';
+            }
+            return result;
+        }
+        console.log(getFilterNameByParam(this.state.filter));
+        this.setState({
+            filter_name: getFilterNameByParam(this.state.filter)
+        });
+    }
+
+
     updateSortType(param) {
         this.setState({
             sort: param
@@ -144,6 +179,8 @@ class Shop extends Component {
                                 <Filter
                                     getFilter={this.updateFilter}
                                     currentSort={this.state.sort}
+                                    currentFilter={this.state.filter}
+                                    getFilterName={this.getFilterName}
                                     currentPaginate={this.state.paginate}
                                 />
                             </aside>

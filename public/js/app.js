@@ -2789,6 +2789,9 @@ var Filter = /*#__PURE__*/function (_Component) {
                 return this.getDataForFilter();
 
               case 2:
+                this.props.getFilterName(this.state.categories, this.state.authors);
+
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -2837,6 +2840,34 @@ var Filter = /*#__PURE__*/function (_Component) {
       return getDataForFilter;
     }()
   }, {
+    key: "getFilterNameByParam",
+    value: function getFilterNameByParam(param) {
+      var result = '';
+      var paramArray = param.split('-');
+      var filter_type = paramArray[0];
+      var id = paramArray[1];
+
+      if (filter_type === 'category') {
+        this.state.categories.map(function (category, i) {
+          if (category.id == id) {
+            result = 'Category ' + category.category_name;
+            return;
+          }
+        });
+      } else if (filter_type === 'author') {
+        this.state.authors.map(function (author, i) {
+          if (author.id == id) {
+            result = 'Author  ' + author.author_name;
+            return;
+          }
+        });
+      } else {
+        result = 'Rating ' + id + ' star';
+      }
+
+      return result;
+    }
+  }, {
     key: "showCategories",
     value: function showCategories() {
       var _this2 = this;
@@ -2856,7 +2887,7 @@ var Filter = /*#__PURE__*/function (_Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
               to: "/#/shop/?filter=category-".concat(category.id, "&sort=").concat(_this2.props.currentSort, "&paginate=").concat(_this2.props.currentPaginate),
               onClick: function onClick() {
-                return _this2.updateParams('category-' + category.id, category.category_name);
+                return _this2.updateParams('category-' + category.id, _this2.getFilterNameByParam(_this2.props.currentFilter));
               },
               children: category.category_name
             })
@@ -2884,7 +2915,7 @@ var Filter = /*#__PURE__*/function (_Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
               to: "/#/shop/?filter=author-".concat(author.id, "&sort=").concat(_this3.props.currentSort, "&paginate=").concat(_this3.props.currentPaginate),
               onClick: function onClick() {
-                return _this3.updateParams('author-' + author.id, author.author_name);
+                return _this3.updateParams('author-' + author.id, _this3.getFilterNameByParam(_this3.props.currentFilter));
               },
               children: author.author_name
             })
@@ -3009,7 +3040,7 @@ var Filter = /*#__PURE__*/function (_Component) {
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                         to: "/#/shop/?filter=rating-1&sort=".concat(this.props.currentSort),
                         onClick: function onClick() {
-                          return _this4.updateParams('rating-1');
+                          return _this4.updateParams('rating-1', _this4.getFilterNameByParam(_this4.props.currentFilter));
                         },
                         children: "1 Star"
                       })
@@ -3017,7 +3048,7 @@ var Filter = /*#__PURE__*/function (_Component) {
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                         to: "/#/shop/?filter=rating-2&sort=".concat(this.props.currentSort),
                         onClick: function onClick() {
-                          return _this4.updateParams('rating-2');
+                          return _this4.updateParams('rating-2', _this4.getFilterNameByParam(_this4.props.currentFilter));
                         },
                         children: "2 Star"
                       })
@@ -3025,7 +3056,7 @@ var Filter = /*#__PURE__*/function (_Component) {
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                         to: "/#/shop/?filter=rating-3&sort=".concat(this.props.currentSort),
                         onClick: function onClick() {
-                          return _this4.updateParams('rating-3');
+                          return _this4.updateParams('rating-3', _this4.getFilterNameByParam(_this4.props.currentFilter));
                         },
                         children: "3 Star"
                       })
@@ -3033,7 +3064,7 @@ var Filter = /*#__PURE__*/function (_Component) {
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                         to: "/#/shop/?filter=rating-4&sort=".concat(this.props.currentSort),
                         onClick: function onClick() {
-                          return _this4.updateParams('rating-4');
+                          return _this4.updateParams('rating-4', _this4.getFilterNameByParam(_this4.props.currentFilter));
                         },
                         children: "4 Star"
                       })
@@ -3041,7 +3072,7 @@ var Filter = /*#__PURE__*/function (_Component) {
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                         to: "/#/shop/?filter=rating-5&sort=".concat(this.props.currentSort),
                         onClick: function onClick() {
-                          return _this4.updateParams('rating-5');
+                          return _this4.updateParams('rating-5', _this4.getFilterNameByParam(_this4.props.currentFilter));
                         },
                         children: "5 Star"
                       })
@@ -3139,6 +3170,7 @@ var Shop = /*#__PURE__*/function (_Component) {
     _this.updateFilter = _this.updateFilter.bind(_assertThisInitialized(_this));
     _this.updateSortType = _this.updateSortType.bind(_assertThisInitialized(_this));
     _this.updatePaginate = _this.updatePaginate.bind(_assertThisInitialized(_this));
+    _this.getFilterName = _this.getFilterName.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3302,6 +3334,42 @@ var Shop = /*#__PURE__*/function (_Component) {
       this.getBookData(1, param, this.state.sort, this.state.paginate);
     }
   }, {
+    key: "getFilterName",
+    value: function getFilterName(categories, authors) {
+      function getFilterNameByParam(param) {
+        var result = '';
+        var paramArray = param.split('-');
+        console.log(authors);
+        var filter_type = paramArray[0];
+        var id = paramArray[1];
+
+        if (filter_type === 'category') {
+          categories.map(function (category, i) {
+            if (category.id == id) {
+              result = 'Category ' + category.category_name;
+              return;
+            }
+          });
+        } else if (filter_type === 'author') {
+          authors.map(function (author, i) {
+            if (author.id == id) {
+              result = 'Author  ' + author.author_name;
+              return;
+            }
+          });
+        } else {
+          result = 'Rating ' + id + ' star';
+        }
+
+        return result;
+      }
+
+      console.log(getFilterNameByParam(this.state.filter));
+      this.setState({
+        filter_name: getFilterNameByParam(this.state.filter)
+      });
+    }
+  }, {
     key: "updateSortType",
     value: function updateSortType(param) {
       this.setState({
@@ -3386,6 +3454,8 @@ var Shop = /*#__PURE__*/function (_Component) {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Filter__WEBPACK_IMPORTED_MODULE_2__.default, {
                   getFilter: this.updateFilter,
                   currentSort: this.state.sort,
+                  currentFilter: this.state.filter,
+                  getFilterName: this.getFilterName,
                   currentPaginate: this.state.paginate
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("section", {
