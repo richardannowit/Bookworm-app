@@ -2856,7 +2856,7 @@ var Filter = /*#__PURE__*/function (_Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
               to: "/#/shop/?filter=category-".concat(category.id, "&sort=").concat(_this2.props.currentSort, "&paginate=").concat(_this2.props.currentPaginate),
               onClick: function onClick() {
-                return _this2.updateParams('category-' + category.id);
+                return _this2.updateParams('category-' + category.id, category.category_name);
               },
               children: category.category_name
             })
@@ -2884,7 +2884,7 @@ var Filter = /*#__PURE__*/function (_Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
               to: "/#/shop/?filter=author-".concat(author.id, "&sort=").concat(_this3.props.currentSort, "&paginate=").concat(_this3.props.currentPaginate),
               onClick: function onClick() {
-                return _this3.updateParams('author-' + author.id);
+                return _this3.updateParams('author-' + author.id, author.author_name);
               },
               children: author.author_name
             })
@@ -2894,8 +2894,8 @@ var Filter = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "updateParams",
-    value: function updateParams(param) {
-      this.props.getFilter(param);
+    value: function updateParams(param, value) {
+      this.props.getFilter(param, value);
     }
   }, {
     key: "render",
@@ -3132,6 +3132,7 @@ var Shop = /*#__PURE__*/function (_Component) {
     _this.state = {
       data: [],
       filter: 'none-1',
+      filter_name: '',
       sort: 'on-sale',
       paginate: '15'
     };
@@ -3293,11 +3294,12 @@ var Shop = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "updateFilter",
-    value: function updateFilter(param) {
+    value: function updateFilter(param, value) {
       this.setState({
-        filter: param
+        filter: param,
+        filter_name: value
       });
-      this.getBookData(1, param, this.state.sort);
+      this.getBookData(1, param, this.state.sort, this.state.paginate);
     }
   }, {
     key: "updateSortType",
@@ -3306,7 +3308,7 @@ var Shop = /*#__PURE__*/function (_Component) {
         sort: param
       });
       console.log(this.state.filter);
-      this.getBookData(1, this.state.filter, param);
+      this.getBookData(1, this.state.filter, param, this.state.paginate);
     }
   }, {
     key: "updatePaginate",
@@ -3361,8 +3363,8 @@ var Shop = /*#__PURE__*/function (_Component) {
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                 className: "d-inline",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                  children: "(Filtered by Category #1)"
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+                  children: ["(Filtered by ", this.state.filter_name, ")"]
                 })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -3394,7 +3396,7 @@ var Shop = /*#__PURE__*/function (_Component) {
                     className: "row d-flex",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                       className: "mr-auto",
-                      children: "Showing 1-12 of 126 books"
+                      children: "Showing ".concat((this.state.data.current_page - 1) * this.state.data.per_page + 1, "-").concat(this.state.data.to, " of ").concat(this.state.data.total, " books")
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                       className: "dropdown mr-3",
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {

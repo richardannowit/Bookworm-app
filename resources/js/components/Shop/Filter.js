@@ -31,7 +31,7 @@ export default class Filter extends Component {
             return categories.map((category, i) => {
                 //href={`/#/shop/category-${category.id}`}
                 return <li key={i}>
-                    <Link to={`/#/shop/?filter=category-${category.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`} onClick={() => this.updateParams('category-' + category.id)}>
+                    <Link to={`/#/shop/?filter=category-${category.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`} onClick={() => this.updateParams('category-' + category.id, category.category_name)}>
                         {category.category_name}
                     </Link></li>
             });
@@ -48,15 +48,15 @@ export default class Filter extends Component {
             return authors.map((author, i) => {
                 //href={`/#/shop/author-${author.id}`}
                 return <li key={i}>
-                    <Link to={`/#/shop/?filter=author-${author.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`} onClick={() => this.updateParams('author-' + author.id)}>
+                    <Link to={`/#/shop/?filter=author-${author.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`} onClick={() => this.updateParams('author-' + author.id, author.author_name)}>
                         {author.author_name}
                     </Link></li>
             });
         }
     }
 
-    updateParams(param) {
-        this.props.getFilter(param);
+    updateParams(param, value) {
+        this.props.getFilter(param, value);
     }
 
     render() {

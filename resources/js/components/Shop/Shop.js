@@ -13,7 +13,7 @@ class Shop extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: [], filter: 'none-1', sort: 'on-sale', paginate: '15' };
+        this.state = { data: [], filter: 'none-1', filter_name: '', sort: 'on-sale', paginate: '15' };
         this.updateFilter = this.updateFilter.bind(this);
         this.updateSortType = this.updateSortType.bind(this);
         this.updatePaginate = this.updatePaginate.bind(this);
@@ -78,9 +78,9 @@ class Shop extends Component {
         }
     }
 
-    updateFilter(param) {
-        this.setState({ filter: param });
-        this.getBookData(1, param, this.state.sort);
+    updateFilter(param, value) {
+        this.setState({ filter: param, filter_name: value });
+        this.getBookData(1, param, this.state.sort, this.state.paginate);
 
     }
 
@@ -89,7 +89,7 @@ class Shop extends Component {
             sort: param
         })
         console.log(this.state.filter);
-        this.getBookData(1, this.state.filter, param);
+        this.getBookData(1, this.state.filter, param, this.state.paginate);
     }
 
     updatePaginate(value) {
@@ -127,7 +127,7 @@ class Shop extends Component {
                                 <h5>Books</h5>
                             </div>
                             <div className="d-inline">
-                                <span>(Filtered by Category #1)</span>
+                                <span>(Filtered by {this.state.filter_name})</span>
                             </div>
                         </div>
                         <div className="row">
@@ -141,13 +141,17 @@ class Shop extends Component {
                     <div className="container-fluid pb-5 mb-2" style={{ width: '90%' }}>
                         <div className="row">
                             <aside className="col-lg-2">
-                                <Filter getFilter={this.updateFilter} currentSort={this.state.sort} currentPaginate={this.state.paginate} />
+                                <Filter
+                                    getFilter={this.updateFilter}
+                                    currentSort={this.state.sort}
+                                    currentPaginate={this.state.paginate}
+                                />
                             </aside>
 
                             <section className="col-lg-10" >
                                 <div className="container">
                                     <div className="row d-flex">
-                                        <span className="mr-auto">Showing 1-12 of 126 books</span>
+                                        <span className="mr-auto">{`Showing ${(this.state.data.current_page - 1) * this.state.data.per_page + 1}-${this.state.data.to} of ${this.state.data.total} books`}</span>
                                         <div className="dropdown mr-3">
                                             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 {this.showLabelSortDropdown()}
