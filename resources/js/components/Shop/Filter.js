@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import {
+    Link,
+} from "react-router-dom";
 
 export default class Filter extends Component {
 
@@ -27,7 +30,10 @@ export default class Filter extends Component {
         if (categories instanceof Array) {
             return categories.map((category, i) => {
                 //href={`/#/shop/category-${category.id}`}
-                return <li key={i}><button onClick={() => this.updateParams('category-' + category.id)}>{category.category_name}</button></li>
+                return <li key={i}>
+                    <Link to={`/#/shop/?filter=category-${category.id}&sort=${this.props.currentSort}`} onClick={() => this.updateParams('category-' + category.id)}>
+                        {category.category_name}
+                    </Link></li>
             });
         }
     }
@@ -41,7 +47,10 @@ export default class Filter extends Component {
         if (authors instanceof Array) {
             return authors.map((author, i) => {
                 //href={`/#/shop/author-${author.id}`}
-                return <li key={i}><button>{author.author_name}</button></li>
+                return <li key={i}>
+                    <Link to={`/#/shop/?filter=author-${author.id}&sort=${this.props.currentSort}`} onClick={() => this.updateParams('author-' + author.id)}>
+                        {author.author_name}
+                    </Link></li>
             });
         }
     }
