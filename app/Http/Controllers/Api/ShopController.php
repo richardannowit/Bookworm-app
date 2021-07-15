@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
-    public function index($filter = 'none-5', $sort = 'onsale')
+    public function index($filter = 'none-5', $sort = 'onsale', $paginate = '15')
     {
         // return Book::getFinalPrice()
         //     ->getDateDiscount()
@@ -21,8 +21,8 @@ class ShopController extends Controller
 
         return Book::filterBy($filter)
             ->sortBy($sort)
-            ->paginate(15)
-            ->appends(['filter' => $filter, 'sort' => $sort])
+            ->paginate((int) $paginate)
+            ->appends(['filter' => $filter, 'sort' => $sort, 'paginate' => $paginate])
             ->withPath('/#/shop/');
     }
 

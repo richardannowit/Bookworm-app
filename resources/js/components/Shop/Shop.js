@@ -5,9 +5,6 @@ import queryString from 'query-string'
 import {
     BrowserRouter as Router,
     Link,
-    useLocation,
-    useParams,
-    useRef
 } from "react-router-dom";
 
 
@@ -16,23 +13,37 @@ class Shop extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: [], filter: 'none-1', sort: 'on-sale' };
+        this.state = { data: [], filter: 'none-1', sort: 'on-sale', paginate: '15' };
         this.updateFilter = this.updateFilter.bind(this);
         this.updateSortType = this.updateSortType.bind(this);
+        this.updatePaginate = this.updatePaginate.bind(this);
     }
 
 
     async componentDidMount() {
-        await this.getBookData(1, this.state.filter, this.state.sort);
+        await this.updateState();
+        console.log(this.state.paginate);
+        await this.getBookData(1, this.state.filter, this.state.sort, this.state.paginate);
 
     }
 
+    async updateState() {
+        const values = queryString.parse(this.props.location.search);
+        let filter_type = values.filter === undefined ? 'none-1' : values.filter;
+        let sort_type = values.sort === undefined ? 'on-sale' : values.sort;
+        let paginate_type = values.paginate === undefined ? '15' : parseInt(values.paginate);
+        this.setState({
+            filter: filter_type,
+            sort: sort_type,
+            paginate: paginate_type
+        });
+    }
 
-    async getBookData(pageNumber = 1, filter = 'none-1', sort = 'on-sale') {
-        const url = `/api/shop/${filter}/${sort}?page=${pageNumber}`
+
+    async getBookData(pageNumber = 1, filter = 'none-1', sort = 'on-sale', paginate = '15') {
+        const url = `/api/shop/${filter}/${sort}/${paginate}?page=${pageNumber}`
         const response = await axios.get(url);
         this.setState({ data: response.data });
-        console.log(this.state.filter, this.state.sort);
     }
 
 
@@ -53,7 +64,7 @@ class Shop extends Component {
 
             return links.map((link, i) => {
                 return <li key={i} className={`page-item ${link.active ? "active" : ""} ${link.url === null ? "disabled" : ""}`}>
-                    {link.url !== null ? <Link className="page-link" to={link.url} onClick={() => this.getBookData(extractPageNumberFromURL(link.url))}>
+                    {link.url !== null ? <Link className="page-link" to={link.url} onClick={() => this.getBookData(extractPageNumberFromURL(link.url), this.state.filter, this.state.sort, this.state.paginate)}>
                         {htmlDecode(link.label)}
                         {link.active ? <span className="sr-only">(current)</span> : <span></span>}
                     </Link>
@@ -81,6 +92,14 @@ class Shop extends Component {
         this.getBookData(1, this.state.filter, param);
     }
 
+    updatePaginate(value) {
+        this.setState({
+            paginate: value
+        })
+        console.log(this.state.filter);
+        this.getBookData(1, this.state.filter, this.state.sort, value);
+    }
+
     render() {
         return (
             <Router>
@@ -105,7 +124,7 @@ class Shop extends Component {
                     <div className="container-fluid pb-5 mb-2" style={{ width: '90%' }}>
                         <div className="row">
                             <aside className="col-lg-2">
-                                <Filter getFilter={this.updateFilter} currentSort={this.state.sort} />
+                                <Filter getFilter={this.updateFilter} currentSort={this.state.sort} currentPaginate={this.state.paginate} />
                             </aside>
 
                             <section className="col-lg-10" >
@@ -117,10 +136,10 @@ class Shop extends Component {
                                                 Sort by on sale
                                             </button>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <Link className="dropdown-item" onClick={() => this.updateSortType('on-sale')} to={`/#/shop/?filter=${this.state.filter}&sort=on-sale`}>Sort by on sale</Link>
+                                                <Link className="dropdown-item" onClick={() => this.updateSortType('on-sale')} to={`/#/shop/?filter=${this.state.filter}&sort=on-sale&paginate=${this.state.paginate}`}>Sort by on sale</Link>
                                                 <Link className="dropdown-item" onClick={() => this.updateSortType('popular')} to={`/#/shop/?filter=${this.state.filter}&sort=popular`}>Sort by popularity</Link>
-                                                <Link className="dropdown-item" onClick={() => this.updateSortType('price-ascending')} to={`/#/shop/?filter=${this.state.filter}&sort=price-ascending`}>Sort by price: low to high</Link>
-                                                <Link className="dropdown-item" onClick={() => this.updateSortType('price-descending')} to={`/#/shop/?filter=${this.state.filter}&sort=price-descending`}>Sort by price: high to low</Link>
+                                                <Link className="dropdown-item" onClick={() => this.updateSortType('price-ascending')} to={`/#/shop/?filter=${this.state.filter}&sort=price-ascending&paginate=${this.state.paginate}`}>Sort by price: low to high</Link>
+                                                <Link className="dropdown-item" onClick={() => this.updateSortType('price-descending')} to={`/#/shop/?filter=${this.state.filter}&sort=price-descending&paginate=${this.state.paginate}`}>Sort by price: high to low</Link>
                                             </div>
                                         </div>
                                         <div className="dropdown">
@@ -128,10 +147,10 @@ class Shop extends Component {
                                                 Show 15
                                             </button>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a className="dropdown-item" href="#">Show 5</a>
-                                                <a className="dropdown-item" href="#">Show 15</a>
-                                                <a className="dropdown-item" href="#">Show 20</a>
-                                                <a className="dropdown-item" href="#">Show 25</a>
+                                                <Link className="dropdown-item" onClick={() => this.updatePaginate('5')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=5`}>Show 5</Link>
+                                                <Link className="dropdown-item" onClick={() => this.updatePaginate('15')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=15`}>Show 15</Link>
+                                                <Link className="dropdown-item" onClick={() => this.updatePaginate('20')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=20`}>Show 20</Link>
+                                                <Link className="dropdown-item" onClick={() => this.updatePaginate('25')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=25`}>Show 25</Link>
                                             </div>
                                         </div>
                                     </div>

@@ -2854,7 +2854,7 @@ var Filter = /*#__PURE__*/function (_Component) {
           //href={`/#/shop/category-${category.id}`}
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-              to: "/#/shop/?filter=category-".concat(category.id, "&sort=").concat(_this2.props.currentSort),
+              to: "/#/shop/?filter=category-".concat(category.id, "&sort=").concat(_this2.props.currentSort, "&paginate=").concat(_this2.props.currentPaginate),
               onClick: function onClick() {
                 return _this2.updateParams('category-' + category.id);
               },
@@ -2882,7 +2882,7 @@ var Filter = /*#__PURE__*/function (_Component) {
           //href={`/#/shop/author-${author.id}`}
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-              to: "/#/shop/?filter=author-".concat(author.id, "&sort=").concat(_this3.props.currentSort),
+              to: "/#/shop/?filter=author-".concat(author.id, "&sort=").concat(_this3.props.currentSort, "&paginate=").concat(_this3.props.currentPaginate),
               onClick: function onClick() {
                 return _this3.updateParams('author-' + author.id);
               },
@@ -3132,10 +3132,12 @@ var Shop = /*#__PURE__*/function (_Component) {
     _this.state = {
       data: [],
       filter: 'none-1',
-      sort: 'on-sale'
+      sort: 'on-sale',
+      paginate: '15'
     };
     _this.updateFilter = _this.updateFilter.bind(_assertThisInitialized(_this));
     _this.updateSortType = _this.updateSortType.bind(_assertThisInitialized(_this));
+    _this.updatePaginate = _this.updatePaginate.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3148,9 +3150,14 @@ var Shop = /*#__PURE__*/function (_Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return this.getBookData(1, this.state.filter, this.state.sort);
+                return this.updateState();
 
               case 2:
+                console.log(this.state.paginate);
+                _context.next = 5;
+                return this.getBookData(1, this.state.filter, this.state.sort, this.state.paginate);
+
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -3165,39 +3172,73 @@ var Shop = /*#__PURE__*/function (_Component) {
       return componentDidMount;
     }()
   }, {
-    key: "getBookData",
+    key: "updateState",
     value: function () {
-      var _getBookData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var pageNumber,
-            filter,
-            sort,
-            url,
-            response,
-            _args2 = arguments;
+      var _updateState = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var values, filter_type, sort_type, paginate_type;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                pageNumber = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : 1;
-                filter = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : 'none-1';
-                sort = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : 'on-sale';
-                url = "/api/shop/".concat(filter, "/").concat(sort, "?page=").concat(pageNumber);
-                _context2.next = 6;
-                return axios.get(url);
-
-              case 6:
-                response = _context2.sent;
+                values = query_string__WEBPACK_IMPORTED_MODULE_4__.parse(this.props.location.search);
+                filter_type = values.filter === undefined ? 'none-1' : values.filter;
+                sort_type = values.sort === undefined ? 'on-sale' : values.sort;
+                paginate_type = values.paginate === undefined ? '15' : parseInt(values.paginate);
                 this.setState({
-                  data: response.data
+                  filter: filter_type,
+                  sort: sort_type,
+                  paginate: paginate_type
                 });
-                console.log(this.state.filter, this.state.sort);
 
-              case 9:
+              case 5:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2, this);
+      }));
+
+      function updateState() {
+        return _updateState.apply(this, arguments);
+      }
+
+      return updateState;
+    }()
+  }, {
+    key: "getBookData",
+    value: function () {
+      var _getBookData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var pageNumber,
+            filter,
+            sort,
+            paginate,
+            url,
+            response,
+            _args3 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                pageNumber = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : 1;
+                filter = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : 'none-1';
+                sort = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : 'on-sale';
+                paginate = _args3.length > 3 && _args3[3] !== undefined ? _args3[3] : '15';
+                url = "/api/shop/".concat(filter, "/").concat(sort, "/").concat(paginate, "?page=").concat(pageNumber);
+                _context3.next = 7;
+                return axios.get(url);
+
+              case 7:
+                response = _context3.sent;
+                this.setState({
+                  data: response.data
+                });
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
       }));
 
       function getBookData() {
@@ -3233,7 +3274,7 @@ var Shop = /*#__PURE__*/function (_Component) {
               className: "page-link",
               to: link.url,
               onClick: function onClick() {
-                return _this2.getBookData(extractPageNumberFromURL(link.url));
+                return _this2.getBookData(extractPageNumberFromURL(link.url), _this2.state.filter, _this2.state.sort, _this2.state.paginate);
               },
               children: [htmlDecode(link.label), link.active ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 className: "sr-only",
@@ -3266,6 +3307,15 @@ var Shop = /*#__PURE__*/function (_Component) {
       });
       console.log(this.state.filter);
       this.getBookData(1, this.state.filter, param);
+    }
+  }, {
+    key: "updatePaginate",
+    value: function updatePaginate(value) {
+      this.setState({
+        paginate: value
+      });
+      console.log(this.state.filter);
+      this.getBookData(1, this.state.filter, this.state.sort, value);
     }
   }, {
     key: "render",
@@ -3311,7 +3361,8 @@ var Shop = /*#__PURE__*/function (_Component) {
                 className: "col-lg-2",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Filter__WEBPACK_IMPORTED_MODULE_2__.default, {
                   getFilter: this.updateFilter,
-                  currentSort: this.state.sort
+                  currentSort: this.state.sort,
+                  currentPaginate: this.state.paginate
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("section", {
                 className: "col-lg-10",
@@ -3340,7 +3391,7 @@ var Shop = /*#__PURE__*/function (_Component) {
                           onClick: function onClick() {
                             return _this3.updateSortType('on-sale');
                           },
-                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=on-sale"),
+                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=on-sale&paginate=").concat(this.state.paginate),
                           children: "Sort by on sale"
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
                           className: "dropdown-item",
@@ -3354,14 +3405,14 @@ var Shop = /*#__PURE__*/function (_Component) {
                           onClick: function onClick() {
                             return _this3.updateSortType('price-ascending');
                           },
-                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=price-ascending"),
+                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=price-ascending&paginate=").concat(this.state.paginate),
                           children: "Sort by price: low to high"
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
                           className: "dropdown-item",
                           onClick: function onClick() {
                             return _this3.updateSortType('price-descending');
                           },
-                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=price-descending"),
+                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=price-descending&paginate=").concat(this.state.paginate),
                           children: "Sort by price: high to low"
                         })]
                       })]
@@ -3378,21 +3429,33 @@ var Shop = /*#__PURE__*/function (_Component) {
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                         className: "dropdown-menu",
                         "aria-labelledby": "dropdownMenuButton",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
                           className: "dropdown-item",
-                          href: "#",
+                          onClick: function onClick() {
+                            return _this3.updatePaginate('5');
+                          },
+                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=").concat(this.state.sort, "&paginate=5"),
                           children: "Show 5"
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
                           className: "dropdown-item",
-                          href: "#",
+                          onClick: function onClick() {
+                            return _this3.updatePaginate('15');
+                          },
+                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=").concat(this.state.sort, "&paginate=15"),
                           children: "Show 15"
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
                           className: "dropdown-item",
-                          href: "#",
+                          onClick: function onClick() {
+                            return _this3.updatePaginate('20');
+                          },
+                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=").concat(this.state.sort, "&paginate=20"),
                           children: "Show 20"
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
                           className: "dropdown-item",
-                          href: "#",
+                          onClick: function onClick() {
+                            return _this3.updatePaginate('25');
+                          },
+                          to: "/#/shop/?filter=".concat(this.state.filter, "&sort=").concat(this.state.sort, "&paginate=25"),
                           children: "Show 25"
                         })]
                       })]
