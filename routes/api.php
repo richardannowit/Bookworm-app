@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ShopController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +29,5 @@ Route::get('/home/popular', [HomeController::class, 'getPopularBooks'])->name('h
 
 Route::get('/shop/{filter?}/{sort?}/{paginate?}', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/filter', [ShopController::class, 'getFilter'])->name('shop.filter');
+
+Route::get('/product/{id}', [ProductController::class, 'index'])->name('product.index');
