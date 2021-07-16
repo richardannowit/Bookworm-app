@@ -18,4 +18,24 @@ class ProductController extends Controller
             ->get();
         // ->toSql();
     }
+
+    public function getReview($id, $filter = '0', $sort = 'desc', $paginate = '15')
+    {
+        $reviews =  Book::find((int) $id)
+            ->reviews();
+        if ($filter !== '0') {
+            $reviews->where('rating_start', $filter);
+        }
+
+
+        if ($sort === 'asc') {
+            $reviews->orderBy('review_date');
+        } else {
+            $reviews->orderByDesc('review_date');
+        }
+
+        return $reviews->paginate((int) $paginate)
+            ->appends(['filter' => $filter, 'sort' => $sort, 'paginate' => $paginate])
+            ->withPath('/#/product/' . $id . '/reviews/');
+    }
 }
