@@ -47,7 +47,7 @@ class Book extends Model
 
     public function scopeGetAverageStar($query)
     {
-        return $query->has('reviews')
+        return $query //->has('reviews')
             ->addSelect([
                 'AR' => Review::select(\DB::raw('SUM(cast(reviews.rating_start AS DOUBLE PRECISION))/COUNT(reviews.id)'))
                     ->whereColumn('book_id', 'books.id')
@@ -155,7 +155,7 @@ class Book extends Model
                 break;
             case "rating":
 
-                $query = $query->getAverageStar();
+                $query = $query->has('reviews')->getAverageStar();
                 return $query->where(
                     \DB::raw('(select SUM(cast(reviews.rating_start AS DOUBLE PRECISION))/COUNT(reviews.id) from "reviews" where "book_id" = "books"."id")'),
                     '>=',

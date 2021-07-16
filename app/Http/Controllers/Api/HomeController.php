@@ -17,7 +17,8 @@ class HomeController extends Controller
 
     public function getRecommendedBooks()
     {
-        return Book::getAverageStar()
+        return Book::has('reviews')
+            ->getAverageStar()
             ->getFinalPrice()
             ->getDiscountPrice()
             ->orderByDesc('AR')
