@@ -37,7 +37,7 @@ export default class Product extends Component {
                             </div>
                         </div>
                         <div className="col-lg-4">
-                            <div className="row border rounded shadow-sm ml-0 mb-5" style={{ minHeight: '300px' }}>
+                            <div className="row border rounded shadow-sm ml-0 mb-5 pb-4">
                                 <AddToCart></AddToCart>
                             </div>
                             <div className="row border rounded shadow-sm ml-0 mt-5" style={{ minHeight: '300px' }}>
