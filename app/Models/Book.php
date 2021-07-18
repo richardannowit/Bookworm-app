@@ -44,6 +44,14 @@ class Book extends Model
         ]);
     }
 
+    public function scopeGetAuthor($query)
+    {
+        return $query->addSelect([
+            'author_name' => Author::select('author_name')
+                ->whereColumn('id', 'books.author_id')
+        ]);
+    }
+
 
     public function scopeGetAverageStar($query)
     {

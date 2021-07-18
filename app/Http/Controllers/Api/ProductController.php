@@ -11,6 +11,7 @@ class ProductController extends Controller
     public function index($id)
     {
         return Book::where('id', $id)
+            ->getAuthor()
             ->getAverageStar()
             ->getFinalPrice()
             ->getDateDiscount()
