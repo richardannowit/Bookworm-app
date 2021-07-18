@@ -27,9 +27,8 @@ export default class BookCard extends Component {
                     src={cover === null ? ("http://placehold.it/200x250") : ("assets/bookcover/" + cover + ".jpg")}
                     className="card-img-top" alt="Image"
                     style={{
-                        width: "200px",
-                        height: "250px",
-                        objectFit: "contain"
+                        width: "100%",
+                        height: "250px"
 
                     }}
                 />

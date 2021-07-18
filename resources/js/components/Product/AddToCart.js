@@ -6,8 +6,8 @@ export default class AddToCart extends Component {
             <>
                 <div className="row w-100 bg-light ml-0 mt-0">
                     <div className="row mx-5 my-2 align-item-center w-100">
-                        <span className="mr-1"><del>$49.99</del></span>
-                        <h5 className="mr-2">$29.99</h5>
+                        <span className="mr-1"><del>${this.props.book_price}</del></span>
+                        <h5 className="mr-2">${this.props.discount_price}</h5>
                     </div>
                 </div>
                 <div className="row mx-5 mt-3 w-100">
@@ -23,7 +23,7 @@ export default class AddToCart extends Component {
 
                 <div className="row mx-5 w-100">
                     <div className="input-group my-2  justify-content-center ">
-                        <button type="submit" className="btn btn-default btn-block border rounded-0 mb-2 bg-light">Add to cart</button>
+                        <button type="submit" className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Add to cart</strong></button>
                     </div>
                 </div>
             </>

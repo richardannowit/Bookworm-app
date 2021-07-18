@@ -2,8 +2,110 @@ import React, { Component } from 'react'
 import {
     Link,
 } from "react-router-dom";
+import "./index.css"
 
 export default class ReviewList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { filter: '0', sort: 'desc', paginate: '15', pageNumber: '1' };
+    }
+
+    showPagination() {
+        function htmlDecode(input) {
+            var doc = new DOMParser().parseFromString(input, "text/html");
+            return doc.documentElement.textContent;
+        }
+        function extractPageNumberFromURL(url) {
+            let urlArray = url.split("&");
+            let pageParam = urlArray[urlArray.length - 1];
+            let pageNumber = pageParam.split("=");
+            return pageNumber[pageNumber.length - 1];
+        }
+
+        let links = this.props.reviews.links;
+        if (links instanceof Array) {
+
+            return links.map((link, i) => {
+                return <li key={i} className={`page-item ${link.active ? "active" : ""} ${link.url === null ? "disabled" : ""}`}>
+                    {link.url !== null ? <a style={{ cursor: 'pointer' }} className="page-link" onClick={() => this.handleChange(this.state.filter, this.state.sort, this.state.paginate, extractPageNumberFromURL(link.url))}>
+                        {htmlDecode(link.label)}
+                        {link.active ? <span className="sr-only">(current)</span> : <span></span>}
+                    </a>
+                        :
+                        <a className="page-link">{htmlDecode(link.label)}
+                            {link.active ? <span className="sr-only">(current)</span> : <span></span>}
+                        </a>
+                    }
+                </li>
+            })
+        }
+    }
+
+    handleChange(filter, sort, paginate, pageNumber) {
+        this.setState({
+            filter: filter,
+            sort: sort,
+            paginate: paginate,
+            pageNumber: pageNumber
+        }, () => {
+            this.props.changeReviewList(this.state.filter, this.state.sort, this.state.paginate, this.state.pageNumber);
+        });
+
+
+    }
+
+
+    showReviews() {
+
+        function spiltDate(dateTime) {
+            var nowDate = new Date(dateTime);
+            return nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-' + nowDate.getDate();
+        }
+        function convertDate(date) {
+            var s = date.split(/\D/), dt = new Date(s[0], s[1] - 1, s[2]);
+            return dt.toLocaleString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        const reviews = this.props.reviews.data;
+        if (reviews instanceof Array) {
+            if (reviews.length === 0) {
+                return (<span>There are no review</span>)
+            }
+
+            return reviews.map((review, i) => {
+                return (
+                    <div className="col-lg-12 mx-2 mt-2 pb-4 border-bottom" key={i} id="review-item">
+                        <div className="row align-items-center my-2">
+                            <h5 className="d-inline mr-2 mb-1">{review.review_title}</h5>
+                            <span className="d-inline">| {review.rating_start} stars</span>
+                        </div>
+                        <div className="row my-1">
+                            <p>
+                                {review.review_details}
+                            </p>
+                        </div>
+                        <div className="row my-1">
+                            <span>{convertDate(spiltDate(review.review_date.toString()))}</span>
+                        </div>
+                    </div>
+                );
+            });
+        }
+    }
+
+
+    getSortLabel(key) {
+        const data = {
+            'desc': 'Sort by date: newest to oldest',
+            'asc': 'Sort by date: oldest to newest',
+        }
+        return data[key];
+    }
+
+    getPaginateLabel(key) {
+        return 'Show ' + key;
+    }
+
     render() {
         return (
             <>
@@ -14,84 +116,52 @@ export default class ReviewList extends Component {
                             <span className="d-inline">(Filtered by 5 star)</span>
                         </div>
                         <div className="row my-2">
-                            <h4 className="d-block">4.6 Star</h4>
+                            <h4 className="d-block">{this.props.AR} Star</h4>
                         </div>
 
                         <div className="row">
-                            <small className="mr-3">Total (3,134)</small>
-                            <small className="mr-3">5 star (100)</small>
-                            <small className="mr-3">4 star (200)</small>
-                            <small className="mr-3">3 star (10)</small>
-                            <small className="mr-3">2 star (34)</small>
-                            <small className="mr-3">1 star (0)</small>
+                            <small onClick={() => this.handleChange('0', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">Total (3,134)</small>
+                            <small onClick={() => this.handleChange('5', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">5 star (100)</small>
+                            <small onClick={() => this.handleChange('4', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">4 star (200)</small>
+                            <small onClick={() => this.handleChange('3', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">3 star (10)</small>
+                            <small onClick={() => this.handleChange('2', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">2 star (34)</small>
+                            <small onClick={() => this.handleChange('1', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">1 star (0)</small>
                         </div>
                         <div className="row d-flex my-3 mr-3">
-                            <span className="mr-auto">{`Showing 1-12 of 3134 reviews`}</span>
+                            <span className="mr-auto">{`Showing ${(this.props.reviews.current_page - 1) * this.props.reviews.per_page + 1}-${this.props.reviews.to} of ${this.props.reviews.total} reviews`}</span>
                             <div className="dropdown mr-3">
                                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Sort by date: newest to oldest
+                                    {this.getSortLabel(this.state.sort)}
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <Link className="dropdown-item">Sort by date: newest to oldest</Link>
-                                    <Link className="dropdown-item">Sort by date: oldest to newest</Link>
+                                    <Link onClick={() => this.handleChange(this.state.filter, 'desc', this.state.paginate, this.state.pageNumber)} className="dropdown-item">Sort by date: newest to oldest</Link>
+                                    <Link onClick={() => this.handleChange(this.state.filter, 'asc', this.state.paginate, this.state.pageNumber)} className="dropdown-item">Sort by date: oldest to newest</Link>
                                 </div>
                             </div>
                             <div className="dropdown">
                                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Show 15
+                                    {this.getPaginateLabel(this.state.paginate)}
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <Link className="dropdown-item">Show 5</Link>
-                                    <Link className="dropdown-item">Show 15</Link>
-                                    <Link className="dropdown-item">Show 20</Link>
-                                    <Link className="dropdown-item">Show 25</Link>
+                                    <Link onClick={() => this.handleChange(this.state.filter, this.state.sort, '5', this.state.pageNumber)} className="dropdown-item">Show 5</Link>
+                                    <Link onClick={() => this.handleChange(this.state.filter, this.state.sort, '15', this.state.pageNumber)} className="dropdown-item">Show 15</Link>
+                                    <Link onClick={() => this.handleChange(this.state.filter, this.state.sort, '20', this.state.pageNumber)} className="dropdown-item">Show 20</Link>
+                                    <Link onClick={() => this.handleChange(this.state.filter, this.state.sort, '25', this.state.pageNumber)} className="dropdown-item">Show 25</Link>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="row mx-4 w-100" id="review-list">
-                    <div className="col-lg-12 mx-2 mt-2 pb-4 border-bottom" id="review-item">
-                        <div className="row align-items-center my-2">
-                            <h5 className="d-inline mr-2 mb-1">Itaque suscipit enim ab adipisci amet.</h5>
-                            <span className="d-inline">| 5 stars</span>
-                        </div>
-                        <div className="row my-1">
-                            <p>
-                                Voluptatem expedita consequatur aut voluptatem consequatur fugiat illum aut. Aut ullam nihil dolorem sit minima vel pariatur debitis. Ducimus rerum occaecati voluptatem. Quisquam ut dolore illum.
+                    {this.showReviews()}
 
-                                Dolores quia tenetur consequuntur nostrum sit tenetur molestiae facere. Aut omnis molestiae cum ad quis tenetur minus. Incidunt tempore atque est iusto similique eos occaecati.
-
-                                Velit numquam expedita placeat hic molestiae possimus repellendus alias. Possimus ducimus dolorem a qui vero assumenda deleniti libero. Ea perferendis in ut quaerat quas blanditiis repudiandae.
-
-                                Vel perferendis officia aut rem. Dolorem explicabo pariatur quos consectetur. Et iste vitae architecto nihil ut nesciunt quod. Ipsum et amet corrupti ut et.
-                            </p>
-                        </div>
-                        <div className="row my-1">
-                            <span>April 12, 2021</span>
-                        </div>
-                    </div>
-                    <div className="col-lg-12 mx-2 mt-2 pb-4 border-bottom" id="review-item">
-                        <div className="row align-items-center my-2">
-                            <h5 className="d-inline mr-2 mb-1">Itaque suscipit enim ab adipisci amet.</h5>
-                            <span className="d-inline">| 5 stars</span>
-                        </div>
-                        <div className="row my-1">
-                            <p>
-                                Voluptatem expedita consequatur aut voluptatem consequatur fugiat illum aut. Aut ullam nihil dolorem sit minima vel pariatur debitis. Ducimus rerum occaecati voluptatem. Quisquam ut dolore illum.
-
-                                Dolores quia tenetur consequuntur nostrum sit tenetur molestiae facere. Aut omnis molestiae cum ad quis tenetur minus. Incidunt tempore atque est iusto similique eos occaecati.
-
-                                Velit numquam expedita placeat hic molestiae possimus repellendus alias. Possimus ducimus dolorem a qui vero assumenda deleniti libero. Ea perferendis in ut quaerat quas blanditiis repudiandae.
-
-                                Vel perferendis officia aut rem. Dolorem explicabo pariatur quos consectetur. Et iste vitae architecto nihil ut nesciunt quod. Ipsum et amet corrupti ut et.
-                            </p>
-                        </div>
-                        <div className="row my-1">
-                            <span>April 12, 2021</span>
-                        </div>
-                    </div>
-
+                </div>
+                <div className="row justify-content-center w-100 pt-3">
+                    <nav aria-label="...">
+                        <ul className="pagination">
+                            {this.showPagination()}
+                        </ul>
+                    </nav>
                 </div>
             </>
         )
