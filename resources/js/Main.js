@@ -2,8 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, HashRouter, Link } from "react-router-dom";
 import Router from "./Router";
-import Header from "./components/layouts/Header";
+import Header from "./pages/layouts/Header";
 import "./app.css";
+import { Provider } from 'react-redux';
+import store from './components/stores'
+
 
 function Main() {
     return (
@@ -21,5 +24,10 @@ function Main() {
 export default Main;
 
 if (document.getElementById("main")) {
-    ReactDOM.render(<Main />, document.getElementById("main"));
+    ReactDOM.render(
+        <Provider store={store}>
+            <Main />
+        </Provider>,
+        document.getElementById("main")
+    );
 }

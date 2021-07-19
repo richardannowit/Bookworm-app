@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { GetNumberCart } from '../../components/actions'
 
-export default class AddToCart extends Component {
+
+class AddToCart extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,7 +50,6 @@ export default class AddToCart extends Component {
         }
         let cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
         let productIndex = cartFromStorage.findIndex((obj => obj.id === book_id));
-        console.log(productIndex);
         if (productIndex !== -1) {
             cartFromStorage[productIndex].quantity = this.state.quantity;
         } else {
@@ -55,6 +57,8 @@ export default class AddToCart extends Component {
         }
 
         localStorage.setItem('cart', JSON.stringify(cartFromStorage));
+
+        this.props.GET_NUMBER_CART();
     }
 
 
@@ -86,3 +90,12 @@ export default class AddToCart extends Component {
         )
     }
 }
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        GET_NUMBER_CART: () => dispatch(GetNumberCart()),
+
+    };
+}
+export default connect(null, mapDispatchToProps)(AddToCart)

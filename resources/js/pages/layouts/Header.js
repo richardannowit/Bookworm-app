@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux'
 
-export default class Header extends Component {
+class Header extends Component {
     constructor(props) {
         super(props);
-    }
-
-
-    showCartTotal() {
-        let cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
-        return cartFromStorage.length;
+        this.state = {
+            cart: 0
+        }
     }
     render() {
         return (
@@ -33,10 +31,16 @@ export default class Header extends Component {
                         <Link className="nav-link" to={"/about"}>About</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/cart"}>Cart ({this.showCartTotal()})</Link>
+                        <Link className="nav-link" to={"/cart"}>Cart({this.props.numberCart})</Link>
                     </li>
                 </ul>
             </nav>
         )
     }
 }
+
+
+const mapStateToProps = state => {
+    return { numberCart: state._todoCart.numberCart };
+};
+export default connect(mapStateToProps, null)(Header);

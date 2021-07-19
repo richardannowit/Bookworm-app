@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import Home from "./components/Home/Home";
-import Shop from "./components/Shop/Shop";
-import Cart from "./components/Cart/Cart";
-import About from "./components/About";
-import Product from './components/Product/Product';
+import Home from "./pages/Home/Home";
+import Shop from "./pages/Shop/Shop";
+import Cart from "./pages/Cart/Cart";
+import About from "./pages/About";
+import Product from './pages/Product/Product';
 
 export default class Router extends Component {
     render() {

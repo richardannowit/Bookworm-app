@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { BsFillCaretRightFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-import Slider from "../common/Slider";
+import Slider from "../../components/Slider";
 import FeaturedBooks from "./FeaturedBooks";
 
 export default class Home extends Component {

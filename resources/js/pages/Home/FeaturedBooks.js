@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import BookCard from '../common/BookCard';
+import BookCard from '../../components/BookCard';
 
 export default class FeaturedBooks extends Component {
     constructor(props) {

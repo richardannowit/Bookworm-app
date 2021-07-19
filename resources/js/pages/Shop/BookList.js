@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BookCard from '../common/BookCard';
+import BookCard from '../../components/BookCard';
 import Pagination from "react-js-pagination";
 import {
     Link,
