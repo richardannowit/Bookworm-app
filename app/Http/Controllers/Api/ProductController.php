@@ -8,8 +8,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index($id)
+    public function index($id = 0)
     {
+        $query =  Book::find((int) $id);
+        if (empty($query) || $id === null) {
+            return response()->json(['error' => 'Book Not found'], 404);
+        }
         return Book::where('id', $id)
             ->getAuthor()
             ->getAverageStar()
@@ -20,11 +24,16 @@ class ProductController extends Controller
         // ->toSql();
     }
 
-    public function getReview($id, $filter = '0', $sort = 'desc', $paginate = '15')
+    public function getReview($id = 0, $filter = '0', $sort = 'desc', $paginate = '15')
     {
-        //Check id
+        $query =  Book::find((int) $id);
+        if (empty($query) || $id === null) {
+            return response()->json(['error' => 'Book Not found'], 404);
+        }
 
-        $reviews =  Book::find((int) $id)
+        // Check found book id
+
+        $reviews =  Book::findOrFail((int) $id)
             ->reviews();
         if ($filter !== '0') {
             $reviews->where('rating_start', $filter);
@@ -45,8 +54,15 @@ class ProductController extends Controller
 
     public function countReview($id)
     {
+        $query =  Book::find((int) $id);
+        if (empty($query) || $id === null) {
+            return response()->json(['error' => 'Book Not found'], 404);
+        }
+
+        // Check found book id
+
         $star = array();
-        array_push($star, Book::find((int) $id)->reviews()->count());
+        array_push($star, Book::findOrFail((int) $id)->reviews()->count());
         for ($i = 1; $i <= 5; $i++) {
             $cnt = Book::find((int) $id)->reviews();
             array_push($star, $cnt->where('rating_start', strval($i))->count());

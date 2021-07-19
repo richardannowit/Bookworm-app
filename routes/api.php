@@ -30,6 +30,6 @@ Route::get('/home/popular', [HomeController::class, 'getPopularBooks'])->name('h
 Route::get('/shop/{filter?}/{sort?}/{paginate?}', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/filter', [ShopController::class, 'getFilter'])->name('shop.filter');
 
-Route::get('/product/{id}', [ProductController::class, 'index'])->name('product.index');
+Route::get('/product/{id?}', [ProductController::class, 'index'])->name('product.index');
 Route::get('/product/{id}/reviews/{filter?}/{sort?}/{paginate?}', [ProductController::class, 'getReview'])->name('product.getReview');
 Route::get('/product/{id}/count-reviews', [ProductController::class, 'countReview'])->name('product.countReview');
