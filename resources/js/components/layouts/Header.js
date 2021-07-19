@@ -2,11 +2,15 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 
 export default class Header extends Component {
-    /*
-        <Link className="nav-link js-scroll-trigger" to={"/"}>
-            Home
-        </Link>
-    */
+    constructor(props) {
+        super(props);
+    }
+
+
+    showCartTotal() {
+        let cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
+        return cartFromStorage.length;
+    }
     render() {
         return (
             <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
@@ -29,7 +33,7 @@ export default class Header extends Component {
                         <Link className="nav-link" to={"/about"}>About</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/cart"}>Cart(0)</Link>
+                        <Link className="nav-link" to={"/cart"}>Cart ({this.showCartTotal()})</Link>
                     </li>
                 </ul>
             </nav>

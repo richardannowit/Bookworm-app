@@ -2666,10 +2666,16 @@ var AddToCart = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(AddToCart);
 
-  function AddToCart() {
+  function AddToCart(props) {
+    var _this;
+
     _classCallCheck(this, AddToCart);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, props);
+    _this.state = {
+      quantity: 1
+    };
+    return _this;
   }
 
   _createClass(AddToCart, [{
@@ -2694,8 +2700,49 @@ var AddToCart = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "increaseQuantity",
+    value: function increaseQuantity() {
+      var quantity = this.state.quantity;
+      if (quantity === 8) return;
+      this.setState({
+        quantity: this.state.quantity + 1
+      });
+    }
+  }, {
+    key: "decreaseQuantity",
+    value: function decreaseQuantity() {
+      var quantity = this.state.quantity;
+      if (quantity === 1) return;
+      this.setState({
+        quantity: this.state.quantity - 1
+      });
+    }
+  }, {
+    key: "addToCart",
+    value: function addToCart(book_id) {
+      var bookPackage = {
+        "id": book_id,
+        "quantity": this.state.quantity
+      };
+      var cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
+      var productIndex = cartFromStorage.findIndex(function (obj) {
+        return obj.id === book_id;
+      });
+      console.log(productIndex);
+
+      if (productIndex !== -1) {
+        cartFromStorage[productIndex].quantity = this.state.quantity;
+      } else {
+        cartFromStorage.push(bookPackage);
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cartFromStorage));
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "row w-100 bg-light ml-0 mt-0",
@@ -2714,20 +2761,23 @@ var AddToCart = /*#__PURE__*/function (_Component) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "input-group my-2",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-              type: "submit",
+              onClick: function onClick() {
+                return _this2.decreaseQuantity();
+              },
               className: "btn btn-default border rounded-0 mb-2",
               children: "-"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
               className: "form-control rounded-0",
               type: "text",
-              defaultValue: 1,
-              min: 1,
-              max: 10,
+              onChange: function onChange(e) {},
+              value: this.state.quantity,
               style: {
                 textAlign: 'center'
               }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-              type: "submit",
+              onClick: function onClick() {
+                return _this2.increaseQuantity();
+              },
               className: "btn btn-default border rounded-0 mb-2",
               children: "+"
             })]
@@ -2737,7 +2787,9 @@ var AddToCart = /*#__PURE__*/function (_Component) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "input-group my-2  justify-content-center ",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-              type: "submit",
+              onClick: function onClick() {
+                return _this2.addToCart(_this2.props.book_id);
+              },
               className: "btn btn-default btn-block border rounded-0 mb-2 bg-light",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("strong", {
                 children: "Add to cart"
@@ -2944,6 +2996,7 @@ var Product = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function () {
       var _componentDidMount = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var cartFromStorage;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2960,6 +3013,10 @@ var Product = /*#__PURE__*/function (_Component) {
                 return this.getNumberReviewEachStar();
 
               case 6:
+                cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
+                localStorage.setItem('cart', JSON.stringify(cartFromStorage));
+
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -3164,6 +3221,7 @@ var Product = /*#__PURE__*/function (_Component) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 className: "row border rounded shadow-sm ml-0 mb-5 pb-4",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_AddToCart__WEBPACK_IMPORTED_MODULE_4__.default, {
+                  book_id: this.state.bookDetails.id,
                   discount_price: this.state.bookDetails.discount_price,
                   book_price: this.state.bookDetails.book_price
                 })
@@ -4957,21 +5015,21 @@ var Header = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(Header);
 
-  function Header() {
+  function Header(props) {
     _classCallCheck(this, Header);
 
-    return _super.apply(this, arguments);
+    return _super.call(this, props);
   }
 
   _createClass(Header, [{
+    key: "showCartTotal",
+    value: function showCartTotal() {
+      var cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
+      return cartFromStorage.length;
+    }
+  }, {
     key: "render",
-    value:
-    /*
-        <Link className="nav-link js-scroll-trigger" to={"/"}>
-            Home
-        </Link>
-    */
-    function render() {
+    value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("nav", {
         className: "navbar navbar-expand-sm bg-dark navbar-dark fixed-top",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
@@ -5017,10 +5075,10 @@ var Header = /*#__PURE__*/function (_Component) {
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
             className: "nav-item",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
               className: "nav-link",
               to: "/cart",
-              children: "Cart(0)"
+              children: ["Cart (", this.showCartTotal(), ")"]
             })
           })]
         })]

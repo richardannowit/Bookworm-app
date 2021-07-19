@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 
 export default class AddToCart extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            quantity: 1
+        };
+    }
 
 
     showPrice() {
@@ -18,6 +24,39 @@ export default class AddToCart extends Component {
         );
     }
 
+    increaseQuantity() {
+        let quantity = this.state.quantity;
+        if (quantity === 8) return;
+        this.setState({
+            quantity: this.state.quantity + 1
+        });
+    }
+
+    decreaseQuantity() {
+        let quantity = this.state.quantity;
+        if (quantity === 1) return;
+        this.setState({
+            quantity: this.state.quantity - 1
+        });
+    }
+
+    addToCart(book_id) {
+        let bookPackage = {
+            "id": book_id,
+            "quantity": this.state.quantity
+        }
+        let cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
+        let productIndex = cartFromStorage.findIndex((obj => obj.id === book_id));
+        console.log(productIndex);
+        if (productIndex !== -1) {
+            cartFromStorage[productIndex].quantity = this.state.quantity;
+        } else {
+            cartFromStorage.push(bookPackage);
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cartFromStorage));
+    }
+
 
     render() {
         return (
@@ -32,15 +71,15 @@ export default class AddToCart extends Component {
                 </div>
                 <div className="row mx-5 w-100 justify-content-center">
                     <div className="input-group my-2">
-                        <button type="submit" className="btn btn-default border rounded-0 mb-2">-</button>
-                        <input className="form-control rounded-0" type="text" defaultValue={1} min={1} max={10} style={{ textAlign: 'center' }} />
-                        <button type="submit" className="btn btn-default border rounded-0 mb-2">+</button>
+                        <button onClick={() => this.decreaseQuantity()} className="btn btn-default border rounded-0 mb-2">-</button>
+                        <input className="form-control rounded-0" type="text" onChange={(e) => { }} value={this.state.quantity} style={{ textAlign: 'center' }} />
+                        <button onClick={() => this.increaseQuantity()} className="btn btn-default border rounded-0 mb-2">+</button>
                     </div>
                 </div>
 
                 <div className="row mx-5 w-100">
                     <div className="input-group my-2  justify-content-center ">
-                        <button type="submit" className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Add to cart</strong></button>
+                        <button onClick={() => this.addToCart(this.props.book_id)} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Add to cart</strong></button>
                     </div>
                 </div>
             </>
