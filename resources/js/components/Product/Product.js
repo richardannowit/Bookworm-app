@@ -58,7 +58,6 @@ export default class Product extends Component {
     }
 
     render() {
-        console.log(this.state.count_reviews);
         return (
             <div className="container-fluid">
                 <div className="container-fluid pb-3" style={{ width: '90%' }}>

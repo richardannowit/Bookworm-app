@@ -2673,22 +2673,35 @@ var AddToCart = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(AddToCart, [{
+    key: "showPrice",
+    value: function showPrice() {
+      var haveDiscount = this.props.discount_price !== null ? true : false;
+      return haveDiscount ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          className: "mr-1",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("del", {
+            children: ["$", this.props.book_price]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h5", {
+          className: "mr-2",
+          children: ["$", this.props.discount_price]
+        })]
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h5", {
+          className: "mr-2",
+          children: ["$", this.props.book_price]
+        })
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "row w-100 bg-light ml-0 mt-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "row mx-5 my-2 align-item-center w-100",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-              className: "mr-1",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("del", {
-                children: ["$", this.props.book_price]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h5", {
-              className: "mr-2",
-              children: ["$", this.props.discount_price]
-            })]
+            children: this.showPrice()
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "row mx-5 mt-3 w-100",
@@ -2758,18 +2771,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -2801,36 +2802,26 @@ var BookDetails = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(BookDetails);
 
   function BookDetails(props) {
-    var _this;
-
     _classCallCheck(this, BookDetails);
 
-    _this = _super.call(this, props);
-
-    var _this$props$details = _slicedToArray(_this.props.details, 4),
-        book_cover_photo = _this$props$details[0],
-        author_name = _this$props$details[1],
-        book_title = _this$props$details[2],
-        book_summary = _this$props$details[3];
-
-    return _this;
+    return _super.call(this, props);
   }
 
   _createClass(BookDetails, [{
     key: "render",
     value: function render() {
-      var _this$props$details2 = this.props.details,
-          book_cover_photo = _this$props$details2.book_cover_photo,
-          author_name = _this$props$details2.author_name,
-          book_title = _this$props$details2.book_title,
-          book_summary = _this$props$details2.book_summary;
+      var _this$props$details = this.props.details,
+          book_cover_photo = _this$props$details.book_cover_photo,
+          author_name = _this$props$details.author_name,
+          book_title = _this$props$details.book_title,
+          book_summary = _this$props$details.book_summary;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "col-lg-3 pr-4",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "row",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
-              src: book_cover_photo === null ? "http://placehold.it/220x270" : "assets/bookcover/" + book_cover_photo + ".jpg",
+              src: book_cover_photo === null || book_cover_photo === undefined ? "http://placehold.it/220x270" : "assets/bookcover/" + book_cover_photo + ".jpg",
               style: {
                 width: "100%",
                 height: "270px"
@@ -3123,7 +3114,6 @@ var Product = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.state.count_reviews);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "container-fluid",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -3210,7 +3200,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ ReviewList)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/components/Product/index.css");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3474,13 +3463,13 @@ var ReviewList = /*#__PURE__*/function (_Component) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                   className: "dropdown-menu",
                   "aria-labelledby": "dropdownMenuButton",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     onClick: function onClick() {
                       return _this4.handleChange(_this4.state.filter, 'desc', _this4.state.paginate, _this4.state.pageNumber);
                     },
                     className: "dropdown-item",
                     children: "Sort by date: newest to oldest"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     onClick: function onClick() {
                       return _this4.handleChange(_this4.state.filter, 'asc', _this4.state.paginate, _this4.state.pageNumber);
                     },
@@ -3501,25 +3490,25 @@ var ReviewList = /*#__PURE__*/function (_Component) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                   className: "dropdown-menu",
                   "aria-labelledby": "dropdownMenuButton",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     onClick: function onClick() {
                       return _this4.handleChange(_this4.state.filter, _this4.state.sort, '5', _this4.state.pageNumber);
                     },
                     className: "dropdown-item",
                     children: "Show 5"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     onClick: function onClick() {
                       return _this4.handleChange(_this4.state.filter, _this4.state.sort, '15', _this4.state.pageNumber);
                     },
                     className: "dropdown-item",
                     children: "Show 15"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     onClick: function onClick() {
                       return _this4.handleChange(_this4.state.filter, _this4.state.sort, '20', _this4.state.pageNumber);
                     },
                     className: "dropdown-item",
                     children: "Show 20"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                     onClick: function onClick() {
                       return _this4.handleChange(_this4.state.filter, _this4.state.sort, '25', _this4.state.pageNumber);
                     },
@@ -9595,7 +9584,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/* accordion filter */\r\n\r\na {\r\n    transition: 0.3s all ease;\r\n}\r\na,\r\na:hover {\r\n    text-decoration: none !important;\r\n}\r\n\r\nh2 {\r\n    font-size: 20px;\r\n}\r\n\r\n/*Accordion style*/\r\n.custom-accordion .custom-menu,\r\n.custom-accordion .custom-menu li {\r\n    display: block;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n.custom-accordion .custom-menu li a {\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n    border: none;\r\n    width: 100%;\r\n    text-align: left !important;\r\n    display: block;\r\n    color: rgba(255, 255, 255, 0.5);\r\n    background-color: #343a40;\r\n    padding: 10px 20px;\r\n    font-size: 13px;\r\n    position: relative;\r\n    transition: 0.3s all ease;\r\n}\r\n.custom-accordion .custom-menu li a:before {\r\n    content: \"\";\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n\r\n    bottom: 0;\r\n    width: 0px;\r\n    background: #f75454;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    transition: 0.3s all ease;\r\n}\r\n.custom-accordion .custom-menu li a:hover {\r\n    padding-left: 30px;\r\n    color: #fff;\r\n}\r\n.custom-accordion .custom-menu li a:hover:before {\r\n    width: 8px;\r\n    opacity: 1;\r\n    visibility: visible;\r\n}\r\n\r\n.custom-accordion .accordion-item {\r\n    position: relative;\r\n    /* background: #4b4142; */\r\n}\r\n.custom-accordion .accordion-item .btn-link {\r\n    display: block;\r\n    width: 100%;\r\n    padding: 15px;\r\n    text-decoration: none;\r\n    text-align: left;\r\n    border-radius: 0;\r\n    position: relative;\r\n    background: #f75454;\r\n    color: #fff;\r\n    border-bottom-right-radius: 0px;\r\n    border-bottom-left-radius: 0px;\r\n}\r\n.custom-accordion .accordion-item.active .btn-link {\r\n    background: #f75454;\r\n    color: #fff;\r\n}\r\n.custom-accordion .accordion-item .accordion-body {\r\n    color: #888;\r\n}\r\n\r\n/* Pagination */\r\n\r\n.pagination > li > a {\r\n    color: #f75454;\r\n}\r\n.pagination > .active > a {\r\n    background-color: #f75454 !important;\r\n    border: solid 1px #f75454 !important;\r\n    color: #fff;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/* accordion filter */\r\n\r\na {\r\n    transition: 0.3s all ease;\r\n}\r\na,\r\na:hover {\r\n    cursor: pointer;\r\n    text-decoration: none !important;\r\n}\r\n\r\nh2 {\r\n    font-size: 20px;\r\n}\r\n\r\n/*Accordion style*/\r\n.custom-accordion .custom-menu,\r\n.custom-accordion .custom-menu li {\r\n    display: block;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n.custom-accordion .custom-menu li a {\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n    border: none;\r\n    width: 100%;\r\n    text-align: left !important;\r\n    display: block;\r\n    color: rgba(255, 255, 255, 0.5);\r\n    background-color: #343a40;\r\n    padding: 10px 20px;\r\n    font-size: 13px;\r\n    position: relative;\r\n    transition: 0.3s all ease;\r\n}\r\n.custom-accordion .custom-menu li a:before {\r\n    content: \"\";\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n\r\n    bottom: 0;\r\n    width: 0px;\r\n    background: #f75454;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    transition: 0.3s all ease;\r\n}\r\n.custom-accordion .custom-menu li a:hover {\r\n    padding-left: 30px;\r\n    color: #fff;\r\n}\r\n.custom-accordion .custom-menu li a:hover:before {\r\n    width: 8px;\r\n    opacity: 1;\r\n    visibility: visible;\r\n}\r\n\r\n.custom-accordion .accordion-item {\r\n    position: relative;\r\n    /* background: #4b4142; */\r\n}\r\n.custom-accordion .accordion-item .btn-link {\r\n    display: block;\r\n    width: 100%;\r\n    padding: 15px;\r\n    text-decoration: none;\r\n    text-align: left;\r\n    border-radius: 0;\r\n    position: relative;\r\n    background: #f75454;\r\n    color: #fff;\r\n    border-bottom-right-radius: 0px;\r\n    border-bottom-left-radius: 0px;\r\n}\r\n.custom-accordion .accordion-item.active .btn-link {\r\n    background: #f75454;\r\n    color: #fff;\r\n}\r\n.custom-accordion .accordion-item .accordion-body {\r\n    color: #888;\r\n}\r\n\r\n/* Pagination */\r\n\r\n.pagination > li > a {\r\n    color: #f75454;\r\n}\r\n.pagination > .active > a {\r\n    background-color: #f75454 !important;\r\n    border: solid 1px #f75454 !important;\r\n    color: #fff;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

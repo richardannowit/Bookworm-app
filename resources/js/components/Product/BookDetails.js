@@ -5,10 +5,7 @@ export default class BookDetails extends Component {
 
     constructor(props) {
         super(props);
-        const [book_cover_photo, author_name, book_title, book_summary] = this.props.details;
     }
-
-
 
     render() {
         const { book_cover_photo, author_name, book_title, book_summary } = this.props.details;
@@ -17,7 +14,7 @@ export default class BookDetails extends Component {
                 <div className="col-lg-3 pr-4">
                     <div className="row">
                         <img
-                            src={book_cover_photo === null ? ("http://placehold.it/220x270") : ("assets/bookcover/" + book_cover_photo + ".jpg")}
+                            src={(book_cover_photo === null || book_cover_photo === undefined) ? ("http://placehold.it/220x270") : ("assets/bookcover/" + book_cover_photo + ".jpg")}
                             style={{
                                 width: "100%",
                                 height: "270px"

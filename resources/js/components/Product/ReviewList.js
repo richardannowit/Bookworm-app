@@ -136,8 +136,8 @@ export default class ReviewList extends Component {
                                     {this.getSortLabel(this.state.sort)}
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <Link onClick={() => this.handleChange(this.state.filter, 'desc', this.state.paginate, this.state.pageNumber)} className="dropdown-item">Sort by date: newest to oldest</Link>
-                                    <Link onClick={() => this.handleChange(this.state.filter, 'asc', this.state.paginate, this.state.pageNumber)} className="dropdown-item">Sort by date: oldest to newest</Link>
+                                    <a onClick={() => this.handleChange(this.state.filter, 'desc', this.state.paginate, this.state.pageNumber)} className="dropdown-item">Sort by date: newest to oldest</a>
+                                    <a onClick={() => this.handleChange(this.state.filter, 'asc', this.state.paginate, this.state.pageNumber)} className="dropdown-item">Sort by date: oldest to newest</a>
                                 </div>
                             </div>
                             <div className="dropdown">
@@ -145,10 +145,10 @@ export default class ReviewList extends Component {
                                     {this.getPaginateLabel(this.state.paginate)}
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <Link onClick={() => this.handleChange(this.state.filter, this.state.sort, '5', this.state.pageNumber)} className="dropdown-item">Show 5</Link>
-                                    <Link onClick={() => this.handleChange(this.state.filter, this.state.sort, '15', this.state.pageNumber)} className="dropdown-item">Show 15</Link>
-                                    <Link onClick={() => this.handleChange(this.state.filter, this.state.sort, '20', this.state.pageNumber)} className="dropdown-item">Show 20</Link>
-                                    <Link onClick={() => this.handleChange(this.state.filter, this.state.sort, '25', this.state.pageNumber)} className="dropdown-item">Show 25</Link>
+                                    <a onClick={() => this.handleChange(this.state.filter, this.state.sort, '5', this.state.pageNumber)} className="dropdown-item">Show 5</a>
+                                    <a onClick={() => this.handleChange(this.state.filter, this.state.sort, '15', this.state.pageNumber)} className="dropdown-item">Show 15</a>
+                                    <a onClick={() => this.handleChange(this.state.filter, this.state.sort, '20', this.state.pageNumber)} className="dropdown-item">Show 20</a>
+                                    <a onClick={() => this.handleChange(this.state.filter, this.state.sort, '25', this.state.pageNumber)} className="dropdown-item">Show 25</a>
                                 </div>
                             </div>
                         </div>
