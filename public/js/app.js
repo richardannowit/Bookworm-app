@@ -2940,10 +2940,12 @@ var Product = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       bookDetails: [],
-      reviews: []
+      reviews: [],
+      count_reviews: []
     };
     _this.getReviews = _this.getReviews.bind(_assertThisInitialized(_this));
     _this.handleChangeReviewList = _this.handleChangeReviewList.bind(_assertThisInitialized(_this));
+    _this.getNumberReviewEachStar = _this.getNumberReviewEachStar.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2963,6 +2965,10 @@ var Product = /*#__PURE__*/function (_Component) {
                 return this.getReviews();
 
               case 4:
+                _context.next = 6;
+                return this.getNumberReviewEachStar();
+
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -3056,22 +3062,56 @@ var Product = /*#__PURE__*/function (_Component) {
       return getReviews;
     }()
   }, {
-    key: "handleChangeReviewList",
+    key: "getNumberReviewEachStar",
     value: function () {
-      var _handleChangeReviewList = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(filter, sort, paginate, pageNumber) {
+      var _getNumberReviewEachStar = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var bookId, url, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
-                return this.getReviews(pageNumber, filter, sort, paginate);
+                bookId = this.props.match.params.id;
+                url = "/api/product/".concat(bookId, "/count-reviews");
+                _context4.next = 4;
+                return axios.get(url);
 
-              case 2:
+              case 4:
+                response = _context4.sent;
+                this.setState({
+                  count_reviews: response.data
+                });
+
+              case 6:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4, this);
+      }));
+
+      function getNumberReviewEachStar() {
+        return _getNumberReviewEachStar.apply(this, arguments);
+      }
+
+      return getNumberReviewEachStar;
+    }()
+  }, {
+    key: "handleChangeReviewList",
+    value: function () {
+      var _handleChangeReviewList = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(filter, sort, paginate, pageNumber) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return this.getReviews(pageNumber, filter, sort, paginate);
+
+              case 2:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
       }));
 
       function handleChangeReviewList(_x, _x2, _x3, _x4) {
@@ -3083,6 +3123,7 @@ var Product = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log(this.state.count_reviews);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "container-fluid",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -3124,7 +3165,8 @@ var Product = /*#__PURE__*/function (_Component) {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ReviewList__WEBPACK_IMPORTED_MODULE_2__.default, {
                   AR: this.state.bookDetails.AR,
                   reviews: this.state.reviews,
-                  changeReviewList: this.handleChangeReviewList
+                  changeReviewList: this.handleChangeReviewList,
+                  countReview: this.state.count_reviews
                 })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -3367,52 +3409,52 @@ var ReviewList = /*#__PURE__*/function (_Component) {
                 children: "Customer Reviews"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                 className: "d-inline",
-                children: "(Filtered by 5 star)"
+                children: this.state.filter !== '0' && "(Filtered by ".concat(this.state.filter, " star)")
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "row my-2",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h4", {
                 className: "d-block",
-                children: [this.props.AR, " Star"]
+                children: [this.props.AR, " Star ", this.props.count_reviews]
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "row",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("small", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
                 onClick: function onClick() {
                   return _this4.handleChange('0', _this4.state.sort, _this4.state.paginate, _this4.state.pageNumber);
                 },
                 className: "filter mr-3",
-                children: "Total (3,134)"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("small", {
+                children: ["Total (", this.props.countReview[0], ")"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
                 onClick: function onClick() {
                   return _this4.handleChange('5', _this4.state.sort, _this4.state.paginate, _this4.state.pageNumber);
                 },
                 className: "filter mr-3",
-                children: "5 star (100)"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("small", {
+                children: ["5 star (", this.props.countReview[5], ")"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
                 onClick: function onClick() {
                   return _this4.handleChange('4', _this4.state.sort, _this4.state.paginate, _this4.state.pageNumber);
                 },
                 className: "filter mr-3",
-                children: "4 star (200)"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("small", {
+                children: ["4 star (", this.props.countReview[4], ")"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
                 onClick: function onClick() {
                   return _this4.handleChange('3', _this4.state.sort, _this4.state.paginate, _this4.state.pageNumber);
                 },
                 className: "filter mr-3",
-                children: "3 star (10)"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("small", {
+                children: ["3 star (", this.props.countReview[3], ")"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
                 onClick: function onClick() {
                   return _this4.handleChange('2', _this4.state.sort, _this4.state.paginate, _this4.state.pageNumber);
                 },
                 className: "filter mr-3",
-                children: "2 star (34)"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("small", {
+                children: ["2 star (", this.props.countReview[2], ")"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
                 onClick: function onClick() {
                   return _this4.handleChange('1', _this4.state.sort, _this4.state.paginate, _this4.state.pageNumber);
                 },
                 className: "filter mr-3",
-                children: "1 star (0)"
+                children: ["1 star (", this.props.countReview[1], ")"]
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "row d-flex my-3 mr-3",

@@ -11,15 +11,21 @@ export default class Product extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { bookDetails: [], reviews: [] };
+        this.state = {
+            bookDetails: [],
+            reviews: [],
+            count_reviews: []
+        };
         this.getReviews = this.getReviews.bind(this);
         this.handleChangeReviewList = this.handleChangeReviewList.bind(this);
+        this.getNumberReviewEachStar = this.getNumberReviewEachStar.bind(this);
     }
 
 
     async componentDidMount() {
         await this.getBookDetails();
         await this.getReviews();
+        await this.getNumberReviewEachStar();
 
     }
 
@@ -37,12 +43,22 @@ export default class Product extends Component {
         this.setState({ reviews: response.data });
     }
 
+    async getNumberReviewEachStar() {
+        const bookId = this.props.match.params.id;
+        const url = `/api/product/${bookId}/count-reviews`;
+        const response = await axios.get(url);
+        this.setState({
+            count_reviews: response.data
+        });
+    }
+
 
     async handleChangeReviewList(filter, sort, paginate, pageNumber) {
         await this.getReviews(pageNumber, filter, sort, paginate);
     }
 
     render() {
+        console.log(this.state.count_reviews);
         return (
             <div className="container-fluid">
                 <div className="container-fluid pb-3" style={{ width: '90%' }}>
@@ -71,6 +87,7 @@ export default class Product extends Component {
                                     AR={this.state.bookDetails.AR}
                                     reviews={this.state.reviews}
                                     changeReviewList={this.handleChangeReviewList}
+                                    countReview={this.state.count_reviews}
                                 ></ReviewList>
                             </div>
                         </div>

@@ -106,6 +106,8 @@ export default class ReviewList extends Component {
         return 'Show ' + key;
     }
 
+
+
     render() {
         return (
             <>
@@ -113,19 +115,19 @@ export default class ReviewList extends Component {
                     <div className="col-lg-12 mx-2 my-2">
                         <div className="row align-items-center">
                             <h5 className="d-inline mr-2 mb-1">Customer Reviews</h5>
-                            <span className="d-inline">(Filtered by 5 star)</span>
+                            <span className="d-inline">{this.state.filter !== '0' && `(Filtered by ${this.state.filter} star)`}</span>
                         </div>
                         <div className="row my-2">
-                            <h4 className="d-block">{this.props.AR} Star</h4>
+                            <h4 className="d-block">{this.props.AR} Star {this.props.count_reviews}</h4>
                         </div>
 
                         <div className="row">
-                            <small onClick={() => this.handleChange('0', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">Total (3,134)</small>
-                            <small onClick={() => this.handleChange('5', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">5 star (100)</small>
-                            <small onClick={() => this.handleChange('4', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">4 star (200)</small>
-                            <small onClick={() => this.handleChange('3', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">3 star (10)</small>
-                            <small onClick={() => this.handleChange('2', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">2 star (34)</small>
-                            <small onClick={() => this.handleChange('1', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">1 star (0)</small>
+                            <small onClick={() => this.handleChange('0', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">Total ({this.props.countReview[0]})</small>
+                            <small onClick={() => this.handleChange('5', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">5 star ({this.props.countReview[5]})</small>
+                            <small onClick={() => this.handleChange('4', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">4 star ({this.props.countReview[4]})</small>
+                            <small onClick={() => this.handleChange('3', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">3 star ({this.props.countReview[3]})</small>
+                            <small onClick={() => this.handleChange('2', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">2 star ({this.props.countReview[2]})</small>
+                            <small onClick={() => this.handleChange('1', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">1 star ({this.props.countReview[1]})</small>
                         </div>
                         <div className="row d-flex my-3 mr-3">
                             <span className="mr-auto">{`Showing ${(this.props.reviews.current_page - 1) * this.props.reviews.per_page + 1}-${this.props.reviews.to} of ${this.props.reviews.total} reviews`}</span>
