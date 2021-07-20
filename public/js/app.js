@@ -2745,6 +2745,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Cart = /*#__PURE__*/function (_Component) {
   _inherits(Cart, _Component);
 
@@ -2875,6 +2876,11 @@ var Cart = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
+    key: "openBookDetails",
+    value: function openBookDetails(id) {
+      window.open('/#/product/' + id, '_blank').focus();
+    }
+  }, {
     key: "showItems",
     value: function showItems() {
       var _this5 = this;
@@ -2894,6 +2900,12 @@ var Cart = /*#__PURE__*/function (_Component) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
               className: "col-2 align-items-center",
+              style: {
+                cursor: 'pointer'
+              },
+              onClick: function onClick() {
+                return _this5.openBookDetails(item.book.id);
+              },
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
                 src: item.book.book_cover_photo === null ? "http://placehold.it/150x170" : "assets/bookcover/" + item.book.book_cover_photo + ".jpg",
                 className: "card-img-top",
@@ -2905,6 +2917,12 @@ var Cart = /*#__PURE__*/function (_Component) {
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("td", {
               className: "col-4 align-items-center",
+              style: {
+                cursor: 'pointer'
+              },
+              onClick: function onClick() {
+                return _this5.openBookDetails(item.book.id);
+              },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {
                 children: item.book.book_title
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {

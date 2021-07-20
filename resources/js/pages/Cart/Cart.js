@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import { GetNumberCart } from '../../components/actions'
+import {
+    Link,
+} from "react-router-dom";
 import "./index.css"
 
 class Cart extends Component {
@@ -93,6 +96,10 @@ class Cart extends Component {
 
     }
 
+    openBookDetails(id) {
+        window.open('/#/product/' + id, '_blank').focus();
+    }
+
     showItems() {
         const items = this.state.items;
         if (items instanceof Array) {
@@ -103,8 +110,9 @@ class Cart extends Component {
             return items.map((item, i) => {
                 return (
                     <tr key={i}>
-                        <td className="col-2 align-items-center">
+                        <td className="col-2 align-items-center" style={{ cursor: 'pointer' }} onClick={() => this.openBookDetails(item.book.id)}>
                             <img
+
                                 src={item.book.book_cover_photo === null ? ("http://placehold.it/150x170") : ("assets/bookcover/" + item.book.book_cover_photo + ".jpg")}
                                 className="card-img-top" alt="Image"
                                 style={{
@@ -114,7 +122,7 @@ class Cart extends Component {
                                 }}
                             />
                         </td>
-                        <td className="col-4 align-items-center">
+                        <td className="col-4 align-items-center" style={{ cursor: 'pointer' }} onClick={() => this.openBookDetails(item.book.id)}>
                             <h4>{item.book.book_title}</h4>
                             <span>{item.book.author_name}</span>
                         </td>
