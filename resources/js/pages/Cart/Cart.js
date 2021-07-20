@@ -1,25 +1,150 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux'
+import { GetNumberCart } from '../../components/actions'
 import "./index.css"
 
-export default class Cart extends Component {
+class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            books: [],
+            items: [],
+            total: 0
         };
     }
 
     componentDidMount() {
         let cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
-        console.log(cartFromStorage[0]);
+        this.setState({
+            items: [...cartFromStorage]
+        });
     }
+
+
+    calculateTotalPrice() {
+        let items = this.state.items;
+        let total = 0;
+        items.map((item, i) => {
+            total += item.book.final_price * item.quantity;
+        })
+        return total.toFixed(2);
+    }
+
+
+    showPrice(discount_price, book_price) {
+        let haveDiscount = (discount_price !== null) ? true : false;
+        return (
+            haveDiscount ?
+                <>
+                    <h5>${discount_price}</h5>
+                    <span style={{ color: "#CCCECF" }}><del>${book_price}</del></span>
+                </>
+                :
+                <>
+                    <h5>${book_price}</h5>
+                </>
+        );
+    }
+
+    increaseQuantity(book_id) {
+        let items = [...this.state.items];
+        let productIndex = items.findIndex((obj => obj.book.id === book_id));
+        if (items[productIndex].quantity === 8) return;
+        let item = {
+            ...items[productIndex],
+            quantity: items[productIndex].quantity + 1
+        }
+
+        items[productIndex] = item;
+        this.setState({ items }, () => {
+            localStorage.setItem('cart', JSON.stringify(this.state.items));
+        });
+    }
+
+    decreaseQuantity(book_id) {
+        let items = [...this.state.items];
+        let productIndex = items.findIndex((obj => obj.book.id === book_id));
+        if (items[productIndex].quantity === 1) {
+            this.deleteItem(book_id);
+            return;
+        }
+        let item = {
+            ...items[productIndex],
+            quantity: items[productIndex].quantity - 1
+        }
+
+        items[productIndex] = item;
+        this.setState({ items }, () => {
+            localStorage.setItem('cart', JSON.stringify(this.state.items));
+        });
+    }
+
+
+    deleteItem(book_id) {
+        if (confirm('Do you want to remove this book from the cart?')) {
+            let items = [...this.state.items];
+            items = items.filter(item => item.book.id !== book_id);
+            this.setState({ items }, () => {
+                localStorage.setItem('cart', JSON.stringify(this.state.items));
+                this.props.GET_NUMBER_CART();
+            });
+        } else {
+            return;
+        }
+
+    }
+
+    showItems() {
+        const items = this.state.items;
+        if (items instanceof Array) {
+            if (items.length === 0) {
+                return (<tr><td></td><td>There are no book in cart</td></tr>)
+            }
+
+            return items.map((item, i) => {
+                return (
+                    <tr key={i}>
+                        <td className="col-2 align-items-center">
+                            <img
+                                src={item.book.book_cover_photo === null ? ("http://placehold.it/150x170") : ("assets/bookcover/" + item.book.book_cover_photo + ".jpg")}
+                                className="card-img-top" alt="Image"
+                                style={{
+                                    width: "100%",
+                                    height: "170px"
+
+                                }}
+                            />
+                        </td>
+                        <td className="col-4 align-items-center">
+                            <h4>{item.book.book_title}</h4>
+                            <span>{item.book.author_name}</span>
+                        </td>
+                        <td className="col-2 align-items-center">
+                            {this.showPrice(item.book.discount_price, item.book.book_price)}
+                        </td>
+                        <td className="col-2 align-items-center">
+                            <div className="row">
+                                <button onClick={() => { this.decreaseQuantity(item.book.id) }} className="btn btn-default border rounded-0 col-2">-</button>
+                                <input className="form-control rounded-0 col-8" type="text" onChange={(e) => { }} value={item.quantity} style={{ textAlign: 'center' }} />
+                                <button onClick={() => { this.increaseQuantity(item.book.id) }} className="btn btn-default border rounded-0 col-2">+</button>
+                            </div>
+                        </td>
+                        <td className=" text-center col-2 mx-auto align-items-center text-align-right">
+                            <h5>${(item.book.final_price * item.quantity).toFixed(2)}</h5>
+                        </td>
+                    </tr>
+                );
+            });
+        }
+    }
+
+
     render() {
         return (
             <div className="container-fluid">
                 <div className="container-fluid pb-3" style={{ width: '90%' }}>
                     <div className="row pt-3">
                         <div className="mr-2">
-                            <h5>Your Cart: 3 items</h5>
+                            <h5>Your Cart: {this.state.items.length} {this.state.items.length <= 1 ? 'item' : 'items'}</h5>
                         </div>
                     </div>
                     <div className="row">
@@ -47,27 +172,7 @@ export default class Cart extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td className="col-2 align-items-center"><img src="https://dummyimage.com/150x170/55595c/fff" /> </td>
-                                            <td className="col-4 align-items-center">
-                                                <h4>Nobis iusto consequatur animi.</h4>
-                                                <span>Author name</span>
-                                            </td>
-                                            <td className="col-2 align-items-center">
-                                                <h5>$29.98</h5>
-                                                <span style={{ color: "#CCCECF" }}><del>$49.99</del></span>
-                                            </td>
-                                            <td className="col-2 align-items-center">
-                                                <div className="row">
-                                                    <button onClick={() => { }} className="btn btn-default border rounded-0 col-2">-</button>
-                                                    <input className="form-control rounded-0 col-8" type="text" onChange={(e) => { }} value={1} style={{ textAlign: 'center' }} />
-                                                    <button onClick={() => { }} className="btn btn-default border rounded-0 col-2">+</button>
-                                                </div>
-                                            </td>
-                                            <td className=" text-center col-2 mx-auto align-items-center text-align-right">
-                                                <h5>$59.98</h5>
-                                            </td>
-                                        </tr>
+                                        {this.showItems()}
                                     </tbody>
                                 </table>
                             </div>
@@ -80,7 +185,7 @@ export default class Cart extends Component {
                                     </div>
                                 </div>
                                 <div className="row mx-5 mt-3 w-100 justify-content-center">
-                                    <h4 className="mr-1">$99.97</h4>
+                                    <h4 className="mr-1">${this.calculateTotalPrice()}</h4>
                                 </div>
 
                                 <div className="row mx-5 w-100">
@@ -97,3 +202,13 @@ export default class Cart extends Component {
         );
     }
 }
+
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        GET_NUMBER_CART: () => dispatch(GetNumberCart()),
+
+    };
+}
+export default connect(null, mapDispatchToProps)(Cart)

@@ -57,9 +57,9 @@ export default class Filter extends Component {
                 //href={`/#/shop/category-${category.id}`}
                 return <li key={i}>
                     <Link
-                        to={`/#/shop/?filter=category-${category.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`}
+                        to={`/shop/?filter=category-${category.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`}
                         onClick={() => this.updateParams('category-' + category.id, this.getFilterNameByParam(this.props.currentFilter))}>
-                        {category.category_name}
+                        {category.category_name.charAt(0).toUpperCase() + category.category_name.slice(1)}
                     </Link></li>
             });
         }
@@ -76,7 +76,7 @@ export default class Filter extends Component {
                 //href={`/#/shop/author-${author.id}`}
                 return <li key={i}>
                     <Link
-                        to={`/#/shop/?filter=author-${author.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`}
+                        to={`/shop/?filter=author-${author.id}&sort=${this.props.currentSort}&paginate=${this.props.currentPaginate}`}
                         onClick={() => this.updateParams('author-' + author.id, this.getFilterNameByParam(this.props.currentFilter))}>
                         {author.author_name}
                     </Link></li>
@@ -145,27 +145,27 @@ export default class Filter extends Component {
                                 <div className="accordion-body">
                                     <ul className="custom-menu">
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-1&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-1', this.getFilterNameByParam(this.props.currentFilter))}>
+                                            <Link to={`/shop/?filter=rating-1&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-1', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 1 Star
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-2&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-2', this.getFilterNameByParam(this.props.currentFilter))}>
+                                            <Link to={`/shop/?filter=rating-2&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-2', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 2 Star
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-3&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-3', this.getFilterNameByParam(this.props.currentFilter))}>
+                                            <Link to={`/shop/?filter=rating-3&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-3', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 3 Star
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-4&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-4', this.getFilterNameByParam(this.props.currentFilter))}>
+                                            <Link to={`/shop/?filter=rating-4&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-4', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 4 Star
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={`/#/shop/?filter=rating-5&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-5', this.getFilterNameByParam(this.props.currentFilter))}>
+                                            <Link to={`/shop/?filter=rating-5&sort=${this.props.currentSort}`} onClick={() => this.updateParams('rating-5', this.getFilterNameByParam(this.props.currentFilter))}>
                                                 5 Star
                                             </Link>
                                         </li>

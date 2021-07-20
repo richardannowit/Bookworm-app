@@ -23,7 +23,6 @@ class Shop extends Component {
 
     async componentDidMount() {
         await this.updateState();
-        console.log(this.state.paginate);
         await this.getBookData(1, this.state.filter, this.state.sort, this.state.paginate);
 
     }
@@ -90,7 +89,6 @@ class Shop extends Component {
         function getFilterNameByParam(param) {
             let result = '';
             let paramArray = param.split('-');
-            console.log(authors);
             let filter_type = paramArray[0];
             let id = paramArray[1];
             if (filter_type === 'category') {
@@ -112,7 +110,6 @@ class Shop extends Component {
             }
             return result;
         }
-        console.log(getFilterNameByParam(this.state.filter));
         this.setState({
             filter_name: getFilterNameByParam(this.state.filter)
         });
@@ -123,7 +120,6 @@ class Shop extends Component {
         this.setState({
             sort: param
         })
-        console.log(this.state.filter);
         this.getBookData(1, this.state.filter, param, this.state.paginate);
     }
 
@@ -154,79 +150,77 @@ class Shop extends Component {
 
     render() {
         return (
-            <Router>
-                <div className="container-fluid">
-                    <div className="container-fluid pb-3" style={{ width: '90%' }}>
-                        <div className="row pt-3">
-                            <div className="d-inline mr-2">
-                                <h5>Books</h5>
-                            </div>
-                            <div className="d-inline">
-                                <span>(Filtered by {this.state.filter_name})</span>
-                            </div>
+            <div className="container-fluid">
+                <div className="container-fluid pb-3" style={{ width: '90%' }}>
+                    <div className="row pt-3">
+                        <div className="d-inline mr-2">
+                            <h5>Books</h5>
                         </div>
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <hr />
-                            </div>
+                        <div className="d-inline">
+                            <span>(Filtered by {this.state.filter_name})</span>
                         </div>
                     </div>
-
-
-                    <div className="container-fluid pb-5 mb-2" style={{ width: '90%' }}>
-                        <div className="row">
-                            <aside className="col-lg-2">
-                                <Filter
-                                    getFilter={this.updateFilter}
-                                    currentSort={this.state.sort}
-                                    currentFilter={this.state.filter}
-                                    getFilterName={this.getFilterName}
-                                    currentPaginate={this.state.paginate}
-                                />
-                            </aside>
-
-                            <section className="col-lg-10" >
-                                <div className="container">
-                                    <div className="row d-flex">
-                                        <span className="mr-auto">{`Showing ${(this.state.data.current_page - 1) * this.state.data.per_page + 1}-${this.state.data.to} of ${this.state.data.total} books`}</span>
-                                        <div className="dropdown mr-3">
-                                            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {this.showLabelSortDropdown()}
-                                            </button>
-                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <Link className="dropdown-item" onClick={() => this.updateSortType('on-sale')} to={`/#/shop/?filter=${this.state.filter}&sort=on-sale&paginate=${this.state.paginate}`}>Sort by on sale</Link>
-                                                <Link className="dropdown-item" onClick={() => this.updateSortType('popular')} to={`/#/shop/?filter=${this.state.filter}&sort=popular`}>Sort by popularity</Link>
-                                                <Link className="dropdown-item" onClick={() => this.updateSortType('price-ascending')} to={`/#/shop/?filter=${this.state.filter}&sort=price-ascending&paginate=${this.state.paginate}`}>Sort by price: low to high</Link>
-                                                <Link className="dropdown-item" onClick={() => this.updateSortType('price-descending')} to={`/#/shop/?filter=${this.state.filter}&sort=price-descending&paginate=${this.state.paginate}`}>Sort by price: high to low</Link>
-                                            </div>
-                                        </div>
-                                        <div className="dropdown">
-                                            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {this.showLabelPaginateDropdown()}
-                                            </button>
-                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <Link className="dropdown-item" onClick={() => this.updatePaginate('5')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=5`}>Show 5</Link>
-                                                <Link className="dropdown-item" onClick={() => this.updatePaginate('15')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=15`}>Show 15</Link>
-                                                <Link className="dropdown-item" onClick={() => this.updatePaginate('20')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=20`}>Show 20</Link>
-                                                <Link className="dropdown-item" onClick={() => this.updatePaginate('25')} to={`/#/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=25`}>Show 25</Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <BookList books={this.state.data.data} />
-
-                                    <div className="row justify-content-center pt-3">
-                                        <nav aria-label="...">
-                                            <ul className="pagination">
-                                                {this.showPagination()}
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </section>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <hr />
                         </div>
                     </div>
                 </div>
-            </Router >
+
+
+                <div className="container-fluid pb-5 mb-2" style={{ width: '90%' }}>
+                    <div className="row">
+                        <aside className="col-lg-2">
+                            <Filter
+                                getFilter={this.updateFilter}
+                                currentSort={this.state.sort}
+                                currentFilter={this.state.filter}
+                                getFilterName={this.getFilterName}
+                                currentPaginate={this.state.paginate}
+                            />
+                        </aside>
+
+                        <section className="col-lg-10" >
+                            <div className="container">
+                                <div className="row d-flex">
+                                    <span className="mr-auto">{`Showing ${(this.state.data.current_page - 1) * this.state.data.per_page + 1}-${this.state.data.to} of ${this.state.data.total} books`}</span>
+                                    <div className="dropdown mr-3">
+                                        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {this.showLabelSortDropdown()}
+                                        </button>
+                                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <Link className="dropdown-item" onClick={() => this.updateSortType('on-sale')} to={`/shop/?filter=${this.state.filter}&sort=on-sale&paginate=${this.state.paginate}`}>Sort by on sale</Link>
+                                            <Link className="dropdown-item" onClick={() => this.updateSortType('popular')} to={`/shop/?filter=${this.state.filter}&sort=popular`}>Sort by popularity</Link>
+                                            <Link className="dropdown-item" onClick={() => this.updateSortType('price-ascending')} to={`/shop/?filter=${this.state.filter}&sort=price-ascending&paginate=${this.state.paginate}`}>Sort by price: low to high</Link>
+                                            <Link className="dropdown-item" onClick={() => this.updateSortType('price-descending')} to={`/shop/?filter=${this.state.filter}&sort=price-descending&paginate=${this.state.paginate}`}>Sort by price: high to low</Link>
+                                        </div>
+                                    </div>
+                                    <div className="dropdown">
+                                        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {this.showLabelPaginateDropdown()}
+                                        </button>
+                                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <Link className="dropdown-item" onClick={() => this.updatePaginate('5')} to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=5`}>Show 5</Link>
+                                            <Link className="dropdown-item" onClick={() => this.updatePaginate('15')} to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=15`}>Show 15</Link>
+                                            <Link className="dropdown-item" onClick={() => this.updatePaginate('20')} to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=20`}>Show 20</Link>
+                                            <Link className="dropdown-item" onClick={() => this.updatePaginate('25')} to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=25`}>Show 25</Link>
+                                        </div>
+                                    </div>
+                                </div>
+                                <BookList books={this.state.data.data} />
+
+                                <div className="row justify-content-center pt-3">
+                                    <nav aria-label="...">
+                                        <ul className="pagination">
+                                            {this.showPagination()}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

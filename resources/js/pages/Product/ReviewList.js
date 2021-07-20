@@ -118,7 +118,7 @@ export default class ReviewList extends Component {
                             <span className="d-inline">{this.state.filter !== '0' && `(Filtered by ${this.state.filter} star)`}</span>
                         </div>
                         <div className="row my-2">
-                            <h4 className="d-block">{this.props.AR} Star {this.props.count_reviews}</h4>
+                            <h4 className="d-block">{parseFloat(this.props.AR).toFixed(1)} Star {this.props.count_reviews}</h4>
                         </div>
 
                         <div className="row">
@@ -130,7 +130,11 @@ export default class ReviewList extends Component {
                             <small onClick={() => this.handleChange('1', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">1 star ({this.props.countReview[1]})</small>
                         </div>
                         <div className="row d-flex my-3 mr-3">
-                            <span className="mr-auto">{`Showing ${(this.props.reviews.current_page - 1) * this.props.reviews.per_page + 1}-${this.props.reviews.to} of ${this.props.reviews.total} reviews`}</span>
+                            {(this.props.reviews.total !== 0) ?
+                                <span className="mr-auto">{`Showing ${(this.props.reviews.current_page - 1) * this.props.reviews.per_page + 1}-${this.props.reviews.to} of ${this.props.reviews.total} reviews`}</span>
+                                :
+                                <span className="mr-auto">{`Showing 0 reviews`}</span>
+                            }
                             <div className="dropdown mr-3">
                                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {this.getSortLabel(this.state.sort)}
