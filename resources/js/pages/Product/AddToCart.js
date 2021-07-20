@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css'
 import { connect } from 'react-redux'
 import { GetNumberCart } from '../../components/actions'
 
@@ -58,8 +60,18 @@ class AddToCart extends Component {
         }
 
         localStorage.setItem('cart', JSON.stringify(cartFromStorage));
-
         this.props.GET_NUMBER_CART();
+
+        toast.success('This book has been added to your cart!', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+
     }
 
 
@@ -87,6 +99,17 @@ class AddToCart extends Component {
                         <button onClick={() => this.addToCart(this.props.bookDetails)} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Add to cart</strong></button>
                     </div>
                 </div>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </>
         )
     }
