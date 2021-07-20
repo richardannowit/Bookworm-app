@@ -23,7 +23,7 @@ class ShopController extends Controller
             ->sortBy($sort)
             ->paginate((int) $paginate)
             ->appends(['filter' => $filter, 'sort' => $sort, 'paginate' => $paginate])
-            ->withPath('/#/shop/');
+            ->withPath('/shop/');
     }
 
     public function getFilter()
