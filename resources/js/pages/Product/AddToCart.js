@@ -13,16 +13,16 @@ class AddToCart extends Component {
 
 
     showPrice() {
-        let haveDiscount = (this.props.discount_price !== null) ? true : false;
+        let haveDiscount = (this.props.bookDetails.discount_price !== null) ? true : false;
         return (
             haveDiscount ?
                 <>
-                    <span className="mr-1"><del>${this.props.book_price}</del></span>
-                    <h5 className="mr-2">${this.props.discount_price}</h5>
+                    <span className="mr-1"><del>${this.props.bookDetails.book_price}</del></span>
+                    <h5 className="mr-2">${this.props.bookDetails.discount_price}</h5>
                 </>
                 :
                 <>
-                    <h5 className="mr-2">${this.props.book_price}</h5>
+                    <h5 className="mr-2">${this.props.bookDetails.book_price}</h5>
                 </>
         );
     }
@@ -43,13 +43,14 @@ class AddToCart extends Component {
         });
     }
 
-    addToCart(book_id) {
+    addToCart(book) {
+        let book_id = book.id;
         let bookPackage = {
-            "id": book_id,
+            "book": book,
             "quantity": this.state.quantity
         }
         let cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
-        let productIndex = cartFromStorage.findIndex((obj => obj.id === book_id));
+        let productIndex = cartFromStorage.findIndex((obj => obj.book.id === book_id));
         if (productIndex !== -1) {
             cartFromStorage[productIndex].quantity = this.state.quantity;
         } else {
@@ -83,7 +84,7 @@ class AddToCart extends Component {
 
                 <div className="row mx-5 w-100">
                     <div className="input-group my-2  justify-content-center ">
-                        <button onClick={() => this.addToCart(this.props.book_id)} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Add to cart</strong></button>
+                        <button onClick={() => this.addToCart(this.props.bookDetails)} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Add to cart</strong></button>
                     </div>
                 </div>
             </>

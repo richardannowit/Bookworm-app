@@ -94,9 +94,7 @@ export default class Product extends Component {
                         <div className="col-lg-4">
                             <div className="row border rounded shadow-sm ml-0 mb-5 pb-4">
                                 <AddToCart
-                                    book_id={this.state.bookDetails.id}
-                                    discount_price={this.state.bookDetails.discount_price}
-                                    book_price={this.state.bookDetails.book_price}
+                                    bookDetails={this.state.bookDetails}
                                 />
                             </div>
                             <div className="row border rounded shadow-sm ml-0 mt-5" style={{ minHeight: '300px' }}>

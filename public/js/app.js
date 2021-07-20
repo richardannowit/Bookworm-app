@@ -3295,21 +3295,21 @@ var AddToCart = /*#__PURE__*/function (_Component) {
   _createClass(AddToCart, [{
     key: "showPrice",
     value: function showPrice() {
-      var haveDiscount = this.props.discount_price !== null ? true : false;
+      var haveDiscount = this.props.bookDetails.discount_price !== null ? true : false;
       return haveDiscount ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
           className: "mr-1",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("del", {
-            children: ["$", this.props.book_price]
+            children: ["$", this.props.bookDetails.book_price]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h5", {
           className: "mr-2",
-          children: ["$", this.props.discount_price]
+          children: ["$", this.props.bookDetails.discount_price]
         })]
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h5", {
           className: "mr-2",
-          children: ["$", this.props.book_price]
+          children: ["$", this.props.bookDetails.book_price]
         })
       });
     }
@@ -3333,14 +3333,15 @@ var AddToCart = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "addToCart",
-    value: function addToCart(book_id) {
+    value: function addToCart(book) {
+      var book_id = book.id;
       var bookPackage = {
-        "id": book_id,
+        "book": book,
         "quantity": this.state.quantity
       };
       var cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
       var productIndex = cartFromStorage.findIndex(function (obj) {
-        return obj.id === book_id;
+        return obj.book.id === book_id;
       });
 
       if (productIndex !== -1) {
@@ -3402,7 +3403,7 @@ var AddToCart = /*#__PURE__*/function (_Component) {
             className: "input-group my-2  justify-content-center ",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               onClick: function onClick() {
-                return _this2.addToCart(_this2.props.book_id);
+                return _this2.addToCart(_this2.props.bookDetails);
               },
               className: "btn btn-default btn-block border rounded-0 mb-2 bg-light",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("strong", {
@@ -3843,9 +3844,7 @@ var Product = /*#__PURE__*/function (_Component) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 className: "row border rounded shadow-sm ml-0 mb-5 pb-4",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_AddToCart__WEBPACK_IMPORTED_MODULE_4__.default, {
-                  book_id: this.state.bookDetails.id,
-                  discount_price: this.state.bookDetails.discount_price,
-                  book_price: this.state.bookDetails.book_price
+                  bookDetails: this.state.bookDetails
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 className: "row border rounded shadow-sm ml-0 mt-5",
