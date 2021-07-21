@@ -6,16 +6,18 @@ import Header from "./pages/layouts/Header";
 import "./app.css";
 import { Provider } from 'react-redux';
 import store from './components/stores'
+import Footer from "./pages/layouts/Footer";
 
 
 function Main() {
     return (
         <HashRouter>
-            <div className="container-fluid">
+            <div className="wrapper" style={{ position: 'relative' }}>
                 <Header></Header>
                 <div style={{ marginTop: "70px" }}>
                     <Router />
                 </div>
+                <Footer></Footer>
             </div>
         </HashRouter >
     );

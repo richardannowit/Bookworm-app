@@ -101,3 +101,18 @@ h2 {
     border: solid 1px #f75454 !important;
     color: #fff;
 }
+
+/* Footer */
+
+.footer-icon {
+    background-color: #33383b;
+    color: #ffffff;
+    font-size: 25px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 42px;
+    margin: 10px 15px;
+    vertical-align: middle;
+}

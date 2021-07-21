@@ -3,8 +3,8 @@ import React, { Component } from "react";
 export default class About extends Component {
     render() {
         return (
-            <div className="container-fluid">
-                <div className="container-fluid pb-3" style={{ width: '90%' }}>
+            <div className="container-fluid pb-5" style={{ minHeight: '500px' }}>
+                <div className="container-fluid" style={{ width: '90%' }}>
                     <div className="row pt-3">
                         <div className="mr-2">
                             <h5>About Us</h5>
