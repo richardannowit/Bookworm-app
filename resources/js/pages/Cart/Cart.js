@@ -12,9 +12,10 @@ import "./index.css"
 class Cart extends Component {
     constructor(props) {
         super(props);
+        this.timer = null;
         this.state = {
             items: [],
-            total: 0
+            total: 0,
         };
     }
 
@@ -23,6 +24,14 @@ class Cart extends Component {
         this.setState({
             items: [...cartFromStorage]
         });
+    }
+
+
+    componentWillUnmount() {
+        this._mounted = false;
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
     }
 
 
@@ -157,7 +166,7 @@ class Cart extends Component {
                     total: 0
                 });
                 this.props.GET_NUMBER_CART();
-                setTimeout(function () {
+                this.timer = setTimeout(function () {
                     window.location = '/#/'
                 }, 10000);
             }).catch(error => {
