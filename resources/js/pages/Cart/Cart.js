@@ -287,7 +287,12 @@ class Cart extends Component {
 
                                 <div className="row mx-5 w-100">
                                     <div className="input-group my-2  justify-content-center ">
-                                        <button onClick={() => this.placeOrder()} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Place order</strong></button>
+                                        {this.state.items.length === 0 ?
+                                            <button onClick={() => { }} className="btn btn-default btn-block border rounded-0 mb-2 bg-light" disabled>Place order</button>
+                                            :
+                                            <button onClick={() => this.placeOrder()} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Place order</strong></button>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
