@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css'
 import { GetNumberCart } from '../../components/actions'
 import {
     Link,
@@ -83,21 +86,99 @@ class Cart extends Component {
 
 
     deleteItem(book_id) {
-        if (confirm('Do you want to remove this book from the cart?')) {
-            let items = [...this.state.items];
-            items = items.filter(item => item.book.id !== book_id);
-            this.setState({ items }, () => {
-                localStorage.setItem('cart', JSON.stringify(this.state.items));
-                this.props.GET_NUMBER_CART();
-            });
-        } else {
-            return;
-        }
+        //if (confirm('Do you want to remove this book from the cart?')) {
+        let items = [...this.state.items];
+        items = items.filter(item => item.book.id !== book_id);
+        this.setState({ items }, () => {
+            localStorage.setItem('cart', JSON.stringify(this.state.items));
+            this.props.GET_NUMBER_CART();
+        });
+        // } else {
+        //     return;
+        // }
 
     }
 
     openBookDetails(id) {
         window.open('/#/product/' + id, '_blank').focus();
+    }
+
+
+    placeOrder() {
+        const items = this.state.items;
+        let order_books = {
+            data: []
+        };
+        let orders = [];
+        if (items instanceof Array) {
+            if (items.length === 0) {
+                toast.error('Your cart is empty!', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                return;
+            }
+
+            items.map((item, i) => {
+                let orderItem = {
+                    book_id: item.book.id,
+                    quantity: item.quantity,
+                    price: item.book.final_price
+                };
+                orders.push(orderItem);
+            })
+
+
+            order_books = {
+                ...order_books,
+                data: orders
+            }
+
+
+            axios.post('/api/orders', order_books).then((response) => {
+                console.log(response);
+                toast.success('Order successfull!', {
+                    position: "bottom-right",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
+                localStorage.setItem('cart', JSON.stringify([]));
+                this.setState({
+                    items: [],
+                    total: 0
+                });
+                this.props.GET_NUMBER_CART();
+                setTimeout(function () {
+                    window.location = '/#/'
+                }, 10000);
+            }).catch(error => {
+                let invalid_books = error.response.data.invalid_ids;
+                invalid_books.map((id, i) => {
+                    this.deleteItem(id);
+                })
+
+                toast.error('Order unsuccessful because some book are unavailable!', {
+                    position: "bottom-right",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
+            });
+        }
     }
 
     showItems() {
@@ -198,14 +279,24 @@ class Cart extends Component {
 
                                 <div className="row mx-5 w-100">
                                     <div className="input-group my-2  justify-content-center ">
-                                        <button onClick={() => { }} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Place order</strong></button>
+                                        <button onClick={() => this.placeOrder()} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Place order</strong></button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={10000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </div>
         );
     }
