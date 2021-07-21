@@ -9,8 +9,8 @@ export default class NotFound extends Component {
                     src="https://www.pngitem.com/pimgs/m/561-5616833_image-not-found-png-not-found-404-png.png"
                     alt="not-found"
                 />
-                <Link to="/" className="link-home">
-                    Go Home
+                <Link to="/" className="link-home ml-5">
+                    <button className="btn btn-primary">Go Home</button>
                 </Link>
             </div>
         )

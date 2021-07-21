@@ -84,6 +84,7 @@ class Shop extends Component {
 
     }
 
+
     getFilterName(categories, authors) {
 
         function getFilterNameByParam(param) {
@@ -94,7 +95,7 @@ class Shop extends Component {
             if (filter_type === 'category') {
                 categories.map((category, i) => {
                     if (category.id == id) {
-                        result = 'Category ' + category.category_name;
+                        result = 'Category ' + category.category_name.charAt(0).toUpperCase() + category.category_name.slice(1);
                         return;
                     }
                 });
@@ -183,7 +184,12 @@ class Shop extends Component {
                         <section className="col-lg-10" >
                             <div className="container">
                                 <div className="row d-flex">
-                                    <span className="mr-auto">{`Showing ${(this.state.data.current_page - 1) * this.state.data.per_page + 1}-${this.state.data.to} of ${this.state.data.total} books`}</span>
+                                    {(this.state.data.total !== 0) ?
+                                        <span className="mr-auto">{`Showing ${(this.state.data.current_page - 1) * this.state.data.per_page + 1}-${this.state.data.to} of ${this.state.data.total} books`}</span>
+                                        :
+                                        <span className="mr-auto">{`Showing 0 book`}</span>
+                                    }
+
                                     <div className="dropdown mr-3">
                                         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             {this.showLabelSortDropdown()}
