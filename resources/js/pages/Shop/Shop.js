@@ -106,8 +106,9 @@ class Shop extends Component {
                         return;
                     }
                 });
-            } else {
+            } else if (filter_type === 'rating') {
                 result = 'Rating ' + id + ' star';
+                return;
             }
             return result;
         }
@@ -157,9 +158,14 @@ class Shop extends Component {
                         <div className="d-inline mr-2">
                             <h5>Books</h5>
                         </div>
-                        <div className="d-inline">
-                            <span>(Filtered by {this.state.filter_name})</span>
-                        </div>
+                        {this.state.filter_name !== '' ?
+                            <div className="d-inline">
+                                <span>(Filtered by {this.state.filter_name})</span>
+                            </div>
+                            :
+                            <div className="d-inline">
+                            </div>
+                        }
                     </div>
                     <div className="row">
                         <div className="col-lg-12">
