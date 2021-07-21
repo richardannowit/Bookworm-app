@@ -64,7 +64,7 @@ export default class Product extends Component {
                 <div className="container-fluid pb-3" style={{ width: '90%' }}>
                     <div className="row pt-3">
                         <div className="mr-2">
-                            <h5>Category Name</h5>
+                            <h5>{'Category ' + this.state.bookDetails.category_name}</h5>
                         </div>
                     </div>
                     <div className="row">

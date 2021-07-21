@@ -44,11 +44,19 @@ class Book extends Model
         ]);
     }
 
-    public function scopeGetAuthor($query)
+    public function scopeGetAuthorName($query)
     {
         return $query->addSelect([
             'author_name' => Author::select('author_name')
                 ->whereColumn('id', 'books.author_id')
+        ]);
+    }
+
+    public function scopeGetCategoryName($query)
+    {
+        return $query->addSelect([
+            'category_name' => Category::select('category_name')
+                ->whereColumn('id', 'books.category_id')
         ]);
     }
 

@@ -15,7 +15,8 @@ class ProductController extends Controller
             return response()->json(['error' => 'Book Not found'], 404);
         }
         return Book::where('id', $id)
-            ->getAuthor()
+            ->getAuthorName()
+            ->getCategoryName()
             ->getAverageStar()
             ->getFinalPrice()
             ->getDateDiscount()
