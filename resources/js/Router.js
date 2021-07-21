@@ -5,6 +5,7 @@ import Shop from "./pages/Shop/Shop";
 import Cart from "./pages/Cart/Cart";
 import About from "./pages/About";
 import Product from './pages/Product/Product';
+import NotFound from "./pages/NotFound";
 
 export default class Router extends Component {
     render() {
@@ -15,9 +16,7 @@ export default class Router extends Component {
                 <Route exact path="/cart" component={Cart} />
                 <Route exact path="/about" component={About} />
                 <Route exact path="/product/:id" component={Product} />
-                {/* <Route exact path="/add-product" component={AddProduct} />
-                <Route exact path="/edit-product/:id" component={EditProduct} />
-                <Route exact path="/product" component={Product} /> */}
+                <Route path="*" component={NotFound} />
             </Switch>
         );
     }

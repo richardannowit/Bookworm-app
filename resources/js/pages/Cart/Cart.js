@@ -141,7 +141,6 @@ class Cart extends Component {
 
 
             axios.post('/api/orders', order_books).then((response) => {
-                console.log(response);
                 toast.success('Order successfull!', {
                     position: "bottom-right",
                     autoClose: 10000,
