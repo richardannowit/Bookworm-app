@@ -106,28 +106,54 @@ export default class ReviewList extends Component {
         return 'Show ' + key;
     }
 
+    showFilterOption() {
+        let stars = [0, 5, 4, 3, 2, 1];
+        const { filter, sort, paginate, pageNumber } = this.state;
+        return stars.map((star, i) => {
+            let label = star + " star ";
+            if (star === 0) {
+                label = "Total ";
+            }
+            return (
+                <small
+                    key={i}
+                    onClick={() => this.handleChange(star, sort, paginate, pageNumber)}
+                    className="filter mr-3"
+                    style={filter == star ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
+                >
+                    {label} ({this.props.countReview[star]})
+                </small>
+            );
+        })
+    }
 
 
     render() {
+        const { filter, sort, paginate, pageNumber } = this.state;
         return (
             <>
                 <div className="row mx-4 my-4 w-100" id="header-review">
                     <div className="col-lg-12 mx-2 my-2">
                         <div className="row align-items-center">
                             <h5 className="d-inline mr-2 mb-1">Customer Reviews</h5>
-                            <span className="d-inline">{this.state.filter !== '0' && `(Filtered by ${this.state.filter} star)`}</span>
+                            <span className="d-inline">{filter !== '0' && `(Filtered by ${filter} star)`}</span>
                         </div>
                         <div className="row my-2">
-                            <h4 className="d-block">{parseFloat(this.props.AR).toFixed(1)} Star {this.props.count_reviews}</h4>
+                            {this.props.AR !== null ?
+                                <h4 className="d-block">{parseFloat(this.props.AR).toFixed(1)} Star</h4>
+                                :
+                                <h4 className="d-block">No Star</h4>
+                            }
                         </div>
 
                         <div className="row">
-                            <small onClick={() => this.handleChange('0', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">Total ({this.props.countReview[0]})</small>
-                            <small onClick={() => this.handleChange('5', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">5 star ({this.props.countReview[5]})</small>
-                            <small onClick={() => this.handleChange('4', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">4 star ({this.props.countReview[4]})</small>
-                            <small onClick={() => this.handleChange('3', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">3 star ({this.props.countReview[3]})</small>
-                            <small onClick={() => this.handleChange('2', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">2 star ({this.props.countReview[2]})</small>
-                            <small onClick={() => this.handleChange('1', this.state.sort, this.state.paginate, this.state.pageNumber)} className="filter mr-3">1 star ({this.props.countReview[1]})</small>
+                            {this.showFilterOption()}
+                            {/* <small id="start-0" onClick={() => this.handleChange('0', sort, paginate, pageNumber)} className="filter mr-3">Total ({this.props.countReview[0]})</small>
+                            <small id="start-5" onClick={() => this.handleChange('5', sort, paginate, pageNumber)} className="filter mr-3">5 star ({this.props.countReview[5]})</small>
+                            <small id="start-4" onClick={() => this.handleChange('4', sort, paginate, pageNumber)} className="filter mr-3">4 star ({this.props.countReview[4]})</small>
+                            <small id="start-3" onClick={() => this.handleChange('3', sort, paginate, pageNumber)} className="filter mr-3">3 star ({this.props.countReview[3]})</small>
+                            <small id="start-2" onClick={() => this.handleChange('2', sort, paginate, pageNumber)} className="filter mr-3">2 star ({this.props.countReview[2]})</small>
+                            <small id="start-1" onClick={() => this.handleChange('1', sort, paginate, pageNumber)} className="filter mr-3">1 star ({this.props.countReview[1]})</small> */}
                         </div>
                         <div className="row d-flex my-3 mr-3">
                             {(this.props.reviews.total !== 0) ?
@@ -137,22 +163,22 @@ export default class ReviewList extends Component {
                             }
                             <div className="dropdown mr-3">
                                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {this.getSortLabel(this.state.sort)}
+                                    {this.getSortLabel(sort)}
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a onClick={() => this.handleChange(this.state.filter, 'desc', this.state.paginate, this.state.pageNumber)} className="dropdown-item">Sort by date: newest to oldest</a>
-                                    <a onClick={() => this.handleChange(this.state.filter, 'asc', this.state.paginate, this.state.pageNumber)} className="dropdown-item">Sort by date: oldest to newest</a>
+                                    <a onClick={() => this.handleChange(filter, 'desc', paginate, pageNumber)} className="dropdown-item">Sort by date: newest to oldest</a>
+                                    <a onClick={() => this.handleChange(filter, 'asc', paginate, pageNumber)} className="dropdown-item">Sort by date: oldest to newest</a>
                                 </div>
                             </div>
                             <div className="dropdown">
                                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {this.getPaginateLabel(this.state.paginate)}
+                                    {this.getPaginateLabel(paginate)}
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a onClick={() => this.handleChange(this.state.filter, this.state.sort, '5', this.state.pageNumber)} className="dropdown-item">Show 5</a>
-                                    <a onClick={() => this.handleChange(this.state.filter, this.state.sort, '15', this.state.pageNumber)} className="dropdown-item">Show 15</a>
-                                    <a onClick={() => this.handleChange(this.state.filter, this.state.sort, '20', this.state.pageNumber)} className="dropdown-item">Show 20</a>
-                                    <a onClick={() => this.handleChange(this.state.filter, this.state.sort, '25', this.state.pageNumber)} className="dropdown-item">Show 25</a>
+                                    <a onClick={() => this.handleChange(filter, sort, '5', pageNumber)} className="dropdown-item">Show 5</a>
+                                    <a onClick={() => this.handleChange(filter, sort, '15', pageNumber)} className="dropdown-item">Show 15</a>
+                                    <a onClick={() => this.handleChange(filter, sort, '20', pageNumber)} className="dropdown-item">Show 20</a>
+                                    <a onClick={() => this.handleChange(filter, sort, '25', pageNumber)} className="dropdown-item">Show 25</a>
                                 </div>
                             </div>
                         </div>
