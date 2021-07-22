@@ -17,7 +17,8 @@ class HomeController extends Controller
 
     public function getRecommendedBooks()
     {
-        return Book::has('reviews')
+        return Book::with('discount', 'reviews')
+            ->has('reviews')
             ->getAverageStar()
             ->getFinalPrice()
             ->getDiscountPrice()
@@ -32,5 +33,6 @@ class HomeController extends Controller
         return Book::sortByPopular()
             ->limit(8)
             ->get();
+        // ->toSql();
     }
 }

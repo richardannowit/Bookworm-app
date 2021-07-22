@@ -123,7 +123,8 @@ class Book extends Model
 
     public function scopeSortByPopular($query)
     {
-        return $query->withCount('reviews')
+        return $query->with('discount', 'reviews')
+            ->withCount('reviews')
             ->getFinalPrice()
             ->getDiscountPrice()
             ->orderByDesc('reviews_count')

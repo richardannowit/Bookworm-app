@@ -16,7 +16,8 @@ class ProductController extends Controller
         if (empty($query) || $id === null) {
             return response()->json(['error' => 'Book Not found'], 404);
         }
-        return Book::where('id', $id)
+        return Book::with('author', 'category', 'reviews', 'discount')
+            ->where('id', $id)
             ->getAuthorName()
             ->getCategoryName()
             ->getAverageStar()
