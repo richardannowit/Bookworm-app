@@ -100,7 +100,7 @@ export default class Product extends Component {
                             </div>
                             <div className="row border rounded shadow-sm mr-0 mt-5">
                                 <ReviewList
-                                    AR={this.state.bookDetails.AR}
+                                    average_star={this.state.bookDetails.average_star}
                                     reviews={this.state.reviews}
                                     changeReviewList={this.handleChangeReviewList}
                                     countReview={this.state.count_reviews}

@@ -139,8 +139,8 @@ export default class ReviewList extends Component {
                             <span className="d-inline">{filter !== '0' && `(Filtered by ${filter} star)`}</span>
                         </div>
                         <div className="row my-2">
-                            {this.props.AR !== null ?
-                                <h4 className="d-block">{parseFloat(this.props.AR).toFixed(1)} Star</h4>
+                            {this.props.average_star !== null ?
+                                <h4 className="d-block">{parseFloat(this.props.average_star).toFixed(1)} Star</h4>
                                 :
                                 <h4 className="d-block">No Star</h4>
                             }

@@ -41,6 +41,14 @@ class Book extends Model
         return $query->addSelect([
             'sub_price' => Discount::select(\DB::raw('books.book_price - discounts.discount_price'))
                 ->whereColumn('book_id', 'books.id')
+
+                ->where(function ($query) {
+                    $query->where('discount_start_date', '<=', now())
+                        ->where(function ($query) {
+                            $query->where('discount_end_date', '>=', now())
+                                ->orWhereNull('discount_end_date');
+                        });
+                })
         ]);
     }
 
@@ -65,7 +73,7 @@ class Book extends Model
     {
         return $query //->has('reviews')
             ->addSelect([
-                'AR' => Review::select(\DB::raw('SUM(cast(reviews.rating_start AS DOUBLE PRECISION))/COUNT(reviews.id)'))
+                'average_star' => Review::select(\DB::raw('SUM(cast(reviews.rating_start AS DOUBLE PRECISION))/COUNT(reviews.id)'))
                     ->whereColumn('book_id', 'books.id')
             ]);
     }
@@ -79,18 +87,10 @@ class Book extends Model
                 ->where(function ($query) {
                     $query->where('discount_start_date', '<=', now())
                         ->where(function ($query) {
-                            $query->whereDate('discount_end_date', '>=', now())
+                            $query->where('discount_end_date', '>=', now())
                                 ->orWhereNull('discount_end_date');
                         });
                 })
-        ]);
-    }
-
-    public function scopeGetDateDiscount($query)
-    {
-        return $query->addSelect([
-            'start' => Discount::select('discount_start_date')->whereColumn('book_id', 'books.id'),
-            'end' => Discount::select('discount_end_date')->whereColumn('book_id', 'books.id')
         ]);
     }
 
@@ -103,7 +103,7 @@ class Book extends Model
                 ->where(function ($query) {
                     $query->where('discount_start_date', '<=', now())
                         ->where(function ($query) {
-                            $query->whereDate('discount_end_date', '>=', now())
+                            $query->where('discount_end_date', '>=', now())
                                 ->orWhereNull('discount_end_date');
                         });
                 })
@@ -112,10 +112,11 @@ class Book extends Model
 
     public function scopeSortByOnSale($query)
     {
-        return $query->has('discount')
-            ->getFinalPrice()
-            ->getSubPrice()
+        return $query->with('discount')
+            ->has('discount')
             ->getDiscountPrice()
+            ->getSubPrice()
+            ->getFinalPrice()
             // ->orderByDesc('sub_price');
             ->orderByRaw('sub_price DESC NULLS LAST');
     }

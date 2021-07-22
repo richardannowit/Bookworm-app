@@ -21,7 +21,7 @@ class HomeController extends Controller
             ->getAverageStar()
             ->getFinalPrice()
             ->getDiscountPrice()
-            ->orderByDesc('AR')
+            ->orderByDesc('average_star')
             ->orderBy('final_price')
             ->limit(8)
             ->get();

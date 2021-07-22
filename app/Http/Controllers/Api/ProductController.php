@@ -21,7 +21,6 @@ class ProductController extends Controller
             ->getCategoryName()
             ->getAverageStar()
             ->getFinalPrice()
-            ->getDateDiscount()
             ->getDiscountPrice()
             ->get();
         // ->toSql();
