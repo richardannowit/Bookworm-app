@@ -43,7 +43,15 @@ export default class WriteReview extends Component {
             const { filter, sort, paginate, pageNumber } = this.props;
             this.props.loadReview(pageNumber, filter, sort, paginate);
         }).catch((err) => {
-            console.log(err.response);
+            toast.error(err.response.data.review_title[0], {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         });
     };
 
