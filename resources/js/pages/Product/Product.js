@@ -14,7 +14,11 @@ export default class Product extends Component {
         this.state = {
             bookDetails: [],
             reviews: [],
-            count_reviews: []
+            count_reviews: [],
+            filter: '0',
+            sort: 'desc',
+            paginate: '15',
+            pageNumber: 1
         };
         this.getReviews = this.getReviews.bind(this);
         this.handleChangeReviewList = this.handleChangeReviewList.bind(this);
@@ -55,6 +59,12 @@ export default class Product extends Component {
 
 
     async handleChangeReviewList(filter, sort, paginate, pageNumber) {
+        this.setState({
+            filter: filter,
+            sort: sort,
+            paginate: paginate,
+            pageNumber: pageNumber
+        });
         await this.getReviews(pageNumber, filter, sort, paginate);
     }
 
@@ -98,7 +108,14 @@ export default class Product extends Component {
                                 />
                             </div>
                             <div className="row border rounded shadow-sm ml-0 mt-5" style={{ minHeight: '300px' }}>
-                                <WriteReview></WriteReview>
+                                <WriteReview
+                                    book_id={this.state.bookDetails.id}
+                                    filter={this.state.filter}
+                                    sort={this.state.sort}
+                                    paginate={this.state.paginate}
+                                    pageNumber={this.state.pageNumber}
+                                    loadReview={this.getReviews}
+                                />
                             </div>
                         </div>
                     </div>
