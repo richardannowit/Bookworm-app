@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {
     Link,
 } from "react-router-dom";
+import ReactTooltip from 'react-tooltip';
 
 export default class BookCard extends Component {
 
@@ -37,7 +38,8 @@ export default class BookCard extends Component {
                         }}
                     />
                     <div className="card-body">
-                        <h6 className="card-title"
+                        <h6 data-tip={title}
+                            className="card-title"
                             style={{
                                 display: "inline-block",
                                 whiteSpace: "nowrap",
@@ -54,6 +56,7 @@ export default class BookCard extends Component {
                         <hr />
                         {this.showPrice()}
                     </div>
+                    <ReactTooltip place="bottom" backgroundColor="#F75454" />
                 </div>
             </Link>
         )
