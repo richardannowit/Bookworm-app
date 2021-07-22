@@ -108,6 +108,15 @@ class Cart extends Component {
 
     }
 
+    resetQuantity(book_id) {
+        let items = [...this.state.items];
+        let productIndex = items.findIndex((obj => obj.book.id === book_id));
+        items[productIndex].quantity = 1;
+        this.setState({ items }, () => {
+            localStorage.setItem('cart', JSON.stringify(this.state.items));
+        });
+    }
+
     openBookDetails(id) {
         window.open('/#/product/' + id, '_blank').focus();
     }
@@ -170,12 +179,21 @@ class Cart extends Component {
                     window.location = '/#/'
                 }, 10000);
             }).catch(error => {
-                let invalid_books = error.response.data.invalid_ids;
-                invalid_books.map((id, i) => {
-                    this.deleteItem(id);
-                })
+                let invalid_books = error.response.data.invalid_ids ?? [];
+                if (invalid_books.length !== 0) {
+                    invalid_books.map((id, i) => {
+                        this.deleteItem(id);
+                    })
+                }
 
-                toast.error('Order unsuccessful because some book are unavailable!', {
+                let invalid_quantity = error.response.data.invalid_quantity ?? [];
+                if (invalid_quantity.length !== 0) {
+                    invalid_quantity.map((id, i) => {
+                        this.resetQuantity(id);
+                    })
+                }
+
+                toast.error(error.response.data.error, {
                     position: "bottom-right",
                     autoClose: 10000,
                     hideProgressBar: false,

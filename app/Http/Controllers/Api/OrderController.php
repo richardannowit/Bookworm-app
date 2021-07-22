@@ -16,18 +16,30 @@ class OrderController extends Controller
         $books = $request->data;
 
         $invalidBooks = array();
+        $invalidQuantity = array();
+
         foreach ($books as $book) {
             if (!Book::where('id', '=', $book['book_id'])->exists()) {
                 array_push($invalidBooks, $book['book_id']);
+            }
+            if (!($book['quantity'] >= 1 && $book['quantity'] <= 8)) {
+                array_push($invalidQuantity, $book['book_id']);
             }
         }
 
         if (count($invalidBooks) !== 0) {
             return response()->json([
-                'invalid_ids' => $invalidBooks
+                'invalid_ids' => $invalidBooks,
+                'error' => 'Some book are unavailable!'
             ], 400);
         }
 
+        if (count($invalidQuantity) !== 0) {
+            return response()->json([
+                'invalid_quantity' => $invalidQuantity,
+                'error' => 'Book quantity is not valid!'
+            ], 400);
+        }
 
         $order = DB::transaction(function () use ($books) {
             $total = 0;
