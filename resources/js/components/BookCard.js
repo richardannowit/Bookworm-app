@@ -29,7 +29,7 @@ export default class BookCard extends Component {
             <Link to={"/product/" + id}>
                 <div className="card" id={id}>
                     <img
-                        src={cover === null ? ("http://placehold.it/200x250") : ("assets/bookcover/" + cover + ".jpg")}
+                        src={cover === null ? ("assets/bookcover/book_default.jpg") : ("assets/bookcover/" + cover + ".jpg")}
                         className="card-img-top" alt="Image"
                         style={{
                             width: "100%",
