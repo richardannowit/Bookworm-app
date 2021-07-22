@@ -117,7 +117,7 @@ export default class ReviewList extends Component {
             return (
                 <small
                     key={i}
-                    onClick={() => this.handleChange(star, sort, paginate, pageNumber)}
+                    onClick={() => this.handleChange(star.toString(), sort, paginate, pageNumber)}
                     className="filter mr-3"
                     style={filter == star ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
                 >
@@ -148,12 +148,6 @@ export default class ReviewList extends Component {
 
                         <div className="row">
                             {this.showFilterOption()}
-                            {/* <small id="start-0" onClick={() => this.handleChange('0', sort, paginate, pageNumber)} className="filter mr-3">Total ({this.props.countReview[0]})</small>
-                            <small id="start-5" onClick={() => this.handleChange('5', sort, paginate, pageNumber)} className="filter mr-3">5 star ({this.props.countReview[5]})</small>
-                            <small id="start-4" onClick={() => this.handleChange('4', sort, paginate, pageNumber)} className="filter mr-3">4 star ({this.props.countReview[4]})</small>
-                            <small id="start-3" onClick={() => this.handleChange('3', sort, paginate, pageNumber)} className="filter mr-3">3 star ({this.props.countReview[3]})</small>
-                            <small id="start-2" onClick={() => this.handleChange('2', sort, paginate, pageNumber)} className="filter mr-3">2 star ({this.props.countReview[2]})</small>
-                            <small id="start-1" onClick={() => this.handleChange('1', sort, paginate, pageNumber)} className="filter mr-3">1 star ({this.props.countReview[1]})</small> */}
                         </div>
                         <div className="row d-flex my-3 mr-3">
                             {(this.props.reviews.total !== 0) ?
