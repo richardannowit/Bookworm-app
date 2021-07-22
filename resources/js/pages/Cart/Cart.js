@@ -220,7 +220,7 @@ class Cart extends Component {
                         <td className="col-2 align-items-center" style={{ cursor: 'pointer' }} onClick={() => this.openBookDetails(item.book.id)}>
                             <img
 
-                                src={item.book.book_cover_photo === null ? ("http://placehold.it/150x170") : ("assets/bookcover/" + item.book.book_cover_photo + ".jpg")}
+                                src={item.book.book_cover_photo === null ? ("assets/bookcover/book_default.jpg") : ("assets/bookcover/" + item.book.book_cover_photo + ".jpg")}
                                 className="card-img-top" alt="Image"
                                 style={{
                                     width: "100%",
