@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { connect } from 'react-redux'
 import logo from '../../../assets/bookworm_logo.svg'
 
@@ -20,16 +20,16 @@ class Header extends Component {
                 </Link>
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/"}>Home</Link>
+                        <NavLink exact to={"/"} activeClassName="active" className="nav-link">Home</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/shop"}>Shop</Link>
+                        <NavLink exact to={"/shop"} activeClassName="active" className="nav-link">Shop</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/about"}>About</Link>
+                        <NavLink exact to={"/about"} activeClassName="active" className="nav-link">About</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to={"/cart"}>Cart({this.props.numberCart})</Link>
+                        <NavLink exact to={"/cart"} activeClassName="active" className="nav-link">Cart({this.props.numberCart})</NavLink>
                     </li>
                 </ul>
             </nav>
