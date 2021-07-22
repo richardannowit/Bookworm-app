@@ -33,6 +33,7 @@ Route::get('/filter', [ShopController::class, 'getFilter'])->name('shop.filter')
 
 Route::get('/product/{id?}', [ProductController::class, 'index'])->name('product.index');
 Route::get('/product/{id}/reviews/{filter?}/{sort?}/{paginate?}', [ProductController::class, 'getReview'])->name('product.getReview');
+Route::post('/product/{id}/reviews', [ProductController::class, 'postReview'])->name('product.postReview');
 Route::get('/product/{id}/count-reviews', [ProductController::class, 'countReview'])->name('product.countReview');
 
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');

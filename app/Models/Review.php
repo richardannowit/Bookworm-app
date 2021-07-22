@@ -10,7 +10,10 @@ class Review extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    const CREATED_AT = "review_date";
+    const UPDATED_AT = "review_date";
+
+    protected $fillable = ['book_id', 'review_title', 'review_details', 'rating_start'];
 
     public function book()
     {
