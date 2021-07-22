@@ -12,7 +12,7 @@ export default class Product extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bookDetails: [],
+            bookDetails: {},
             reviews: [],
             count_reviews: [],
             filter: '0',
@@ -38,7 +38,7 @@ export default class Product extends Component {
         const bookId = this.props.match.params.id;
         const url = `/api/product/${bookId}`
         axios.get(url).then((response) => {
-            this.setState({ bookDetails: response.data[0] });
+            this.setState({ bookDetails: response.data });
         }).catch((error) => {
             if (error.response.status === 404) {
                 window.location = '/#/';
@@ -52,6 +52,7 @@ export default class Product extends Component {
         const url = `/api/product/${bookId}/reviews/${filter}/${sort}/${paginate}?page=${pageNumber}`
         const response = await axios.get(url);
         this.setState({ reviews: response.data });
+        await this.getBookDetails();
     }
 
     async getNumberReviewEachStar() {
@@ -69,8 +70,9 @@ export default class Product extends Component {
             filter: filter,
             sort: sort,
             paginate: paginate,
-            pageNumber: pageNumber
+            pageNumber: pageNumber,
         });
+
         await this.getReviews(pageNumber, filter, sort, paginate);
     }
 

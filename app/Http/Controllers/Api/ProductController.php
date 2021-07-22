@@ -23,7 +23,7 @@ class ProductController extends Controller
             ->getAverageStar()
             ->getFinalPrice()
             ->getDiscountPrice()
-            ->get();
+            ->first();
         // ->toSql();
     }
 
