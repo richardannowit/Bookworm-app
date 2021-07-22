@@ -37,8 +37,14 @@ export default class Product extends Component {
     async getBookDetails() {
         const bookId = this.props.match.params.id;
         const url = `/api/product/${bookId}`
-        const response = await axios.get(url);
-        this.setState({ bookDetails: response.data[0] });
+        axios.get(url).then((response) => {
+            this.setState({ bookDetails: response.data[0] });
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                window.location = '/#/';
+            }
+        })
+
     }
 
     async getReviews(pageNumber = 1, filter = '0', sort = 'desc', paginate = '15') {
