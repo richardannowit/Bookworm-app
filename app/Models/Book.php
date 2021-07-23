@@ -82,7 +82,6 @@ class Book extends Model
     {
         return $query->addSelect([
             'discount_price' => Discount::select('discount_price')
-                // ->discountAvailable()
                 ->whereColumn('book_id', 'books.id')
                 ->where(function ($query) {
                     $query->where('discount_start_date', '<=', now())
@@ -113,7 +112,6 @@ class Book extends Model
     public function scopeSortByOnSale($query)
     {
         return $query->with('discount')
-            ->has('discount')
             ->getDiscountPrice()
             ->getSubPrice()
             ->getFinalPrice()
