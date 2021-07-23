@@ -1,9 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap");
+/* Sticky footer */
 html,
 body {
     height: 100%;
-    font-family: sans-serif;
+    font-family: "Nunito", sans-serif;
 }
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+}
 body {
     margin: 0;
     padding: 0;
@@ -24,6 +33,19 @@ body {
     flex-shrink: 0;
     background-color: tomato;
     color: white;
+}
+
+.footer-icon {
+    background-color: #33383b;
+    color: #ffffff;
+    font-size: 25px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 42px;
+    margin: 10px 15px;
+    vertical-align: middle;
 }
 
 /* accordion filter */
@@ -131,16 +153,3 @@ h2 {
 }
 
 /* Footer */
-
-.footer-icon {
-    background-color: #33383b;
-    color: #ffffff;
-    font-size: 25px;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 42px;
-    margin: 10px 15px;
-    vertical-align: middle;
-}
