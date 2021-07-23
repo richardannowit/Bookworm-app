@@ -42,7 +42,7 @@ export default class Product extends Component {
             this.setState({ bookDetails: response.data });
         }).catch((error) => {
             if (error.response.status === 404) {
-                window.location = '/#/';
+                this.props.history.push('/404')
             }
         })
 

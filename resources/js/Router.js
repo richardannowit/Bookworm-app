@@ -5,7 +5,8 @@ import Shop from "./pages/Shop/Shop";
 import Cart from "./pages/Cart/Cart";
 import About from "./pages/About";
 import Product from './pages/Product/Product';
-import NotFound from "./pages/NotFound";
+import NotFound from "./pages/Error/NotFound";
+import InternalServer from "./pages/Error/InternalServer";
 
 export default class Router extends Component {
     render() {
@@ -16,6 +17,8 @@ export default class Router extends Component {
                 <Route exact path="/cart" component={Cart} />
                 <Route exact path="/about" component={About} />
                 <Route exact path="/product/:id" component={Product} />
+                <Route path="/404" component={NotFound} />
+                <Route path="/500" component={InternalServer} />
                 <Route path="*" component={NotFound} />
             </Switch>
         );
