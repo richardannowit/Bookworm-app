@@ -158,52 +158,62 @@ class Cart extends Component {
             }
 
 
-            axios.post('/api/orders', order_books).then((response) => {
-                toast.success('Order successfully placed', {
-                    position: "bottom-right",
-                    autoClose: 10000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
+            axios.post('/api/orders', order_books)
+                .then((response) => {
+                    toast.success('Order successfully placed', {
+                        position: "bottom-right",
+                        autoClose: 10000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+
+                    localStorage.setItem('cart', JSON.stringify([]));
+                    this.setState({
+                        items: [],
+                        total: 0
+                    });
+                    this.props.GET_NUMBER_CART();
+                    this.timer = setTimeout(function () {
+                        window.location = '/#/'
+                    }, 10000);
+                })
+                .catch(error => {
+                    if (error.response.status === 400) {
+                        let invalid_books = error.response.data.invalid_ids ?? [];
+                        if (invalid_books.length !== 0) {
+                            invalid_books.map((id, i) => {
+                                this.deleteItem(id);
+                            })
+                        }
+
+                        let invalid_quantity = error.response.data.invalid_quantity ?? [];
+                        if (invalid_quantity.length !== 0) {
+                            invalid_quantity.map((id, i) => {
+                                this.resetQuantity(id);
+                            })
+                        }
+
+                        toast.error(error.response.data.error, {
+                            position: "bottom-right",
+                            autoClose: 10000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                    }
+                    if (error.response.status === 404) {
+                        this.props.history.push('/404')
+                    }
+                    if (error.response.status === 500) {
+                        this.props.history.push('/500')
+                    }
+
                 });
-
-                localStorage.setItem('cart', JSON.stringify([]));
-                this.setState({
-                    items: [],
-                    total: 0
-                });
-                this.props.GET_NUMBER_CART();
-                this.timer = setTimeout(function () {
-                    window.location = '/#/'
-                }, 10000);
-            }).catch(error => {
-                let invalid_books = error.response.data.invalid_ids ?? [];
-                if (invalid_books.length !== 0) {
-                    invalid_books.map((id, i) => {
-                        this.deleteItem(id);
-                    })
-                }
-
-                let invalid_quantity = error.response.data.invalid_quantity ?? [];
-                if (invalid_quantity.length !== 0) {
-                    invalid_quantity.map((id, i) => {
-                        this.resetQuantity(id);
-                    })
-                }
-
-                toast.error(error.response.data.error, {
-                    position: "bottom-right",
-                    autoClose: 10000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-
-            });
         }
     }
 

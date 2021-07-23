@@ -44,6 +44,9 @@ export default class Product extends Component {
             if (error.response.status === 404) {
                 this.props.history.push('/404')
             }
+            if (error.response.status === 500) {
+                this.props.history.push('/500')
+            }
         })
 
     }

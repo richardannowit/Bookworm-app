@@ -17,8 +17,17 @@ export default class Filter extends Component {
 
     async getDataForFilter() {
         const url = '/api/filter';
-        const response = await axios.get(url);
-        this.setState({ categories: response.data.categories, authors: response.data.authors });
+        axios.get(url).then((response) => {
+            this.setState({ categories: response.data.categories, authors: response.data.authors });
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                this.props.history.push('/404')
+            }
+            if (error.response.status === 500) {
+                this.props.history.push('/500')
+            }
+        })
+
     }
 
     getFilterNameByParam(param) {

@@ -42,8 +42,17 @@ class Shop extends Component {
 
     async getBookData(pageNumber = 1, filter = 'none-1', sort = 'on-sale', paginate = '15') {
         const url = `/api/shop/${filter}/${sort}/${paginate}?page=${pageNumber}`
-        const response = await axios.get(url);
-        this.setState({ data: response.data });
+        axios.get(url).then((response) => {
+            this.setState({ data: response.data });
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                this.props.history.push('/404')
+            }
+            if (error.response.status === 500) {
+                this.props.history.push('/500')
+            }
+        })
+
     }
 
 

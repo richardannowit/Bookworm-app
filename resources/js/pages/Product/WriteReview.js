@@ -42,16 +42,26 @@ export default class WriteReview extends Component {
             this.resetField();
             const { filter, sort, paginate, pageNumber } = this.props;
             this.props.loadReview(pageNumber, filter, sort, paginate);
-        }).catch((err) => {
-            toast.error(err.response.data.review_title[0], {
-                position: "bottom-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+        }).catch((error) => {
+
+            if (error.response.status === 400) {
+                toast.error(error.response.data.review_title[0], {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+
+            if (error.response.status === 404) {
+                this.props.history.push('/404')
+            }
+            if (error.response.status === 500) {
+                this.props.history.push('/500')
+            }
         });
     };
 

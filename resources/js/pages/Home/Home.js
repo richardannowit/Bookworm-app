@@ -15,23 +15,38 @@ export default class Home extends Component {
         //Get onsale books
         axios.get("/api/home/onsale").then((response) => {
             this.setState({ onSaleBooks: response.data });
-        }).catch(function (error) {
-            console.log(error);
-        });
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                this.props.history.push('/404')
+            }
+            if (error.response.status === 500) {
+                this.props.history.push('/500')
+            }
+        })
 
         //Get recommended books
         axios.get("/api/home/recommended").then((response) => {
             this.setState({ recommendedBooks: response.data });
-        }).catch(function (error) {
-            console.log(error);
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                this.props.history.push('/404')
+            }
+            if (error.response.status === 500) {
+                this.props.history.push('/500')
+            }
         });
 
         //Get recommended books
         axios.get("/api/home/popular").then((response) => {
             this.setState({ popularBooks: response.data });
-        }).catch(function (error) {
-            console.log(error);
-        });
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                this.props.history.push('/404')
+            }
+            if (error.response.status === 500) {
+                this.props.history.push('/500')
+            }
+        })
     }
 
     onSaleData() {
