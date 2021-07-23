@@ -265,7 +265,7 @@ class Cart extends Component {
 
     render() {
         return (
-            <div className="container-fluid" style={{ minHeight: '500px' }}>
+            <div className="container-fluid">
                 <div className="container-fluid pb-3" style={{ width: '90%' }}>
                     <div className="row pt-3">
                         <div className="mr-2">

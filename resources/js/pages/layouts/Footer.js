@@ -6,7 +6,7 @@ import logo from '../../../assets/bookworm_logo.svg'
 export default class Footer extends Component {
     render() {
         return (
-            <footer className="border-top bg-dark py-4 mt-5" style={{ width: "100%" }}>
+            <footer className="footer border-top bg-dark py-4 mt-2" style={{ width: "100%" }}>
                 <div className="container-fluid w-100">
                     <div className="row">
                         <div className="col-lg-auto mt-5 ml-4 mr-2">

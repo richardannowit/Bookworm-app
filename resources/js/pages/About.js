@@ -3,7 +3,7 @@ import React, { Component } from "react";
 export default class About extends Component {
     render() {
         return (
-            <div className="container-fluid pb-5" style={{ minHeight: '500px' }}>
+            <div className="container-fluid pb-5">
                 <div className="container-fluid" style={{ width: '90%' }}>
                     <div className="row pt-3">
                         <div className="mr-2">
@@ -20,7 +20,7 @@ export default class About extends Component {
                 </div>
 
                 <div className="container">
-                    <div className="row justify-content-center mb-4">
+                    <div className="row justify-content-center">
                         <h1>Welcome to Bookworm</h1>
                     </div>
                     <div className="row mb-2">

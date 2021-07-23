@@ -12,12 +12,12 @@ import Footer from "./pages/layouts/Footer";
 function Main() {
     return (
         <HashRouter>
-            <div className="wrapper" style={{ position: 'relative' }}>
+            <div className="wrapper content" style={{ position: 'relative' }}>
                 <Header></Header>
                 <div style={{ marginTop: "70px" }}>
                     <Router />
                 </div>
-                <Footer></Footer>
+                {/* <Footer></Footer> */}
             </div>
         </HashRouter >
     );
@@ -29,6 +29,7 @@ if (document.getElementById("main")) {
     ReactDOM.render(
         <Provider store={store}>
             <Main />
+            <Footer />
         </Provider>,
         document.getElementById("main")
     );

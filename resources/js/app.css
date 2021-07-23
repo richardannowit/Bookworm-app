@@ -1,3 +1,31 @@
+html,
+body {
+    height: 100%;
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.content {
+    flex: 1 0 auto;
+    padding: 10px;
+}
+
+.footer {
+    flex-shrink: 0;
+    background-color: tomato;
+    color: white;
+}
+
 /* accordion filter */
 
 a {
