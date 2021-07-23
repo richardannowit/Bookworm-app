@@ -62,7 +62,7 @@ class AddToCart extends Component {
         localStorage.setItem('cart', JSON.stringify(cartFromStorage));
         this.props.GET_NUMBER_CART();
 
-        toast.success('This book has been added to your cart!', {
+        toast.success('This book has been added to cart', {
             position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,

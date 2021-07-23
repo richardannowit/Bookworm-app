@@ -30,7 +30,7 @@ export default class WriteReview extends Component {
         let uri = "/api/product/" + this.props.book_id + "/reviews";
         axios.post(uri, review).then((response) => {
             console.log(response);
-            toast.success('Write a review successful!', {
+            toast.success('Your review has been successfully submitted', {
                 position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: false,

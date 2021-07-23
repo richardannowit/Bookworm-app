@@ -30,14 +30,14 @@ class OrderController extends Controller
         if (count($invalidBooks) !== 0) {
             return response()->json([
                 'invalid_ids' => $invalidBooks,
-                'error' => 'Some of the books in your cart are currently unavailable.!'
+                'error' => 'Some of the books in your cart are currently unavailable'
             ], 400);
         }
 
         if (count($invalidQuantity) !== 0) {
             return response()->json([
                 'invalid_quantity' => $invalidQuantity,
-                'error' => 'Book quantity is not valid!'
+                'error' => 'Book quantity is not valid'
             ], 400);
         }
 

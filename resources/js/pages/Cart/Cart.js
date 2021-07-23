@@ -130,7 +130,7 @@ class Cart extends Component {
         let orders = [];
         if (items instanceof Array) {
             if (items.length === 0) {
-                toast.error('Your cart is empty!', {
+                toast.error('Your cart is empty', {
                     position: "bottom-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -159,7 +159,7 @@ class Cart extends Component {
 
 
             axios.post('/api/orders', order_books).then((response) => {
-                toast.success('Order successfull!', {
+                toast.success('Order successfully placed', {
                     position: "bottom-right",
                     autoClose: 10000,
                     hideProgressBar: false,
@@ -211,7 +211,7 @@ class Cart extends Component {
         const items = this.state.items;
         if (items instanceof Array) {
             if (items.length === 0) {
-                return (<tr><td></td><td>There are no book in cart</td></tr>)
+                return (<tr><td></td><td>There are no books in your cart</td></tr>)
             }
 
             return items.map((item, i) => {

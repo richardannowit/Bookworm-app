@@ -47,7 +47,7 @@ export default class Home extends Component {
                     <div className="container">
                         <div className="row py-3">
                             <div className="col-lg-3">
-                                <h4><small>On Sale</small></h4>
+                                <h5>On Sale</h5>
                             </div>
                             <div className="col-lg-6"></div>
                             <div className="col-lg-3">

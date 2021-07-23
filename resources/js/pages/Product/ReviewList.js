@@ -69,7 +69,7 @@ export default class ReviewList extends Component {
         const reviews = this.props.reviews.data;
         if (reviews instanceof Array) {
             if (reviews.length === 0) {
-                return (<span>There are no review</span>)
+                return (<span>There are no reviews</span>)
             }
 
             return reviews.map((review, i) => {

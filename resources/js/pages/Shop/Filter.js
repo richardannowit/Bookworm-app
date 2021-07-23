@@ -49,7 +49,7 @@ export default class Filter extends Component {
     showCategories() {
         let categories = this.state.categories;
         if (categories.length == 0) {
-            return <li>There no category</li>
+            return <li>There is no category</li>
         }
 
         if (categories instanceof Array) {
@@ -68,7 +68,7 @@ export default class Filter extends Component {
     showAuthors() {
         let authors = this.state.authors;
         if (authors.length == 0) {
-            return <li>There no author</li>
+            return <li>There isn't any author</li>
         }
 
         if (authors instanceof Array) {
