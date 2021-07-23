@@ -30,7 +30,7 @@ class OrderController extends Controller
         if (count($invalidBooks) !== 0) {
             return response()->json([
                 'invalid_ids' => $invalidBooks,
-                'error' => 'Some book are unavailable!'
+                'error' => 'Some of the books in your cart are currently unavailable.!'
             ], 400);
         }
 
@@ -44,12 +44,14 @@ class OrderController extends Controller
         $order = DB::transaction(function () use ($books) {
             $total = 0;
             foreach ($books as $book) {
+                $book_price = Book::where('id', $book['book_id'])->getFinalPrice()->first();
+                $book_price = $book_price['final_price'];
                 $order_books[] = [
                     'book_id' => $book['book_id'],
-                    'price' => $book['price'],
+                    'price' => $book_price,
                     'quantity' => $book['quantity']
                 ];
-                $total += ($book['price'] * $book['quantity']);
+                $total += ($book_price * $book['quantity']);
             }
             $order = Order::create([
                 'order_date' => now(),
