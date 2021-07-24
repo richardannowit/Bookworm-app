@@ -11,10 +11,19 @@ export default class Home extends Component {
         super(props);
         this.state = { onSaleBooks: [], recommendedBooks: [], popularBooks: [] };
     }
-    componentDidMount() {
-        //Get onsale books
-        axios.get("/api/home/onsale").then((response) => {
-            this.setState({ onSaleBooks: response.data });
+    async componentDidMount() {
+        await this.getBookData();
+    }
+
+
+    async getBookData() {
+        const url = '/api/home';
+        axios.get(url).then((response) => {
+            this.setState({
+                onSaleBooks: response.data.onsale,
+                recommendedBooks: response.data.recommended,
+                popularBooks: response.data.popular
+            });
         }).catch((error) => {
             if (error.response.status === 404) {
                 this.props.history.push('/404')
@@ -24,29 +33,6 @@ export default class Home extends Component {
             }
         })
 
-        //Get recommended books
-        axios.get("/api/home/recommended").then((response) => {
-            this.setState({ recommendedBooks: response.data });
-        }).catch((error) => {
-            if (error.response.status === 404) {
-                this.props.history.push('/404')
-            }
-            if (error.response.status === 500) {
-                this.props.history.push('/500')
-            }
-        });
-
-        //Get recommended books
-        axios.get("/api/home/popular").then((response) => {
-            this.setState({ popularBooks: response.data });
-        }).catch((error) => {
-            if (error.response.status === 404) {
-                this.props.history.push('/404')
-            }
-            if (error.response.status === 500) {
-                this.props.history.push('/500')
-            }
-        })
     }
 
     onSaleData() {

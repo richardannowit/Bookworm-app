@@ -7,17 +7,12 @@ use App\Models\Book;
 
 class HomeController extends Controller
 {
-    public function getOnSaleBooks()
+    public function index()
     {
-        return Book::sortByOnSale()
+        $onsale =  Book::sortByOnSale()
             ->limit(10)
             ->get();
-        // ->toSql();
-    }
-
-    public function getRecommendedBooks()
-    {
-        return Book::with('discount', 'reviews')
+        $recommended = Book::with('discount', 'reviews')
             ->has('reviews')
             ->getAverageStar()
             ->getFinalPrice()
@@ -26,13 +21,11 @@ class HomeController extends Controller
             ->orderBy('final_price')
             ->limit(8)
             ->get();
-    }
 
-    public function getPopularBooks()
-    {
-        return Book::sortByPopular()
+        $popular = Book::sortByPopular()
             ->limit(8)
             ->get();
-        // ->toSql();
+
+        return compact('onsale', 'recommended', 'popular', 200);
     }
 }

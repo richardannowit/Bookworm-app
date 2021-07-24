@@ -23,6 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 Route::get('/home/onsale', [HomeController::class, 'getOnSaleBooks'])->name('home.onsale');
 Route::get('/home/recommended', [HomeController::class, 'getRecommendedBooks'])->name('home.recommended');
 Route::get('/home/popular', [HomeController::class, 'getPopularBooks'])->name('home.popular');
