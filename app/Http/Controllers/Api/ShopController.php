@@ -28,8 +28,8 @@ class ShopController extends Controller
 
     public function getFilter()
     {
-        $categories = Category::all();
-        $authors = Author::all();
+        $categories = Category::orderBy('category_name')->get();
+        $authors = Author::orderBy('author_name')->get();
         return compact('categories', 'authors');
     }
 }
