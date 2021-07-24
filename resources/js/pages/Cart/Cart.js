@@ -46,12 +46,12 @@ class Cart extends Component {
         return (
             haveDiscount ?
                 <>
-                    <h5>${discount_price}</h5>
+                    <h5 style={{ color: "#F75454" }}>${discount_price}</h5>
                     <span style={{ color: "#CCCECF" }}><del>${book_price}</del></span>
                 </>
                 :
                 <>
-                    <h5>${book_price}</h5>
+                    <h5 style={{ color: "#F75454" }}>${book_price}</h5>
                 </>
         );
     }
@@ -312,9 +312,9 @@ class Cart extends Component {
                                 <div className="row mx-5 w-100">
                                     <div className="input-group my-2  justify-content-center ">
                                         {this.state.items.length === 0 ?
-                                            <button onClick={() => { }} className="btn btn-default btn-block border rounded-0 mb-2 bg-light" disabled>Place order</button>
+                                            <button onClick={() => { }} className="btn btn-default btn-block border rounded-3 mb-2" disabled>Place order</button>
                                             :
-                                            <button onClick={() => this.placeOrder()} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Place order</strong></button>
+                                            <button onClick={() => this.placeOrder()} className="btn btn-primary btn-block border rounded-3 mb-2"><strong>Place order</strong></button>
                                         }
 
                                     </div>

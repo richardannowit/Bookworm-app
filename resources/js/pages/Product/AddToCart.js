@@ -19,12 +19,12 @@ class AddToCart extends Component {
         return (
             haveDiscount ?
                 <>
-                    <span className="mr-1"><del>${this.props.bookDetails.book_price}</del></span>
-                    <h5 className="mr-2">${this.props.bookDetails.discount_price}</h5>
+                    <span className="mr-1" style={{ color: "#CCCECF" }}><del>${this.props.bookDetails.book_price}</del></span>
+                    <h5 className="mr-2" style={{ color: "#F75454" }}>${this.props.bookDetails.discount_price}</h5>
                 </>
                 :
                 <>
-                    <h5 className="mr-2">${this.props.bookDetails.book_price}</h5>
+                    <h5 className="mr-2" style={{ color: "#F75454" }}>${this.props.bookDetails.book_price}</h5>
                 </>
         );
     }
@@ -78,7 +78,7 @@ class AddToCart extends Component {
     render() {
         return (
             <>
-                <div className="row w-100 bg-light ml-0 mt-0">
+                <div className="row w-100 bg-light ml-0 mt-0" >
                     <div className="row mx-5 my-2 align-item-center w-100">
                         {this.showPrice()}
                     </div>
@@ -96,7 +96,9 @@ class AddToCart extends Component {
 
                 <div className="row mx-5 w-100">
                     <div className="input-group my-2  justify-content-center ">
-                        <button onClick={() => this.addToCart(this.props.bookDetails)} className="btn btn-default btn-block border rounded-0 mb-2 bg-light"><strong>Add to cart</strong></button>
+                        <button onClick={() => this.addToCart(this.props.bookDetails)} className="btn btn-primary btn-block border rounded-3 mb-2">
+                            <span>Add to cart</span>
+                        </button>
                     </div>
                 </div>
                 <ToastContainer

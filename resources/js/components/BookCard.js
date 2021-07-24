@@ -12,12 +12,12 @@ export default class BookCard extends Component {
         return (
             haveDiscount ?
                 <div>
-                    <div className="d-inline p-2"><del>${this.props.price}</del></div>
-                    <div className="d-inline p-2"><strong>${this.props.discount_price}</strong></div>
+                    <div className="d-inline p-2" style={{ color: "#696D6B" }}><del>${this.props.price}</del></div>
+                    <div className="d-inline p-2" style={{ color: "#F75454" }}><strong>${this.props.discount_price}</strong></div>
                 </div>
                 :
                 <div>
-                    <div className="d-inline p-2"><strong>${this.props.price}</strong></div>
+                    <div className="d-inline p-2" style={{ color: "#F75454" }}><strong>${this.props.price}</strong></div>
                 </div>
         );
     }
