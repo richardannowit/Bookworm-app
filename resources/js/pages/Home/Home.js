@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import { BsFillCaretRightFill } from "react-icons/bs";
+import Loading from "../../components/Loading";
 import { Link } from "react-router-dom";
 
 import Slider from "../../components/Slider";
@@ -9,7 +9,7 @@ import FeaturedBooks from "./FeaturedBooks";
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = { onSaleBooks: [], recommendedBooks: [], popularBooks: [] };
+        this.state = { onSaleBooks: [], recommendedBooks: [], popularBooks: [], isLoading: false };
     }
     async componentDidMount() {
         await this.getBookData();
@@ -17,21 +17,25 @@ export default class Home extends Component {
 
 
     async getBookData() {
-        const url = '/api/home';
-        axios.get(url).then((response) => {
-            this.setState({
-                onSaleBooks: response.data.onsale,
-                recommendedBooks: response.data.recommended,
-                popularBooks: response.data.popular
-            });
-        }).catch((error) => {
-            if (error.response.status === 404) {
-                this.props.history.push('/404')
-            }
-            if (error.response.status === 500) {
-                this.props.history.push('/500')
-            }
+        this.setState({ isLoading: true }, () => {
+            const url = '/api/home';
+            axios.get(url).then((response) => {
+                this.setState({
+                    onSaleBooks: response.data.onsale,
+                    recommendedBooks: response.data.recommended,
+                    popularBooks: response.data.popular,
+                    isLoading: false
+                });
+            }).catch((error) => {
+                if (error.response.status === 404) {
+                    this.props.history.push('/404')
+                }
+                if (error.response.status === 500) {
+                    this.props.history.push('/500')
+                }
+            })
         })
+
 
     }
 
@@ -63,7 +67,11 @@ export default class Home extends Component {
                     </div>
                     <div className="row">
                         <div className="col-lg-12">
-                            {this.onSaleData()}
+                            {this.state.isLoading ?
+                                <Loading size="sm" />
+                                :
+                                this.onSaleData()
+                            }
                         </div>
                     </div>
                 </div>
@@ -76,7 +84,7 @@ export default class Home extends Component {
 
                             </div>
                             <div className="row mt-2">
-                                <ul className="nav nav-pills nav-fill navtop">
+                                <ul className="nav nav-pills nav-fill navtop featured-book-tab ">
                                     <li className="nav-item">
                                         <a className="nav-link active" href="#recommended" data-toggle="tab">Recommended</a>
                                     </li>
@@ -90,10 +98,20 @@ export default class Home extends Component {
                     <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
                         <div className="tab-content">
                             <div className="tab-pane active" role="tabpanel" id="recommended">
-                                <FeaturedBooks title="Recommended" books={this.state.recommendedBooks}></FeaturedBooks>
+                                {this.state.isLoading ?
+                                    <Loading size="sm" />
+                                    :
+                                    <FeaturedBooks title="Recommended" books={this.state.recommendedBooks}></FeaturedBooks>
+                                }
+
                             </div>
                             <div className="tab-pane" role="tabpanel" id="popular">
-                                <FeaturedBooks title="Popular" books={this.state.popularBooks}></FeaturedBooks>
+                                {this.state.isLoading ?
+                                    <Loading size="sm" />
+                                    :
+                                    <FeaturedBooks title="Popular" books={this.state.popularBooks}></FeaturedBooks>
+                                }
+
                             </div>
                         </div>
                     </div>

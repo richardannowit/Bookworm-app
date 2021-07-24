@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Filter from "./Filter";
 import BookList from "./BookList";
 import { BsXCircleFill } from "react-icons/bs";
+import Loading from "../../components/Loading";
 import queryString from 'query-string'
 import {
     BrowserRouter as Router,
@@ -14,7 +15,7 @@ class Shop extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: [], filter: 'none-1', filter_name: '', sort: 'on-sale', paginate: '15' };
+        this.state = { data: [], filter: 'none-1', filter_name: '', sort: 'on-sale', paginate: '15', isLoading: false };
         this.updateFilter = this.updateFilter.bind(this);
         this.updateSortType = this.updateSortType.bind(this);
         this.updatePaginate = this.updatePaginate.bind(this);
@@ -42,17 +43,20 @@ class Shop extends Component {
 
 
     async getBookData(pageNumber = 1, filter = 'none-1', sort = 'on-sale', paginate = '15') {
-        const url = `/api/shop/${filter}/${sort}/${paginate}?page=${pageNumber}`
-        axios.get(url).then((response) => {
-            this.setState({ data: response.data });
-        }).catch((error) => {
-            if (error.response.status === 404) {
-                this.props.history.push('/404')
-            }
-            if (error.response.status === 500) {
-                this.props.history.push('/500')
-            }
+        this.setState({ isLoading: true }, () => {
+            const url = `/api/shop/${filter}/${sort}/${paginate}?page=${pageNumber}`
+            axios.get(url).then((response) => {
+                this.setState({ data: response.data, isLoading: false });
+            }).catch((error) => {
+                if (error.response.status === 404) {
+                    this.props.history.push('/404')
+                }
+                if (error.response.status === 500) {
+                    this.props.history.push('/500')
+                }
+            })
         })
+
 
     }
 
@@ -248,15 +252,24 @@ class Shop extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <BookList books={this.state.data.data} />
 
-                                <div className="row justify-content-center pt-3">
-                                    <nav aria-label="...">
-                                        <ul className="pagination">
-                                            {this.showPagination()}
-                                        </ul>
-                                    </nav>
-                                </div>
+                                {this.state.isLoading ?
+                                    <Loading size="sm" />
+                                    :
+                                    <>
+                                        <BookList books={this.state.data.data} />
+                                        <div className="row justify-content-center pt-3">
+                                            <nav aria-label="...">
+                                                <ul className="pagination">
+                                                    {this.showPagination()}
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </>
+                                }
+
+
+
                             </div>
                         </section>
                     </div>

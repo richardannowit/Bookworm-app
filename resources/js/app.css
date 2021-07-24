@@ -152,4 +152,7 @@ h2 {
     color: #fff;
 }
 
-/* Footer */
+/* Nav link Home Page */
+.featured-book-tab > .nav-item > .active {
+    background-color: #f75454 !important;
+}
