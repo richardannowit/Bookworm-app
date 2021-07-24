@@ -27,7 +27,7 @@ export default class BookCard extends Component {
         const { id, title, author, cover, price, discount_price } = this.props;
         return (
             <Link to={"/product/" + id}>
-                <div className="card" id={id}>
+                <div className="card shadow-sm" id={id}>
                     <img
                         src={cover === null ? ("assets/bookcover/book_default.jpg") : ("assets/bookcover/" + cover + ".jpg")}
                         className="card-img-top" alt="Image"

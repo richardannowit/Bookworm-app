@@ -56,13 +56,14 @@ export default class Slider extends Component {
     render() {
         return (
             <div id="book-slide" className="row d-flex align-items-center carousel slide" data-ride="carousel">
-                <div className="col-lg-1">
+                <div className="col-lg-1 d-flex flex-row-reverse mr-0">
                     <a href="#book-slide" data-slide="prev">
                         <BsChevronLeft size="2em"></BsChevronLeft>
                     </a>
                 </div>
-                <div className="container">
+                <div className="container mb-5">
                     <div className="col-lg-12">
+
                         <div className="carousel-inner" style={{ padding: "25px 0px" }}>
                             {this.showBooks()}
 
@@ -75,6 +76,12 @@ export default class Slider extends Component {
                         <BsChevronRight size="2em"></BsChevronRight>
                     </a>
                 </div>
+
+                <ol className="carousel-indicators mt-2">
+                    <li data-target="#book-slide" data-slide-to="0" className="mr-2 active"></li>
+                    <li data-target="#book-slide" data-slide-to="1" className="mr-2"></li>
+                    <li data-target="#book-slide" data-slide-to="2" className="mr-2"></li>
+                </ol>
             </div>
         )
     }
