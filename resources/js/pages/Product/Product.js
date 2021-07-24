@@ -21,6 +21,7 @@ export default class Product extends Component {
             pageNumber: 1
         };
         this.getReviews = this.getReviews.bind(this);
+        this.reloadReview = this.reloadReview.bind(this);
         this.handleChangeReviewList = this.handleChangeReviewList.bind(this);
         this.getNumberReviewEachStar = this.getNumberReviewEachStar.bind(this);
     }
@@ -66,6 +67,12 @@ export default class Product extends Component {
         this.setState({
             count_reviews: response.data
         });
+    }
+
+
+    async reloadReview(pageNumber, filter, sort, paginate) {
+        await this.getReviews(pageNumber, filter, sort, paginate);
+        await this.getNumberReviewEachStar();
     }
 
 
@@ -126,7 +133,7 @@ export default class Product extends Component {
                                     sort={this.state.sort}
                                     paginate={this.state.paginate}
                                     pageNumber={this.state.pageNumber}
-                                    loadReview={this.getReviews}
+                                    loadReview={this.reloadReview}
                                 />
                             </div>
                         </div>

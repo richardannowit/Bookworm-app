@@ -46,7 +46,8 @@ class Shop extends Component {
         this.setState({ isLoading: true }, () => {
             const url = `/api/shop/${filter}/${sort}/${paginate}?page=${pageNumber}`
             axios.get(url).then((response) => {
-                this.setState({ data: response.data, isLoading: false });
+                this.setState({ data: response.data, isLoading: false }, () => { window.scrollTo(0, 0) });
+
             }).catch((error) => {
                 if (error.response.status === 404) {
                     this.props.history.push('/404')
