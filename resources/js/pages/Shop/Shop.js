@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Filter from "./Filter";
 import BookList from "./BookList";
+import { BsXCircleFill } from "react-icons/bs";
 import queryString from 'query-string'
 import {
     BrowserRouter as Router,
@@ -159,6 +160,16 @@ class Shop extends Component {
         return 'Show ' + this.state.paginate;
     }
 
+    clearFilter() {
+        this.setState({
+            filter: 'none-1',
+            filter_name: '',
+        }, () => {
+            this.getBookData(1, this.state.filter, this.state.sort, this.state.paginate);
+        });
+
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -167,14 +178,23 @@ class Shop extends Component {
                         <div className="d-inline mr-2">
                             <h5>Books</h5>
                         </div>
-                        {this.state.filter_name !== '' ?
-                            <div className="d-inline">
-                                <span>(Filtered by {this.state.filter_name})</span>
-                            </div>
+                        {(this.state.filter_name !== '') ?
+                            <>
+                                <div className="d-inline">
+                                    <span>(Filtered by {this.state.filter_name})</span>
+
+                                </div>
+                                <div className="d-inline ml-2" >
+                                    <Link to={`/shop/?filter=none-1&sort=${this.state.sort}&paginate=${this.state.paginate}`}>
+                                        <BsXCircleFill onClick={() => this.clearFilter()} color="#F75454" />
+                                    </Link>
+                                </div>
+                            </>
                             :
                             <div className="d-inline">
                             </div>
                         }
+
                     </div>
                     <div className="row">
                         <div className="col-lg-12">
