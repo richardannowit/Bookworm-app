@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-import {
-    Link,
-} from "react-router-dom";
 import ReviewList from './ReviewList';
 import BookDetails from './BookDetails';
 import AddToCart from './AddToCart';
@@ -29,7 +26,6 @@ export default class Product extends Component {
 
     async componentDidMount() {
         window.scrollTo(0, 0)
-        await this.getBookDetails();
         await this.getReviews();
         await this.getNumberReviewEachStar();
         let cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];

@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import BookCard from '../../components/BookCard';
-import Pagination from "react-js-pagination";
-import {
-    Link,
-    useLocation
-} from "react-router-dom";
 
 class BookList extends Component {
 
@@ -16,18 +11,20 @@ class BookList extends Component {
         let books = this.props.books;
         if (books instanceof Array) {
             return books.map((book, i) => {
-                return <div className="col my-3" style={{ marginRight: "0px" }} key={i}>
-                    <BookCard
-                        key={i}
-                        title={book.book_title}
-                        id={book.id}
-                        author={book.author_name}
-                        cover={book.book_cover_photo}
-                        price={book.book_price}
-                        discount_price={book.discount_price}
+                return (
+                    <div className="col my-3" style={{ marginRight: "0px" }} key={i}>
+                        <BookCard
+                            key={i}
+                            title={book.book_title}
+                            id={book.id}
+                            author={book.author_name}
+                            cover={book.book_cover_photo}
+                            price={book.book_price}
+                            discount_price={book.discount_price}
 
-                    ></BookCard>
-                </div>
+                        ></BookCard>
+                    </div>
+                );
             });
         }
     }

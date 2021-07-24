@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-import {
-    Link,
-} from "react-router-dom";
 import "./index.css"
 
 export default class ReviewList extends Component {
@@ -26,17 +23,20 @@ export default class ReviewList extends Component {
         if (links instanceof Array) {
 
             return links.map((link, i) => {
-                return <li key={i} className={`page-item ${link.active ? "active" : ""} ${link.url === null ? "disabled" : ""}`}>
-                    {link.url !== null ? <a style={{ cursor: 'pointer' }} className="page-link" onClick={() => this.handleChange(this.state.filter, this.state.sort, this.state.paginate, extractPageNumberFromURL(link.url))}>
-                        {htmlDecode(link.label)}
-                        {link.active ? <span className="sr-only">(current)</span> : <span></span>}
-                    </a>
-                        :
-                        <a className="page-link">{htmlDecode(link.label)}
-                            {link.active ? <span className="sr-only">(current)</span> : <span></span>}
-                        </a>
-                    }
-                </li>
+                return (
+                    <li key={i} className={`page-item ${link.active ? "active" : ""} ${link.url === null ? "disabled" : ""}`}>
+                        {link.url !== null ?
+                            <a style={{ cursor: 'pointer' }} className="page-link" onClick={() => this.handleChange(this.state.filter, this.state.sort, this.state.paginate, extractPageNumberFromURL(link.url))}>
+                                {htmlDecode(link.label)}
+                                {link.active ? <span className="sr-only">(current)</span> : <span></span>}
+                            </a>
+                            :
+                            <a className="page-link">{htmlDecode(link.label)}
+                                {link.active ? <span className="sr-only">(current)</span> : <span></span>}
+                            </a>
+                        }
+                    </li>
+                );
             })
         }
     }
@@ -94,12 +94,29 @@ export default class ReviewList extends Component {
     }
 
 
-    getSortLabel(key) {
-        const data = {
+    showLabelSortDropdown(sort) {
+        const sortTypes = {
             'desc': 'Sort by date: newest to oldest',
             'asc': 'Sort by date: oldest to newest',
         }
-        return data[key];
+        return sortTypes[sort];
+    }
+
+    showSortDropdown() {
+        const { filter, paginate, pageNumber } = this.state;
+        let sortTypes = ['desc', 'asc'];
+
+        return sortTypes.map((sort, i) => {
+            return (
+                <a
+                    key={i}
+                    onClick={() => this.handleChange(filter, sort, paginate, pageNumber)}
+                    className="dropdown-item"
+                >
+                    {this.showLabelSortDropdown(sort)}
+                </a>
+            );
+        })
     }
 
     getPaginateLabel(key) {
@@ -123,6 +140,23 @@ export default class ReviewList extends Component {
                 >
                     {label} ({this.props.countReview[star]})
                 </small>
+            );
+        })
+    }
+
+    showPaginateDropdown() {
+        const { filter, sort } = this.state;
+        let paginationTypes = ['5', '15', '20', '25'];
+
+        return paginationTypes.map((pagination, i) => {
+            return (
+                <a
+                    key={i}
+                    onClick={() => this.handleChange(filter, sort, pagination, 1)}
+                    className="dropdown-item"
+                >
+                    Show {pagination}
+                </a>
             );
         })
     }
@@ -157,11 +191,10 @@ export default class ReviewList extends Component {
                             }
                             <div className="dropdown mr-3">
                                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {this.getSortLabel(sort)}
+                                    {this.showLabelSortDropdown(sort)}
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a onClick={() => this.handleChange(filter, 'desc', paginate, pageNumber)} className="dropdown-item">Sort by date: newest to oldest</a>
-                                    <a onClick={() => this.handleChange(filter, 'asc', paginate, pageNumber)} className="dropdown-item">Sort by date: oldest to newest</a>
+                                    {this.showSortDropdown()}
                                 </div>
                             </div>
                             <div className="dropdown">
@@ -169,10 +202,7 @@ export default class ReviewList extends Component {
                                     {this.getPaginateLabel(paginate)}
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a onClick={() => this.handleChange(filter, sort, '5', pageNumber)} className="dropdown-item">Show 5</a>
-                                    <a onClick={() => this.handleChange(filter, sort, '15', pageNumber)} className="dropdown-item">Show 15</a>
-                                    <a onClick={() => this.handleChange(filter, sort, '20', pageNumber)} className="dropdown-item">Show 20</a>
-                                    <a onClick={() => this.handleChange(filter, sort, '25', pageNumber)} className="dropdown-item">Show 25</a>
+                                    {this.showPaginateDropdown()}
                                 </div>
                             </div>
                         </div>

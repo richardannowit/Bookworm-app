@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css'
 import { GetNumberCart } from '../../components/actions'
-import {
-    Link,
-} from "react-router-dom";
 import "./index.css"
 
 class Cart extends Component {
@@ -217,14 +213,14 @@ class Cart extends Component {
         }
     }
 
-    showItems() {
-        const items = this.state.items;
-        if (items instanceof Array) {
-            if (items.length === 0) {
+    showBookList() {
+        const books = this.state.items;
+        if (books instanceof Array) {
+            if (books.length === 0) {
                 return (<tr><td></td><td>There are no books in your cart</td></tr>)
             }
 
-            return items.map((item, i) => {
+            return books.map((item, i) => {
                 return (
                     <tr key={i}>
                         <td className="col-2 align-items-center" style={{ cursor: 'pointer' }} onClick={() => this.openBookDetails(item.book.id)}>
@@ -297,7 +293,7 @@ class Cart extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.showItems()}
+                                        {this.showBookList()}
                                     </tbody>
                                 </table>
                             </div>

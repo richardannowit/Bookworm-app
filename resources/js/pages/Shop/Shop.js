@@ -5,7 +5,6 @@ import { BsXCircleFill } from "react-icons/bs";
 import Loading from "../../components/Loading";
 import queryString from 'query-string'
 import {
-    BrowserRouter as Router,
     Link,
 } from "react-router-dom";
 
@@ -78,17 +77,20 @@ class Shop extends Component {
         if (links instanceof Array) {
 
             return links.map((link, i) => {
-                return <li key={i} className={`page-item ${link.active ? "active" : ""} ${link.url === null ? "disabled" : ""}`}>
-                    {link.url !== null ? <Link className="page-link" to={link.url} onClick={() => this.getBookData(extractPageNumberFromURL(link.url), this.state.filter, this.state.sort, this.state.paginate)}>
-                        {htmlDecode(link.label)}
-                        {link.active ? <span className="sr-only">(current)</span> : <span></span>}
-                    </Link>
-                        :
-                        <a className="page-link">{htmlDecode(link.label)}
-                            {link.active ? <span className="sr-only">(current)</span> : <span></span>}
-                        </a>
-                    }
-                </li>
+                return (
+                    <li key={i} className={`page-item ${link.active ? "active" : ""} ${link.url === null ? "disabled" : ""}`}>
+                        {link.url !== null ?
+                            <Link className="page-link" to={link.url} onClick={() => this.getBookData(extractPageNumberFromURL(link.url), this.state.filter, this.state.sort, this.state.paginate)}>
+                                {htmlDecode(link.label)}
+                                {link.active ? <span className="sr-only">(current)</span> : <span></span>}
+                            </Link>
+                            :
+                            <a className="page-link">{htmlDecode(link.label)}
+                                {link.active ? <span className="sr-only">(current)</span> : <span></span>}
+                            </a>
+                        }
+                    </li>
+                );
             })
         }
     }
@@ -148,21 +150,52 @@ class Shop extends Component {
         this.getBookData(1, this.state.filter, this.state.sort, value);
     }
 
-    showLabelSortDropdown() {
-        switch (this.state.sort) {
-            case 'on-sale':
-                return 'Sort by on sale';
-            case 'popular':
-                return 'Sort by popularity';
-            case 'price-ascending':
-                return 'Sort by price: low to high';
-            case 'price-descending':
-                return 'Sort by price: high to low';
+    showLabelSortDropdown(sort) {
+        const sortTypes = {
+            'on-sale': 'Sort by on sale',
+            'popular': 'Sort by popularity',
+            'price-ascending': 'Sort by price: low to high',
+            'price-descending': 'Sort by price: high to low',
         }
+        return sortTypes[sort];
+    }
+
+    showSortDropdown() {
+        let sortTypes = ['on-sale', 'popular', 'price-ascending', 'price-descending'];
+
+        return sortTypes.map((sort, i) => {
+            return (
+                <Link
+                    key={i}
+                    className="dropdown-item"
+                    onClick={() => this.updateSortType(sort)}
+                    to={`/shop/?filter=${this.state.filter}&sort=${sort}&paginate=${this.state.paginate}`}
+                >
+                    {this.showLabelSortDropdown(sort)}
+                </Link>
+            );
+        })
     }
 
     showLabelPaginateDropdown() {
         return 'Show ' + this.state.paginate;
+    }
+
+
+    showPaginateDropdown() {
+        let paginationTypes = ['5', '15', '20', '25'];
+
+        return paginationTypes.map((pagination, i) => {
+            return (
+                <Link
+                    className="dropdown-item"
+                    onClick={() => this.updatePaginate(pagination)}
+                    to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=${pagination}`}
+                >
+                    Show {pagination}
+                </Link>
+            );
+        })
     }
 
     clearFilter() {
@@ -199,7 +232,6 @@ class Shop extends Component {
                             <div className="d-inline">
                             </div>
                         }
-
                     </div>
                     <div className="row">
                         <div className="col-lg-12">
@@ -232,13 +264,10 @@ class Shop extends Component {
 
                                     <div className="dropdown mr-3">
                                         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {this.showLabelSortDropdown()}
+                                            {this.showLabelSortDropdown(this.state.sort)}
                                         </button>
                                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <Link className="dropdown-item" onClick={() => this.updateSortType('on-sale')} to={`/shop/?filter=${this.state.filter}&sort=on-sale&paginate=${this.state.paginate}`}>Sort by on sale</Link>
-                                            <Link className="dropdown-item" onClick={() => this.updateSortType('popular')} to={`/shop/?filter=${this.state.filter}&sort=popular`}>Sort by popularity</Link>
-                                            <Link className="dropdown-item" onClick={() => this.updateSortType('price-ascending')} to={`/shop/?filter=${this.state.filter}&sort=price-ascending&paginate=${this.state.paginate}`}>Sort by price: low to high</Link>
-                                            <Link className="dropdown-item" onClick={() => this.updateSortType('price-descending')} to={`/shop/?filter=${this.state.filter}&sort=price-descending&paginate=${this.state.paginate}`}>Sort by price: high to low</Link>
+                                            {this.showSortDropdown()}
                                         </div>
                                     </div>
                                     <div className="dropdown">
@@ -246,10 +275,7 @@ class Shop extends Component {
                                             {this.showLabelPaginateDropdown()}
                                         </button>
                                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <Link className="dropdown-item" onClick={() => this.updatePaginate('5')} to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=5`}>Show 5</Link>
-                                            <Link className="dropdown-item" onClick={() => this.updatePaginate('15')} to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=15`}>Show 15</Link>
-                                            <Link className="dropdown-item" onClick={() => this.updatePaginate('20')} to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=20`}>Show 20</Link>
-                                            <Link className="dropdown-item" onClick={() => this.updatePaginate('25')} to={`/shop/?filter=${this.state.filter}&sort=${this.state.sort}&paginate=25`}>Show 25</Link>
+                                            {this.showPaginateDropdown()}
                                         </div>
                                     </div>
                                 </div>
@@ -268,9 +294,6 @@ class Shop extends Component {
                                         </div>
                                     </>
                                 }
-
-
-
                             </div>
                         </section>
                     </div>

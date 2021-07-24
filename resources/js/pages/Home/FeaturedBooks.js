@@ -9,23 +9,24 @@ export default class FeaturedBooks extends Component {
         let books = this.props.books;
         if (books instanceof Array) {
             return books.map((book, i) => {
-                return <div className="col-sm-3 pt-3" key={i}>
-                    <BookCard
-                        key={i}
-                        title={book.book_title}
-                        id={book.id}
-                        author={book.author_name}
-                        cover={book.book_cover_photo}
-                        price={book.book_price}
-                        discount_price={book.discount_price}
+                return (
+                    <div className="col-sm-3 pt-3" key={i}>
+                        <BookCard
+                            key={i}
+                            title={book.book_title}
+                            id={book.id}
+                            author={book.author_name}
+                            cover={book.book_cover_photo}
+                            price={book.book_price}
+                            discount_price={book.discount_price}
 
-                    ></BookCard>
-                </div>
+                        />
+                    </div>
+                );
             });
         }
     }
     render() {
-        const { title } = this.props;
         return (
             <div className="row d-flex align-items-center">
                 <div className="col-lg-1">
