@@ -1,0 +1,16 @@
+/* Slider */
+.carousel-indicators li {
+    width: 15px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: gray;
+}
+
+.carousel-indicators li.active {
+    background-color: #f75454;
+}
+
+/* Nav link Home Page */
+.featured-book-tab > .nav-item > .active {
+    background-color: #f75454 !important;
+}

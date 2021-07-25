@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Shop from "./pages/Shop/Shop";
+import Home from "./pages/Home";
+import Shop from "./pages/Shop";
 import Cart from "./pages/Cart/Cart";
 import About from "./pages/About";
-import Product from './pages/Product/Product';
+import Product from './pages/Product';
 import NotFound from "./pages/Error/NotFound";
 import InternalServer from "./pages/Error/InternalServer";
 
