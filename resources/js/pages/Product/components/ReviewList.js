@@ -124,7 +124,7 @@ export default class ReviewList extends Component {
             return (
                 <small
                     key={i}
-                    onClick={() => this.handleChange(star.toString(), sort, paginate, pageNumber)}
+                    onClick={() => this.handleChange(star.toString(), sort, paginate, '1')}
                     className="filter mr-3"
                     style={filter == star ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
                 >
