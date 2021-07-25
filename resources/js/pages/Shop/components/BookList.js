@@ -10,6 +10,13 @@ class BookList extends Component {
     showBooks() {
         let books = this.props.books;
         if (books instanceof Array) {
+            if (books.length === 0) {
+                return (
+                    <div className="col my-3" style={{ marginRight: "0px" }}>
+                        <h5><small>There are no books in here</small></h5>
+                    </div>
+                );
+            }
             return books.map((book, i) => {
                 return (
                     <div className="col my-3" style={{ marginRight: "0px" }} key={i}>

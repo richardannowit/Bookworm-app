@@ -16,7 +16,7 @@ class Shop extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: [], filter: 'none-1', filter_name: '', sort: 'on-sale', paginate: '15', isLoading: false };
+        this.state = { data: [], filter: 'none-1', filter_name: '', sort: 'on-sale', paginate: '15', page: '1', isLoading: false };
         this.updateFilter = this.updateFilter.bind(this);
         this.updateSortType = this.updateSortType.bind(this);
         this.updatePaginate = this.updatePaginate.bind(this);
@@ -26,7 +26,7 @@ class Shop extends Component {
 
     async componentDidMount() {
         await this.updateState();
-        await this.getBookData(1, this.state.filter, this.state.sort, this.state.paginate);
+        await this.getBookData(this.state.page, this.state.filter, this.state.sort, this.state.paginate);
 
     }
 
@@ -35,11 +35,19 @@ class Shop extends Component {
         let filter_type = setDefaultValue(values.filter, 'none-1');
         let sort_type = setDefaultValue(values.sort, 'on-sale');
         let paginate_type = setDefaultValue(values.paginate, '15');
+        let page_type = setDefaultValue(values.page, '1');
         this.setState({
             filter: filter_type,
             sort: sort_type,
-            paginate: paginate_type
+            paginate: paginate_type,
+            page: page_type,
         });
+    }
+
+    resetPage() {
+        this.setState({
+            page: '1'
+        })
     }
 
 
@@ -87,7 +95,7 @@ class Shop extends Component {
     }
 
     updateFilter(param, value) {
-        this.setState({ filter: param, filter_name: value });
+        this.setState({ filter: param, filter_name: value, page: '1' });
         this.getBookData(1, param, this.state.sort, this.state.paginate);
 
     }
@@ -128,14 +136,14 @@ class Shop extends Component {
 
     updateSortType(param) {
         this.setState({
-            sort: param
+            sort: param, page: '1'
         })
         this.getBookData(1, this.state.filter, param, this.state.paginate);
     }
 
     updatePaginate(value) {
         this.setState({
-            paginate: value
+            paginate: value, page: '1'
         })
         console.log(this.state.filter);
         this.getBookData(1, this.state.filter, this.state.sort, value);
@@ -194,6 +202,7 @@ class Shop extends Component {
         this.setState({
             filter: 'none-1',
             filter_name: '',
+            page: '1'
         }, () => {
             this.getBookData(1, this.state.filter, this.state.sort, this.state.paginate);
         });
@@ -248,10 +257,11 @@ class Shop extends Component {
                         <section className="col-lg-10" >
                             <div className="container">
                                 <div className="row d-flex">
-                                    {(this.state.data.total !== 0) ?
-                                        <span className="mr-auto">{`Showing ${(this.state.data.current_page - 1) * this.state.data.per_page + 1}-${this.state.data.to} of ${this.state.data.total} books`}</span>
-                                        :
+                                    {(this.state.data.total === 0 || this.state.page > this.state.data.last_page) ?
                                         <span className="mr-auto">{`Showing 0 book`}</span>
+
+                                        :
+                                        <span className="mr-auto">{`Showing ${(this.state.data.current_page - 1) * this.state.data.per_page + 1}-${this.state.data.to} of ${this.state.data.total} books`}</span>
                                     }
 
                                     <div className="dropdown mr-3">
@@ -277,13 +287,20 @@ class Shop extends Component {
                                     :
                                     <>
                                         <BookList books={this.state.data.data} />
-                                        <div className="row justify-content-center pt-3">
-                                            <nav aria-label="...">
-                                                <ul className="pagination">
-                                                    {this.showPagination()}
-                                                </ul>
-                                            </nav>
-                                        </div>
+                                        {
+                                            (this.state.page >= this.state.data.last_page) ?
+                                                <div></div>
+                                                :
+                                                <div className="row justify-content-center pt-3">
+                                                    <nav aria-label="...">
+                                                        <ul className="pagination">
+                                                            {this.showPagination()}
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                        }
+
+
                                     </>
                                 }
 
