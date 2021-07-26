@@ -91,16 +91,21 @@ class Cart extends Component {
 
 
     deleteItem(book_id) {
-        //if (confirm('Do you want to remove this book from the cart?')) {
         let items = [...this.state.items];
         items = items.filter(item => item.book.id !== book_id);
         this.setState({ items }, () => {
             localStorage.setItem('cart', JSON.stringify(this.state.items));
             this.props.GET_NUMBER_CART();
+            toast.info('Book has been removed from your cart', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         });
-        // } else {
-        //     return;
-        // }
 
     }
 
@@ -285,7 +290,7 @@ class Cart extends Component {
                                     <thead>
                                         <tr>
                                             <th className="col-2"> </th>
-                                            <th className="col-4">Product</th>
+                                            <th className="col-4">Book</th>
                                             <th className="col-2">Price</th>
                                             <th className="col-2 text-center">Quantity</th>
                                             <th className="col-2 text-center">Total</th>
@@ -302,7 +307,7 @@ class Cart extends Component {
                             <div className="row border rounded shadow-sm ml-0 mb-5 pb-4 ml-1">
                                 <div className="row w-100 bg-light ml-0 mt-0">
                                     <div className="row mx-5 my-2 align-item-center w-100 justify-content-center">
-                                        <h6>Cart totals</h6>
+                                        <h6>Cart total</h6>
                                     </div>
                                 </div>
                                 <div className="row mx-5 mt-3 w-100 justify-content-center">

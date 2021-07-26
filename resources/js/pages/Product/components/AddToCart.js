@@ -62,7 +62,7 @@ class AddToCart extends Component {
         localStorage.setItem('cart', JSON.stringify(cartFromStorage));
         this.props.GET_NUMBER_CART();
 
-        toast.success('This book has been added to cart', {
+        toast.success('This book has been added to cart.', {
             position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -84,7 +84,7 @@ class AddToCart extends Component {
                     </div>
                 </div>
                 <div className="row mx-5 mt-3 w-100">
-                    <span className="mr-1">Quality</span>
+                    <span className="mr-1">Quantity</span>
                 </div>
                 <div className="row mx-5 w-100 justify-content-center">
                     <div className="input-group my-2">

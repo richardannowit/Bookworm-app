@@ -175,7 +175,7 @@ export default class ReviewList extends Component {
                         </div>
                         <div className="row d-flex my-3 mr-3">
                             {(this.props.reviews.total !== 0) ?
-                                <span className="mr-auto">{`Showing ${(this.props.reviews.current_page - 1) * this.props.reviews.per_page + 1}-${this.props.reviews.to} of ${this.props.reviews.total} reviews`}</span>
+                                <span className="mr-auto">{`Showing ${(this.props.reviews.current_page - 1) * this.props.reviews.per_page + 1} - ${this.props.reviews.to} of ${this.props.reviews.total} reviews`}</span>
                                 :
                                 <span className="mr-auto">{`Showing 0 reviews`}</span>
                             }

@@ -30,7 +30,7 @@ export default class WriteReview extends Component {
         let uri = "/api/product/" + this.props.book_id + "/reviews";
         axios.post(uri, review).then((response) => {
             console.log(response);
-            toast.success('Your review has been successfully submitted', {
+            toast.success('Your review has been submitted.', {
                 position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -83,7 +83,7 @@ export default class WriteReview extends Component {
                 <form className="row w-100 border-bottom ml-0 mt-0 " onSubmit={(e) => this.handleSubmit(e)}>
                     <div className="row mx-5 w-100">
                         <div className="mb-2 w-100">
-                            <label htmlFor="exampleInputEmail1">Add a title</label>
+                            <label htmlFor="exampleInputEmail1">Add a title: <span class="text-danger">*</span></label>
                             <input
                                 type="text"
                                 className="form-control"
@@ -108,7 +108,7 @@ export default class WriteReview extends Component {
                         </div>
 
                         <div className="mt-2 mb-2 w-100">
-                            <label htmlFor="exampleFormControlSelect1">Select a rating star</label>
+                            <label htmlFor="exampleFormControlSelect1">Select a rating star: <span class="text-danger">*</span></label>
                             <select className="form-control" name="star"
                                 value={this.state.star}
                                 onChange={(e) => {

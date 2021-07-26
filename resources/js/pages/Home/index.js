@@ -51,7 +51,7 @@ export default class Home extends Component {
                 <div className="container-fluid">
                     <div className="container">
                         <div className="row py-3">
-                            <div className="col-lg-3">
+                            <div className="col-lg-3 d-flex align-items-end">
                                 <h5>On Sale</h5>
                             </div>
                             <div className="col-lg-6"></div>
@@ -80,7 +80,7 @@ export default class Home extends Component {
                     <div className="d-flex justify-content-center mt-5 mb-3">
                         <div className="col-xs-1">
                             <div className="row justify-content-center">
-                                <h4><small>Featured Book</small></h4>
+                                <h4><small>Featured Books</small></h4>
 
                             </div>
                             <div className="row mt-2">
